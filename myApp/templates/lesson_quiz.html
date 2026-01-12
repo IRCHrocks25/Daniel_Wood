@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ quiz.title }} - {{ lesson.title }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-porcelain py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-6 text-sm text-slate">
+            <a href="{% url 'courses' %}" class="hover:text-ink">Courses</a>
+            <i class="fas fa-chevron-right mx-2 text-muted"></i>
+            <a href="{% url 'course_detail' course.slug %}" class="hover:text-ink">{{ course.name }}</a>
+            <i class="fas fa-chevron-right mx-2 text-muted"></i>
+            <a href="{% url 'lesson_detail' course.slug lesson.slug %}" class="hover:text-ink">{{ lesson.title }}</a>
+            <i class="fas fa-chevron-right mx-2 text-muted"></i>
+            <span class="text-ink">Quiz</span>
+        </nav>
+        
+        <div class="bg-ivory border border-glass rounded-xl p-8">
+            <h1 class="text-3xl font-bold text-ink mb-4">{{ quiz.title }}</h1>
+            {% if quiz.description %}
+            <p class="text-slate mb-6">{{ quiz.description }}</p>
+            {% endif %}
+            
+            {% if quiz.is_required %}
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                <p class="text-yellow-800"><i class="fas fa-exclamation-triangle mr-2"></i>This quiz is required. You must score at least {{ quiz.passing_score }}% to complete the lesson.</p>
+            </div>
+            {% endif %}
+            
+            <form method="post" class="space-y-8">
+                {% csrf_token %}
+                
+                {% for question in questions %}
+                <div class="border-b border-glass pb-6 last:border-0 last:pb-0">
+                    <h3 class="text-lg font-semibold text-ink mb-4">
+                        Question {{ forloop.counter }}: {{ question.text }}
+                    </h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 bg-mist rounded-lg cursor-pointer hover:bg-glass transition-colors">
+                            <input type="radio" name="question_{{ question.id }}" value="A" required class="mr-3">
+                            <span class="flex-1"><strong>A:</strong> {{ question.option_a }}</span>
+                        </label>
+                        <label class="flex items-center p-4 bg-mist rounded-lg cursor-pointer hover:bg-glass transition-colors">
+                            <input type="radio" name="question_{{ question.id }}" value="B" required class="mr-3">
+                            <span class="flex-1"><strong>B:</strong> {{ question.option_b }}</span>
+                        </label>
+                        {% if question.option_c %}
+                        <label class="flex items-center p-4 bg-mist rounded-lg cursor-pointer hover:bg-glass transition-colors">
+                            <input type="radio" name="question_{{ question.id }}" value="C" required class="mr-3">
+                            <span class="flex-1"><strong>C:</strong> {{ question.option_c }}</span>
+                        </label>
+                        {% endif %}
+                        {% if question.option_d %}
+                        <label class="flex items-center p-4 bg-mist rounded-lg cursor-pointer hover:bg-glass transition-colors">
+                            <input type="radio" name="question_{{ question.id }}" value="D" required class="mr-3">
+                            <span class="flex-1"><strong>D:</strong> {{ question.option_d }}</span>
+                        </label>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                
+                <div class="pt-6">
+                    <button type="submit" 
+                            class="w-full px-6 py-4 bg-purple-600 text-white rounded-lg font-semibold text-lg hover:bg-purple-700 transition-colors">
+                        <i class="fas fa-paper-plane mr-2"></i>Submit Quiz
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Back to Lesson -->
+        <div class="mt-6 text-center">
+            <a href="{% url 'lesson_detail' course.slug lesson.slug %}" 
+               class="text-purple-600 hover:text-purple-700">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Lesson
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.name }} - Learning Platform{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-porcelain py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Course Header -->
+        <div class="bg-ivory border border-glass rounded-xl p-8 mb-8">
+            <div class="flex flex-col md:flex-row gap-8">
+                {% if course.thumbnail %}
+                <img src="{{ course.thumbnail.url }}" alt="{{ course.name }}" class="w-full md:w-80 h-48 md:h-full object-cover rounded-lg">
+                {% endif %}
+                <div class="flex-1">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h1 class="text-3xl font-bold text-ink mb-2">{{ course.name }}</h1>
+                            <span class="inline-block px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                                {{ course.get_course_type_display }}
+                            </span>
+                        </div>
+                        {% if user.is_authenticated %}
+                        <button onclick="toggleFavorite({{ course.id }})" 
+                                class="text-3xl {% if is_favorited %}text-red-500{% else %}text-gray-300 hover:text-red-500{% endif %} transition-colors">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        {% endif %}
+                    </div>
+                    <p class="text-lg text-slate mb-6">{{ course.description }}</p>
+                    
+                    {% if user.is_authenticated and course_progress > 0 %}
+                    <div class="mb-6">
+                        <div class="flex justify-between text-sm text-slate mb-2">
+                            <span>Your Progress</span>
+                            <span>{{ course_progress }}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-purple-600 h-3 rounded-full" style="width: {{ course_progress }}%"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if has_access %}
+                    {% if lessons %}
+                    {% for lesson in lessons %}
+                    {% if forloop.first %}
+                    <a href="{% url 'lesson_detail' course.slug lesson.slug %}" 
+                       class="inline-block px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors">
+                        <i class="fas fa-play mr-2"></i>{% if course_progress > 0 %}Continue Learning{% else %}Start Course{% endif %}
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <p class="text-slate">Lessons coming soon...</p>
+                    {% endif %}
+                    {% else %}
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <p class="text-yellow-800"><i class="fas fa-lock mr-2"></i>{{ access_reason }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Lessons List -->
+        {% if has_access %}
+        <div class="bg-ivory border border-glass rounded-xl p-8">
+            <h2 class="text-2xl font-bold text-ink mb-6">Course Content</h2>
+            
+            {% if modules %}
+                {% for module in modules %}
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold text-ink mb-4">{{ module.name }}</h3>
+                    <div class="space-y-2">
+                        {% for lesson in lessons %}
+                        {% if lesson.module == module %}
+                        <div class="flex items-center justify-between p-4 bg-white border border-glass rounded-lg hover:bg-mist transition-colors">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-play text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-ink">{{ lesson.title }}</h4>
+                                    <p class="text-sm text-slate">{{ lesson.get_formatted_duration }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                {% for progress_lesson_id, progress_obj in user_progress.items %}
+                                {% if progress_lesson_id == lesson.id %}
+                                {% if progress_obj.completed %}
+                                <span class="text-green-600"><i class="fas fa-check-circle"></i></span>
+                                {% elif progress_obj.status == 'in_progress' %}
+                                <span class="text-blue-600">{{ progress_obj.progress_percentage }}%</span>
+                                {% endif %}
+                                {% endif %}
+                                {% endfor %}
+                                <a href="{% url 'lesson_detail' course.slug lesson.slug %}" 
+                                   class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm">
+                                    View
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="space-y-2">
+                    {% for lesson in lessons %}
+                    <div class="flex items-center justify-between p-4 bg-white border border-glass rounded-lg hover:bg-mist transition-colors">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-play text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-ink">{{ lesson.title }}</h4>
+                                <p class="text-sm text-slate">{{ lesson.get_formatted_duration }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            {% for progress_lesson_id, progress_obj in user_progress.items %}
+                            {% if progress_lesson_id == lesson.id %}
+                            {% if progress_obj.completed %}
+                            <span class="text-green-600"><i class="fas fa-check-circle"></i></span>
+                            {% elif progress_obj.status == 'in_progress' %}
+                            <span class="text-blue-600">{{ progress_obj.progress_percentage }}%</span>
+                            {% endif %}
+                            {% endif %}
+                            {% endfor %}
+                            <a href="{% url 'lesson_detail' course.slug lesson.slug %}" 
+                               class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function toggleFavorite(courseId) {
+    try {
+        const response = await fetch(`/api/courses/${courseId}/favorite/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCsrfToken(),
+            },
+        });
+        const data = await response.json();
+        if (data.success) {
+            location.reload();
+        }
+    } catch (error) {
+        console.error('Error toggling favorite:', error);
+    }
+}
+</script>
+{% endblock %}
+

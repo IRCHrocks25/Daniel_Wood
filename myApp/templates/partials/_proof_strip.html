@@ -1,0 +1,141 @@
+<!-- =========================
+  PROOF STRIP — billion-dollar trust band (UPGRADED)
+  Upgrades:
+  - Feels like a luxury “trust ribbon” (not 3 random boxes)
+  - Better hierarchy: eyebrow → headline → subcopy
+  - Softer depth: subtle gradient + ultra-light glow (Tailwind only)
+  - Cards have premium motion + border treatment
+  - Mobile: stacks clean with consistent spacing
+  - Tailwind-only + Font Awesome only
+========================= -->
+<section class="relative bg-white border-y border-[#E6E8EC] overflow-hidden">
+  <!-- subtle ambient glow -->
+  <div class="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#C9A227]/10 blur-3xl"></div>
+  <div class="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#0B1220]/10 blur-3xl"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Premium micro-header (quiet authority) -->
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
+      <div>
+        <div class="inline-flex items-center gap-2 rounded-full border border-[#E6E8EC] bg-[#F7F7F5] px-4 py-2 text-xs uppercase tracking-wide text-[#6B7280]">
+          <i class="fas fa-shield-alt text-[#C9A227]"></i>
+          <span>Trust signals</span>
+        </div>
+        <p class="mt-3 text-xl sm:text-2xl font-semibold text-[#0B1220] tracking-tight">
+          Built on proof, not hype.
+        </p>
+        <p class="mt-2 text-sm sm:text-base text-[#6B7280] max-w-2xl leading-relaxed">
+          Every part of SWI is designed to feel high-trust: vetted mentors, action-first conversations, and impact woven into the model.
+        </p>
+      </div>
+
+      <!-- Right mini badges -->
+      <div class="flex flex-wrap gap-2">
+        <span class="inline-flex items-center gap-2 rounded-full border border-[#E6E8EC] bg-white px-4 py-2 text-sm text-[#475569] shadow-sm">
+          <i class="fas fa-lock text-[#0B1220]"></i>
+          High-trust
+        </span>
+        <span class="inline-flex items-center gap-2 rounded-full border border-[#E6E8EC] bg-white px-4 py-2 text-sm text-[#475569] shadow-sm">
+          <i class="fas fa-bolt text-[#C9A227]"></i>
+          Action-first
+        </span>
+        <span class="inline-flex items-center gap-2 rounded-full border border-[#E6E8EC] bg-white px-4 py-2 text-sm text-[#475569] shadow-sm">
+          <i class="fas fa-globe text-[#0B1220]"></i>
+          Global access
+        </span>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+      
+      <!-- Card 1 -->
+      <div class="group rounded-3xl border border-[#E6E8EC] bg-gradient-to-b from-white to-[#FBFBFA] p-6 shadow-sm hover:shadow-md transition">
+        <div class="flex items-start gap-4">
+          <span class="h-12 w-12 rounded-2xl bg-[#C9A227]/15 flex items-center justify-center shrink-0 ring-1 ring-[#C9A227]/10">
+            <i class="fas fa-medal text-[#C9A227]"></i>
+          </span>
+          <div class="min-w-0">
+            <p class="text-xs uppercase tracking-wide text-[#9CA3AF]">Standard</p>
+            <p class="mt-1 text-lg font-semibold text-[#0B1220] leading-snug">
+              Vetted mentors
+            </p>
+            <p class="mt-2 text-sm text-[#6B7280] leading-relaxed">
+              Experts are selected for results and real-world credibility—not performance or fluff.
+            </p>
+
+            <!-- micro line -->
+            <div class="mt-4 flex items-center gap-2 text-xs text-[#475569]">
+              <i class="fas fa-check-circle text-[#16A34A]"></i>
+              <span>Proof over promises</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 (slightly featured for center-weight) -->
+      <div class="group rounded-3xl border border-[#E6E8EC] bg-white p-6 shadow-sm hover:shadow-md transition relative overflow-hidden">
+        <!-- subtle featured glow -->
+        <div class="pointer-events-none absolute -top-20 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-[#0B1220]/5 blur-3xl"></div>
+
+        <div class="relative flex items-start gap-4">
+          <span class="h-12 w-12 rounded-2xl bg-[#0B1220]/10 flex items-center justify-center shrink-0 ring-1 ring-[#0B1220]/10">
+            <i class="fas fa-microphone-alt text-[#0B1220]"></i>
+          </span>
+          <div class="min-w-0">
+            <p class="text-xs uppercase tracking-wide text-[#9CA3AF]">Experience</p>
+            <p class="mt-1 text-lg font-semibold text-[#0B1220] leading-snug">
+              World-class conversations
+            </p>
+            <p class="mt-2 text-sm text-[#6B7280] leading-relaxed">
+              Clear, practical sessions that translate into action—so you leave with decisions, not notes.
+            </p>
+
+            <div class="mt-4 flex items-center gap-2 text-xs text-[#475569]">
+              <i class="fas fa-bolt text-[#C9A227]"></i>
+              <span>Implementation-led</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="group rounded-3xl border border-[#E6E8EC] bg-gradient-to-b from-white to-[#FBFBFA] p-6 shadow-sm hover:shadow-md transition">
+        <div class="flex items-start gap-4">
+          <span class="h-12 w-12 rounded-2xl bg-[#16A34A]/10 flex items-center justify-center shrink-0 ring-1 ring-[#16A34A]/10">
+            <i class="fas fa-hand-holding-heart text-[#16A34A]"></i>
+          </span>
+          <div class="min-w-0">
+            <p class="text-xs uppercase tracking-wide text-[#9CA3AF]">Impact</p>
+            <p class="mt-1 text-lg font-semibold text-[#0B1220] leading-snug">
+              Impact built-in
+            </p>
+            <p class="mt-2 text-sm text-[#6B7280] leading-relaxed">
+              Your growth fuels financial education globally—transformation that multiplies beyond you.
+            </p>
+
+            <div class="mt-4 flex items-center gap-2 text-xs text-[#475569]">
+              <i class="fas fa-seedling text-[#16A34A]"></i>
+              <span>Contribution that compounds</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Trust line (tight, premium) -->
+    <div class="mt-8 rounded-2xl border border-[#E6E8EC] bg-[#F7F7F5] px-6 py-4">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm text-[#6B7280]">
+        <div class="flex items-center gap-2">
+          <i class="fas fa-check text-[#C9A227]"></i>
+          <span><span class="text-[#0B1220] font-semibold">High-trust environment.</span> No fluff. No vague clichés.</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <i class="fas fa-globe text-[#0B1220]"></i>
+          <span><span class="text-[#0B1220] font-semibold">Accessible anywhere</span>—built for busy lives.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

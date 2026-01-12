@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ student.get_full_name|default:student.username }} - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-porcelain py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <a href="{% url 'dashboard_students' %}" class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 mb-4">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Students</span>
+            </a>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="h-16 w-16 rounded-full bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">{{ student.username|first|upper }}</span>
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-bold text-ink mb-2">
+                            {{ student.get_full_name|default:student.username }}
+                        </h1>
+                        <p class="text-lg text-slate">@{{ student.username }} • {{ student.email|default:"No email" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Course Access Management -->
+                <div class="bg-ivory border border-glass rounded-xl p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-ink">Course Access</h2>
+                        <button onclick="document.getElementById('grant-access-form').classList.toggle('hidden')"
+                                class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm">
+                            <i class="fas fa-plus mr-2"></i>Grant Access
+                        </button>
+                    </div>
+
+                    <!-- Grant Access Form (Hidden by default) -->
+                    <div id="grant-access-form" class="hidden mb-6 p-4 bg-mist rounded-lg">
+                        <form method="post" action="{% url 'grant_course_access' student.id %}">
+                            {% csrf_token %}
+                            <div class="flex gap-4">
+                                <select name="course_id" required
+                                        class="flex-1 px-4 py-2 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                                    <option value="">Select Course...</option>
+                                    {% for course in all_courses %}
+                                    <option value="{{ course.id }}">{{ course.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit" 
+                                        class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                                    Grant
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Access List -->
+                    {% if accesses %}
+                    <div class="space-y-3">
+                        {% for access in accesses %}
+                        <div class="p-4 bg-white border border-glass rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <div class="font-semibold text-ink">{{ access.course.name }}</div>
+                                    <div class="text-sm text-slate">
+                                        {{ access.get_access_type_display }} • 
+                                        {% if access.status == 'unlocked' %}
+                                        <span class="text-green-600">Active</span>
+                                        {% elif access.status == 'revoked' %}
+                                        <span class="text-red-600">Revoked</span>
+                                        {% elif access.status == 'expired' %}
+                                        <span class="text-yellow-600">Expired</span>
+                                        {% else %}
+                                        <span class="text-gray-600">{{ access.get_status_display }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-xs text-muted mt-1">
+                                        Granted: {{ access.granted_at|date:"M d, Y" }}
+                                        {% if access.granted_by %}
+                                        by {{ access.granted_by.username }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% if access.status == 'unlocked' %}
+                                <form method="post" action="{% url 'revoke_course_access' student.id %}" 
+                                      onsubmit="return confirm('Revoke access to {{ access.course.name }}?');" class="inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="course_id" value="{{ access.course.id }}">
+                                    <input type="hidden" name="reason" value="Revoked via admin dashboard">
+                                    <button type="submit" 
+                                            class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm">
+                                        <i class="fas fa-ban mr-1"></i>Revoke
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-slate text-center py-8">No course access granted yet</p>
+                    {% endif %}
+                </div>
+
+                <!-- Progress Overview -->
+                <div class="bg-ivory border border-glass rounded-xl p-8">
+                    <h2 class="text-2xl font-bold text-ink mb-6">Recent Progress</h2>
+                    {% if progress %}
+                    <div class="space-y-3">
+                        {% for prog in progress %}
+                        <div class="p-4 bg-white border border-glass rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <div>
+                                    <div class="font-semibold text-ink">{{ prog.lesson.title }}</div>
+                                    <div class="text-sm text-slate">{{ prog.lesson.course.name }}</div>
+                                </div>
+                                {% if prog.completed %}
+                                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+                                    <i class="fas fa-check-circle mr-1"></i>Completed
+                                </span>
+                                {% elif prog.status == 'in_progress' %}
+                                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">
+                                    In Progress
+                                </span>
+                                {% else %}
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
+                                    Not Started
+                                </span>
+                                {% endif %}
+                            </div>
+                            {% if prog.status != 'not_started' %}
+                            <div class="mt-3">
+                                <div class="flex justify-between text-sm text-slate mb-1">
+                                    <span>Progress</span>
+                                    <span>{{ prog.progress_percentage }}%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-purple-600 h-2 rounded-full transition-all" style="width: {{ prog.progress_percentage }}%"></div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="text-xs text-muted mt-2">
+                                Last accessed: {{ prog.last_accessed|date:"M d, Y H:i"|default:"Never" }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-slate text-center py-8">No progress recorded yet</p>
+                    {% endif %}
+                </div>
+
+                <!-- Course Selection for Detail View -->
+                {% if selected_course %}
+                <div class="bg-ivory border border-glass rounded-xl p-8">
+                    <h2 class="text-2xl font-bold text-ink mb-6">{{ selected_course.name }} - Progress</h2>
+                    {% if course_progress %}
+                    <div class="space-y-3">
+                        {% for prog in course_progress %}
+                        <div class="p-4 bg-white border border-glass rounded-lg">
+                            <div class="font-semibold text-ink">{{ prog.lesson.title }}</div>
+                            <div class="text-sm text-slate mt-1">
+                                {% if prog.completed %}
+                                <span class="text-green-600">✓ Completed</span>
+                                {% else %}
+                                Progress: {{ prog.progress_percentage }}%
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-slate text-center py-8">No progress on this course yet</p>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Student Info -->
+                <div class="bg-ivory border border-glass rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-ink mb-4">Student Information</h3>
+                    <div class="space-y-3 text-sm">
+                        <div>
+                            <span class="text-slate">Username:</span>
+                            <span class="font-semibold text-ink block">{{ student.username }}</span>
+                        </div>
+                        <div>
+                            <span class="text-slate">Email:</span>
+                            <span class="font-semibold text-ink block">{{ student.email|default:"—" }}</span>
+                        </div>
+                        <div>
+                            <span class="text-slate">Joined:</span>
+                            <span class="font-semibold text-ink block">{{ student.date_joined|date:"M d, Y" }}</span>
+                        </div>
+                        <div>
+                            <span class="text-slate">Last Login:</span>
+                            <span class="font-semibold text-ink block">
+                                {% if student.last_login %}
+                                {{ student.last_login|date:"M d, Y" }}
+                                {% else %}
+                                Never
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="bg-ivory border border-glass rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-ink mb-4">Quick Stats</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate">Course Accesses</span>
+                            <span class="font-semibold text-ink">{{ accesses.count }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate">Enrollments</span>
+                            <span class="font-semibold text-ink">{{ enrollments.count }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate">Certifications</span>
+                            <span class="font-semibold text-ink">{{ certifications.count }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Select Course -->
+                <div class="bg-ivory border border-glass rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-ink mb-4">View Course Progress</h3>
+                    <form method="get" class="space-y-3">
+                        <select name="course" 
+                                onchange="if(this.value) window.location.href='{% url 'dashboard_student_detail' student.id %}' + '/' + this.value + '/';"
+                                class="w-full px-4 py-2 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                            <option value="">Select a course...</option>
+                            {% for course in all_courses %}
+                            <option value="{{ course.slug }}" {% if selected_course and selected_course.slug == course.slug %}selected{% endif %}>
+                                {{ course.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+
+                <!-- Cohorts -->
+                {% if cohorts or all_cohorts %}
+                <div class="bg-ivory border border-glass rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-ink mb-4">Cohorts</h3>
+                    {% if cohorts %}
+                    <div class="space-y-2 mb-4">
+                        {% for cohort in cohorts %}
+                        <div class="p-3 bg-mist rounded-lg">
+                            <div class="font-medium text-ink text-sm">{{ cohort.name }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if all_cohorts %}
+                    <form method="post" action="#">
+                        {% csrf_token %}
+                        <select name="cohort_id" class="w-full px-4 py-2 border border-glass rounded-lg text-ink mb-2">
+                            <option value="">Add to cohort...</option>
+                            {% for cohort in all_cohorts %}
+                            <option value="{{ cohort.id }}">{{ cohort.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm">
+                            Add to Cohort
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

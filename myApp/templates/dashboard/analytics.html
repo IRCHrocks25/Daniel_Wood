@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block title %}Analytics - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-porcelain py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl font-bold text-ink mb-8">Analytics Dashboard</h1>
+        
+        <!-- Key Metrics -->
+        <div class="grid md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-ivory border border-glass rounded-xl p-6">
+                <div class="text-sm text-slate mb-1">Total Students</div>
+                <div class="text-3xl font-bold text-ink">{{ total_students }}</div>
+                <div class="text-xs text-muted mt-2">{{ active_students }} active</div>
+            </div>
+            <div class="bg-ivory border border-glass rounded-xl p-6">
+                <div class="text-sm text-slate mb-1">Total Enrollments</div>
+                <div class="text-3xl font-bold text-ink">{{ total_enrollments }}</div>
+                <div class="text-xs text-muted mt-2">{{ enrollments_7d }} last 7 days</div>
+            </div>
+            <div class="bg-ivory border border-glass rounded-xl p-6">
+                <div class="text-sm text-slate mb-1">Certifications</div>
+                <div class="text-3xl font-bold text-ink">{{ total_certs }}</div>
+                <div class="text-xs text-muted mt-2">{{ certs_30d }} last 30 days</div>
+            </div>
+            <div class="bg-ivory border border-glass rounded-xl p-6">
+                <div class="text-sm text-slate mb-1">Completion Rate</div>
+                <div class="text-3xl font-bold text-ink">{{ completion_rate }}%</div>
+                <div class="text-xs text-muted mt-2">Overall</div>
+            </div>
+        </div>
+        
+        <!-- Charts Section -->
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-ivory border border-glass rounded-xl p-6">
+                <h2 class="text-xl font-bold text-ink mb-4">Enrollment Trends (30 Days)</h2>
+                <canvas id="enrollmentChart" height="200"></canvas>
+            </div>
+            <div class="bg-ivory border border-glass rounded-xl p-6">
+                <h2 class="text-xl font-bold text-ink mb-4">Certification Trends (30 Days)</h2>
+                <canvas id="certificationChart" height="200"></canvas>
+            </div>
+        </div>
+        
+        <!-- Course Performance -->
+        <div class="bg-ivory border border-glass rounded-xl p-6 mb-8">
+            <h2 class="text-xl font-bold text-ink mb-4">Course Performance</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-glass">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate uppercase">Course</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate uppercase">Enrollments</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate uppercase">Accesses</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate uppercase">Completions</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate uppercase">Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-glass">
+                        {% for course in course_performance %}
+                        <tr>
+                            <td class="px-4 py-3 text-sm text-ink">{{ course.name }}</td>
+                            <td class="px-4 py-3 text-sm text-slate">{{ course.enrollment_count }}</td>
+                            <td class="px-4 py-3 text-sm text-slate">{{ course.access_count }}</td>
+                            <td class="px-4 py-3 text-sm text-slate">{{ course.completion_count }}</td>
+                            <td class="px-4 py-3 text-sm text-slate">{{ course.completion_rate|floatformat:1 }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Top Courses & Active Students -->
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-ivory border border-glass rounded-xl p-6">
+                <h2 class="text-xl font-bold text-ink mb-4">Top 5 Courses</h2>
+                <div class="space-y-3">
+                    {% for course in top_courses %}
+                    <div class="flex items-center justify-between p-3 bg-mist rounded-lg">
+                        <span class="font-medium text-ink">{{ course.name }}</span>
+                        <span class="text-sm text-slate">{{ course.enrollment_count }} enrollments</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="bg-ivory border border-glass rounded-xl p-6">
+                <h2 class="text-xl font-bold text-ink mb-4">Most Active Students (7d)</h2>
+                <div class="space-y-3">
+                    {% for student in active_students_list %}
+                    <div class="flex items-center justify-between p-3 bg-mist rounded-lg">
+                        <span class="font-medium text-ink">{{ student.get_full_name|default:student.username }}</span>
+                        <span class="text-sm text-slate">{{ student.progress_count }} updates</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script>
+// Enrollment Chart
+const enrollmentCtx = document.getElementById('enrollmentChart');
+if (enrollmentCtx) {
+    new Chart(enrollmentCtx, {
+        type: 'line',
+        data: {
+            labels: {{ enrollment_dates|safe }},
+            datasets: [{
+                label: 'Enrollments',
+                data: {{ enrollment_counts|safe }},
+                borderColor: 'rgb(147, 51, 234)',
+                backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+}
+
+// Certification Chart
+const certCtx = document.getElementById('certificationChart');
+if (certCtx) {
+    new Chart(certCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ cert_dates|safe }},
+            datasets: [{
+                label: 'Certifications',
+                data: {{ cert_counts|safe }},
+                backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                borderColor: 'rgb(59, 130, 246)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+}
+</script>
+{% endblock %}
+

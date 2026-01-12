@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ course.name }} - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-porcelain py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <a href="{% url 'dashboard_courses' %}" class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 mb-4">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Courses</span>
+            </a>
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold text-ink mb-2">{{ course.name }}</h1>
+                    <p class="text-lg text-slate">{{ course.slug }}</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <a href="{% url 'course_detail' course.slug %}" target="_blank"
+                       class="px-4 py-2 bg-mist text-ink rounded-lg hover:bg-glass transition">
+                        <i class="fas fa-eye mr-2"></i>View Public
+                    </a>
+                    <form method="post" action="{% url 'dashboard_delete_course' course.slug %}" 
+                          onsubmit="return confirm('Are you sure you want to delete this course?');" 
+                          class="inline">
+                        {% csrf_token %}
+                        <button type="submit" 
+                                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+                            <i class="fas fa-trash mr-2"></i>Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Form -->
+        <div class="grid lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <div class="bg-ivory border border-glass rounded-xl p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-ink mb-6">Course Details</h2>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-ink mb-2">Course Name *</label>
+                                <input type="text" name="name" value="{{ course.name }}" required
+                                       class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-ink mb-2">Slug *</label>
+                                <input type="text" name="slug" value="{{ course.slug }}" required
+                                       class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-ink mb-2">Course Type</label>
+                                    <select name="course_type" class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                                        {% for value, label in course.COURSE_TYPE_CHOICES %}
+                                        <option value="{{ value }}" {% if course.course_type == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-ink mb-2">Status</label>
+                                    <select name="status" class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                                        {% for value, label in course.STATUS_CHOICES %}
+                                        <option value="{{ value }}" {% if course.status == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-ink mb-2">Description *</label>
+                                <textarea name="description" rows="6" required
+                                          class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">{{ course.description }}</textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-ink mb-2">Short Description</label>
+                                <input type="text" name="short_description" value="{{ course.short_description }}" maxlength="300"
+                                       class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-ink mb-2">Thumbnail</label>
+                                {% if course.thumbnail %}
+                                <div class="mb-3">
+                                    <img src="{{ course.thumbnail.url }}" alt="{{ course.name }}" class="h-32 w-32 rounded-lg object-cover">
+                                </div>
+                                {% endif %}
+                                <input type="file" name="thumbnail" accept="image/*"
+                                       class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-ink mb-2">Coach Name</label>
+                                <input type="text" name="coach_name" value="{{ course.coach_name }}"
+                                       class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-ink mb-2">Visibility</label>
+                                    <select name="visibility" class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                                        {% for value, label in course.VISIBILITY_CHOICES %}
+                                        <option value="{{ value }}" {% if course.visibility == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-ink mb-2">Enrollment Method</label>
+                                    <select name="enrollment_method" class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                                        {% for value, label in course.ENROLLMENT_METHOD_CHOICES %}
+                                        <option value="{{ value }}" {% if course.enrollment_method == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="is_subscribers_only" {% if course.is_subscribers_only %}checked{% endif %}
+                                           class="mr-2 rounded border-glass">
+                                    <span class="text-sm text-slate">Subscribers Only</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="is_accredible_certified" {% if course.is_accredible_certified %}checked{% endif %}
+                                           class="mr-2 rounded border-glass">
+                                    <span class="text-sm text-slate">Accredible Certified</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="has_asset_templates" {% if course.has_asset_templates %}checked{% endif %}
+                                           class="mr-2 rounded border-glass">
+                                    <span class="text-sm text-slate">Has Asset Templates</span>
+                                </label>
+                            </div>
+
+                            <button type="submit"
+                                    class="px-8 py-4 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition shadow-sm hover:shadow-md">
+                                <i class="fas fa-save mr-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <!-- Lessons List -->
+                <div class="bg-ivory border border-glass rounded-xl p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-ink">Lessons</h3>
+                        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                            {{ lessons.count }}
+                        </span>
+                    </div>
+                    <div class="space-y-2">
+                        {% for lesson in lessons %}
+                        <div class="p-3 bg-mist rounded-lg">
+                            <div class="font-medium text-ink text-sm">{{ lesson.title }}</div>
+                            <div class="text-xs text-slate mt-1">{{ lesson.get_formatted_duration }}</div>
+                        </div>
+                        {% empty %}
+                        <p class="text-sm text-slate text-center py-4">No lessons yet</p>
+                        {% endfor %}
+                    </div>
+                    <a href="{% url 'dashboard_lessons' %}?course={{ course.id }}" 
+                       class="mt-4 block text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm">
+                        <i class="fas fa-plus mr-2"></i>Manage Lessons
+                    </a>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="bg-ivory border border-glass rounded-xl p-6">
+                    <h3 class="text-lg font-bold text-ink mb-4">Quick Stats</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate">Lessons</span>
+                            <span class="font-semibold text-ink">{{ lessons.count }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate">Created</span>
+                            <span class="font-semibold text-ink">{{ course.created_at|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

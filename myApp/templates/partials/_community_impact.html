@@ -1,0 +1,204 @@
+<!-- =========================
+  COMMUNITY + IMPACT — brand-specific (IMPROVED)
+  Upgrades:
+  - Feels like a premium “movement” section (TED x MasterClass energy)
+  - Stronger hierarchy + better spacing rhythm
+  - Left side: identity-driven copy + “pill” proof markers + feature bullets
+  - Right side: editorial collage + impact stat card + testimonial card
+  - Tailwind-only + Font Awesome only
+========================= -->
+<section class="relative py-24 bg-white border-y border-[#E6E8EC] overflow-hidden">
+  <!-- ambient glows -->
+  <div class="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full bg-[#C9A227]/12 blur-3xl"></div>
+  <div class="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-[#0B1220]/10 blur-3xl"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+      <!-- LEFT: Copy -->
+      <div class="lg:col-span-6">
+        <!-- Eyebrow -->
+        <div class="inline-flex items-center gap-3 rounded-full border border-[#E6E8EC] bg-[#F7F7F5] px-4 py-2 text-sm text-[#475569]">
+          <span class="h-7 w-7 rounded-full bg-[#C9A227]/15 flex items-center justify-center">
+            <i class="fas fa-users text-[#C9A227] text-xs"></i>
+          </span>
+          <span class="font-medium">A community built for bold action.</span>
+          <span class="text-[#9CA3AF]">•</span>
+          <span class="font-medium">A movement, not a membership.</span>
+        </div>
+
+        <h2 class="mt-7 text-4xl sm:text-5xl font-semibold text-[#0B1220] tracking-tight leading-[1.08]">
+          Connection that turns action into momentum.
+        </h2>
+
+        <p class="mt-6 text-lg sm:text-xl text-[#475569] leading-relaxed max-w-xl">
+          People don't need more information. They need the right mentor at the right time—and a community that keeps them moving when life gets loud.
+        </p>
+
+        <!-- Proof pills -->
+        <div class="mt-8 flex flex-wrap gap-2">
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#E6E8EC] bg-white px-4 py-2 text-sm text-[#475569]">
+            <i class="fas fa-check text-[#16A34A]"></i>
+            Vetted speakers only
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#E6E8EC] bg-white px-4 py-2 text-sm text-[#475569]">
+            <i class="fas fa-lock text-[#0B1220]"></i>
+            High-trust environment
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#E6E8EC] bg-white px-4 py-2 text-sm text-[#475569]">
+            <i class="fas fa-bolt text-[#C9A227]"></i>
+            Action-first culture
+          </span>
+        </div>
+
+        <!-- Feature bullets (premium cards) -->
+        <div class="mt-10 space-y-4">
+          <div class="rounded-3xl border border-[#E6E8EC] bg-white p-6 shadow-sm">
+            <div class="flex items-start gap-4">
+              <span class="mt-0.5 h-11 w-11 rounded-2xl bg-[#0B1220]/10 flex items-center justify-center shrink-0">
+                <i class="fas fa-user-check text-[#0B1220]"></i>
+              </span>
+              <div>
+                <p class="text-xs uppercase tracking-wide text-[#9CA3AF]">Proof over promises</p>
+                <p class="mt-1 font-semibold text-[#0B1220] text-lg">Vetted experts only</p>
+                <p class="mt-2 text-[#6B7280] leading-relaxed">
+                  We showcase proof. No hype. No guessing. You meet mentors who are battle-tested—because your future is too expensive for trial-and-error.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-3xl border border-[#E6E8EC] bg-white p-6 shadow-sm">
+            <div class="flex items-start gap-4">
+              <span class="mt-0.5 h-11 w-11 rounded-2xl bg-[#C9A227]/15 flex items-center justify-center shrink-0">
+                <i class="fas fa-handshake text-[#C9A227]"></i>
+              </span>
+              <div>
+                <p class="text-xs uppercase tracking-wide text-[#9CA3AF]">Connection through identity</p>
+                <p class="mt-1 font-semibold text-[#0B1220] text-lg">High-trust community</p>
+                <p class="mt-2 text-[#6B7280] leading-relaxed">
+                  You're supported, challenged, and seen—by people who don’t just talk about growth. They live it.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-3xl border border-[#E6E8EC] bg-white p-6 shadow-sm">
+            <div class="flex items-start gap-4">
+              <span class="mt-0.5 h-11 w-11 rounded-2xl bg-[#16A34A]/10 flex items-center justify-center shrink-0">
+                <i class="fas fa-seedling text-[#16A34A]"></i>
+              </span>
+              <div>
+                <p class="text-xs uppercase tracking-wide text-[#9CA3AF]">Contribution that compounds</p>
+                <p class="mt-1 font-semibold text-[#0B1220] text-lg">Impact through generosity</p>
+                <p class="mt-2 text-[#6B7280] leading-relaxed">
+                  10% of memberships subsidize financial education in underserved communities—so your progress creates a ripple effect far beyond you.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA (optional, quiet premium) -->
+        <div class="mt-10 flex flex-col sm:flex-row gap-3">
+          <a href="{% url 'courses' %}"
+             class="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition">
+            <span>Explore the community</span>
+            <i class="fas fa-arrow-right text-white/70 group-hover:text-white transition"></i>
+          </a>
+          <a href="{% url 'courses' %}"
+             class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E6E8EC] bg-white px-6 py-4 text-[#0B1220] font-semibold hover:bg-[#F2F4F7] transition">
+            <i class="fas fa-calendar-alt"></i>
+            <span>See upcoming experiences</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: Collage (more editorial + premium cards) -->
+      <div class="lg:col-span-6">
+        <div class="rounded-3xl border border-[#E6E8EC] bg-[#F7F7F5] p-6 shadow-sm">
+          <div class="grid grid-cols-2 gap-4">
+            <img
+              src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80"
+              alt="Workshop"
+              class="h-44 w-full rounded-2xl object-cover"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1515165562835-c3b8c129af54?auto=format&fit=crop&w=1200&q=80"
+              alt="Community"
+              class="h-44 w-full rounded-2xl object-cover"
+            />
+
+            <img
+              src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80"
+              alt="Mentorship"
+              class="h-44 w-full rounded-2xl object-cover"
+            />
+
+            <!-- Impact card (stronger, more “annual report” vibe) -->
+            <div class="h-44 w-full rounded-2xl border border-[#E6E8EC] bg-white p-5 flex flex-col justify-between">
+              <div>
+                <p class="text-xs uppercase tracking-wide text-[#9CA3AF]">Impact promise</p>
+                <p class="mt-2 text-[#0B1220] font-semibold leading-snug">
+                  Your growth fuels global financial education.
+                </p>
+              </div>
+              <div class="flex items-center justify-between text-sm">
+                <div class="inline-flex items-center gap-2 text-[#475569]">
+                  <i class="fas fa-hand-holding-heart text-[#16A34A]"></i>
+                  <span>10% reinvested</span>
+                </div>
+                <div class="inline-flex items-center gap-2 text-[#475569]">
+                  <i class="fas fa-arrow-right text-[#C9A227]"></i>
+                  <span class="font-medium">Learn how</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom row: testimonial + trust -->
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="rounded-2xl border border-[#E6E8EC] bg-white p-5">
+              <div class="flex items-start gap-3">
+                <span class="h-10 w-10 rounded-2xl bg-[#C9A227]/15 flex items-center justify-center">
+                  <i class="fas fa-quote-right text-[#C9A227]"></i>
+                </span>
+                <div>
+                  <p class="text-sm text-[#6B7280]">Member feedback</p>
+                  <p class="mt-2 text-[#0B1220] font-semibold leading-snug">
+                    “I didn’t just feel inspired. I felt supported—and that changed everything.”
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-2xl border border-[#E6E8EC] bg-white p-5">
+              <p class="text-sm text-[#6B7280]">Built for real life</p>
+              <div class="mt-3 space-y-2 text-sm text-[#475569]">
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-globe text-[#0B1220]"></i>
+                  <span>Access anywhere</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-clock text-[#0B1220]"></i>
+                  <span>Fits busy schedules</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fas fa-user-shield text-[#0B1220]"></i>
+                  <span>High-trust, private</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- tiny note under collage (quiet luxury) -->
+        <p class="mt-4 text-sm text-[#6B7280] leading-relaxed">
+          SWI isn’t here to impress you. It’s here to empower you—through truth, proof, and people who help you take the next step.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>

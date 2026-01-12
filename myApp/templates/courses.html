@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block title %}Courses - Learning Platform{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-porcelain py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-ink mb-4">Course Catalog</h1>
+            <p class="text-lg text-slate">Discover courses designed to accelerate your career</p>
+        </div>
+        
+        <!-- Filters -->
+        <div class="bg-ivory border border-glass rounded-xl p-4 mb-8">
+            <div class="flex flex-wrap gap-4 items-center">
+                {% if user.is_authenticated %}
+                <label class="flex items-center cursor-pointer">
+                    <input type="checkbox" id="filter-favorites" class="mr-2" 
+                           onchange="window.location.href='?favorites=' + (this.checked ? 'true' : '')">
+                    <span class="text-slate"><i class="fas fa-heart text-red-500 mr-1"></i>My Favorites</span>
+                </label>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Continue Learning Section -->
+        {% if continue_learning %}
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold text-ink mb-6">
+                <i class="fas fa-play-circle mr-2 text-purple-600"></i>Continue Learning
+            </h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                {% for course in continue_learning %}
+                <div class="bg-ivory border border-glass rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+                    {% if course.thumbnail %}
+                    <img src="{{ course.thumbnail.url }}" alt="{{ course.name }}" class="w-full h-48 object-cover">
+                    {% else %}
+                    <div class="w-full h-48 bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
+                        <i class="fas fa-book text-6xl text-white opacity-50"></i>
+                    </div>
+                    {% endif %}
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-ink mb-2">{{ course.name }}</h3>
+                        <p class="text-sm text-slate mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
+                        <a href="{% url 'course_detail' course.slug %}" 
+                           class="inline-block w-full text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                            Continue Learning
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- My Courses Section -->
+        {% if my_courses %}
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold text-ink mb-6">
+                <i class="fas fa-graduation-cap mr-2 text-purple-600"></i>My Courses
+            </h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                {% for course in my_courses %}
+                <div class="bg-ivory border border-glass rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+                    {% if course.thumbnail %}
+                    <img src="{{ course.thumbnail.url }}" alt="{{ course.name }}" class="w-full h-48 object-cover">
+                    {% else %}
+                    <div class="w-full h-48 bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
+                        <i class="fas fa-book text-6xl text-white opacity-50"></i>
+                    </div>
+                    {% endif %}
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="text-xl font-bold text-ink">{{ course.name }}</h3>
+                            {% if user.is_authenticated %}
+                            <button onclick="toggleFavorite({{ course.id }})" 
+                                    class="text-2xl {% if course.id in favorited_ids %}text-red-500{% else %}text-gray-300 hover:text-red-500{% endif %} transition-colors">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            {% endif %}
+                        </div>
+                        <p class="text-sm text-slate mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
+                        
+                        {% if user.is_authenticated %}
+                        {% with progress=course.get_user_progress|default:0 %}
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate mb-1">
+                                <span>Progress</span>
+                                <span>{{ progress }}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-purple-600 h-2 rounded-full" style="width: {{ progress }}%"></div>
+                            </div>
+                        </div>
+                        {% endwith %}
+                        {% endif %}
+                        
+                        <a href="{% url 'course_detail' course.slug %}" 
+                           class="inline-block w-full text-center px-4 py-2 {% if course.get_user_progress > 0 %}bg-blue-600 hover:bg-blue-700{% else %}bg-purple-600 hover:bg-purple-700{% endif %} text-white rounded-lg transition-colors">
+                            {% if course.get_user_progress > 0 %}<i class="fas fa-play mr-2"></i>Continue Learning{% else %}<i class="fas fa-arrow-right mr-2"></i>Start Course{% endif %}
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Available Courses -->
+        {% if available_courses %}
+        <div>
+            <h2 class="text-2xl font-bold text-ink mb-6">
+                <i class="fas fa-search mr-2 text-purple-600"></i>Available Courses
+            </h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                {% for course in available_courses %}
+                <div class="bg-ivory border border-glass rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+                    {% if course.thumbnail %}
+                    <img src="{{ course.thumbnail.url }}" alt="{{ course.name }}" class="w-full h-48 object-cover">
+                    {% else %}
+                    <div class="w-full h-48 bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
+                        <i class="fas fa-book text-6xl text-white opacity-50"></i>
+                    </div>
+                    {% endif %}
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-ink mb-2">{{ course.name }}</h3>
+                        <p class="text-sm text-slate mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
+                        <a href="{% url 'course_detail' course.slug %}" 
+                           class="inline-block w-full text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                            <i class="fas fa-info-circle mr-2"></i>Learn More
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if not my_courses and not available_courses and not continue_learning %}
+        <div class="text-center py-12">
+            <i class="fas fa-book-open text-6xl text-gray-300 mb-4"></i>
+            <p class="text-xl text-slate">No courses available at this time.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function toggleFavorite(courseId) {
+    try {
+        const response = await fetch(`/api/courses/${courseId}/favorite/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCsrfToken(),
+            },
+        });
+        const data = await response.json();
+        if (data.success) {
+            // Reload page to update UI
+            location.reload();
+        }
+    } catch (error) {
+        console.error('Error toggling favorite:', error);
+    }
+}
+</script>
+{% endblock %}
+
