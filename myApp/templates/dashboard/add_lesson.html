@@ -22,10 +22,11 @@
                 
                 <div class="space-y-6">
                     <div>
-                        <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-book mr-2 text-muted"></i>Course *</label>
+                        <label for="course-select" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                            Course <span class="text-rose-500">*</span>
+                        </label>
                         <select name="course" required
-                                class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                                class="w-full px-4 py-3 pr-10 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3E%3Cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3E%3C/svg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.75rem_center] bg-no-repeat disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-50 dark:disabled:bg-slate-900"
                                 id="course-select">
                             <option value="">Select a course...</option>
                             {% for course in courses %}
@@ -35,50 +36,52 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-layer-group mr-2 text-muted"></i>Module (Optional)
+                        <label for="module-select" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                            Module (Optional)
                         </label>
                         <select name="module" id="module-select"
-                                class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                                class="w-full px-4 py-3 pr-10 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3E%3Cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3E%3C/svg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.75rem_center] bg-no-repeat disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-50 dark:disabled:bg-slate-900"
                                 disabled>
                             <option value="">Select a course first</option>
                         </select>
-                        <p class="mt-2 text-sm text-muted">Modules will appear after selecting a course</p>
+                        <p class="mt-2 text-xs text-slate-600 dark:text-slate-400">Modules will appear after selecting a course</p>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-heading mr-2 text-muted"></i>Lesson Title *</label>
-                        <input type="text" name="title" required
-                               class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                        <label for="title" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                            Lesson Title <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" name="title" id="title" required
+                               class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                placeholder="e.g., Introduction to Assets">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-link mr-2 text-muted"></i>Slug *</label>
-                        <input type="text" name="slug" required
-                               class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                        <label for="slug" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                            Slug <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" name="slug" id="slug" required
+                               class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                placeholder="e.g., introduction-to-assets">
-                        <p class="mt-2 text-sm text-muted">URL-friendly version of the lesson title</p>
+                        <p class="mt-2 text-xs text-slate-600 dark:text-slate-400">URL-friendly version of the lesson title</p>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-align-left mr-2 text-muted"></i>Description
+                        <label for="description" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                            Description
                         </label>
-                        <textarea name="description" rows="4"
-                                  class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                        <textarea name="description" id="description" rows="4"
+                                  class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 min-h-[100px] resize-y"
                                   placeholder="Lesson description..."></textarea>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-semibold text-ink mb-2">
-                                <i class="fas fa-video mr-2 text-muted"></i>Lesson Type
+                            <label for="lesson_type" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                                Lesson Type
                             </label>
-                            <select name="lesson_type"
-                                    class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink">
+                            <select name="lesson_type" id="lesson_type"
+                                    class="w-full px-4 py-3 pr-10 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3E%3Cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3E%3C/svg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.75rem_center] bg-no-repeat">
                                 <option value="video">Video</option>
                                 <option value="live">Live</option>
                                 <option value="replay">Replay</option>
@@ -86,67 +89,67 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-semibold text-ink mb-2">
-                                <i class="fas fa-sort-numeric-up mr-2 text-muted"></i>Order
+                            <label for="order" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                                Order
                             </label>
-                            <input type="number" name="order" value="0" min="0"
-                                   class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink">
+                            <input type="number" name="order" id="order" value="0" min="0"
+                                   class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-link mr-2 text-muted"></i>Video URL
+                        <label for="video_url" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                            Video URL
                         </label>
-                        <input type="url" name="video_url"
-                               class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                        <input type="url" name="video_url" id="video_url"
+                               class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                placeholder="https://...">
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-semibold text-ink mb-2">
-                                <i class="fas fa-vimeo mr-2 text-muted"></i>Vimeo URL
+                            <label for="vimeo_url" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                                Vimeo URL
                             </label>
-                            <input type="url" name="vimeo_url"
-                                   class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                            <input type="url" name="vimeo_url" id="vimeo_url"
+                                   class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                    placeholder="https://vimeo.com/...">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-semibold text-ink mb-2">
-                                <i class="fas fa-google-drive mr-2 text-muted"></i>Google Drive URL
+                            <label for="google_drive_url" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                                Google Drive URL
                             </label>
-                            <input type="url" name="google_drive_url"
-                                   class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                            <input type="url" name="google_drive_url" id="google_drive_url"
+                                   class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                    placeholder="https://drive.google.com/...">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-clock mr-2 text-muted"></i>Duration (minutes)
+                        <label for="video_duration" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                            Duration (minutes)
                         </label>
-                        <input type="number" name="video_duration" value="0" min="0"
-                               class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink">
+                        <input type="number" name="video_duration" id="video_duration" value="0" min="0"
+                               class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-semibold text-ink mb-2">
-                                <i class="fas fa-file-pdf mr-2 text-muted"></i>Workbook URL
+                            <label for="workbook_url" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                                Workbook URL
                             </label>
-                            <input type="url" name="workbook_url"
-                                   class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                            <input type="url" name="workbook_url" id="workbook_url"
+                                   class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                    placeholder="https://...">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-semibold text-ink mb-2">
-                                <i class="fas fa-folder mr-2 text-muted"></i>Resources URL
+                            <label for="resources_url" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                                Resources URL
                             </label>
-                            <input type="url" name="resources_url"
-                                   class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                            <input type="url" name="resources_url" id="resources_url"
+                                   class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                    placeholder="https://...">
                         </div>
                     </div>

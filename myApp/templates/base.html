@@ -11,67 +11,455 @@
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
-    <!-- Custom Tailwind Config for Premium Palette -->
+    <!-- Custom Tailwind Config for Premium Design System -->
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        'porcelain': '#F7F7F5',
-                        'ivory': '#FFFFFF',
-                        'mist': '#F2F4F7',
-                        'glass': '#E6E8EC',
-                        'ink': '#0B1220',
-                        'slate': '#475569',
-                        'muted': '#6B7280',
-                        'disabled': '#9CA3AF',
+                        // Base colors - Deep navy/charcoal + soft off-white
+                        'charcoal': '#0F172A',      // Deep navy base
+                        'ink': '#1E293B',           // Dark text
+                        'slate': '#475569',         // Secondary text
+                        'muted': '#64748B',         // Muted text
+                        'porcelain': '#F8FAFC',     // Soft off-white surface
+                        'ivory': '#FFFFFF',         // Pure white cards
+                        'mist': '#F1F5F9',          // Light gray surface
+                        'glass': '#E2E8F0',         // Border color
+                        'disabled': '#94A3B8',      // Disabled state
+                        
+                        // Accent colors - Electric violet + subtle cyan
+                        'violet': {
+                            '50': '#F5F3FF',
+                            '100': '#EDE9FE',
+                            '200': '#DDD6FE',
+                            '300': '#C4B5FD',
+                            '400': '#A78BFA',
+                            '500': '#8B5CF6',       // Primary violet
+                            '600': '#7C3AED',       // Hover state
+                            '700': '#6D28D9',
+                            '800': '#5B21B6',
+                            '900': '#4C1D95',
+                        },
+                        'cyan': {
+                            '50': '#ECFEFF',
+                            '100': '#CFFAFE',
+                            '200': '#A5F3FC',
+                            '300': '#67E8F9',
+                            '400': '#22D3EE',
+                            '500': '#06B6D4',       // Secondary cyan
+                            '600': '#0891B2',
+                            '700': '#0E7490',
+                        },
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 2px 8px rgba(15, 23, 42, 0.08)',
+                        'medium': '0 4px 12px rgba(15, 23, 42, 0.12)',
+                        'elevated': '0 8px 24px rgba(15, 23, 42, 0.16)',
                     }
                 }
             }
         }
     </script>
     
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Global Form Field Styles - Single Source of Truth -->
+    <style>
+        /* Base form field styling - applies to ALL inputs, textareas, selects globally */
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"],
+        input[type="url"],
+        input[type="tel"],
+        input[type="search"],
+        input[type="date"],
+        input[type="time"],
+        input[type="datetime-local"],
+        textarea,
+        select {
+            background-color: white !important;
+            color: rgb(15 23 42) !important; /* slate-900 */
+            border-color: rgb(226 232 240) !important; /* slate-200 */
+        }
+        
+        input[type="text"]::placeholder,
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder,
+        input[type="number"]::placeholder,
+        input[type="url"]::placeholder,
+        input[type="tel"]::placeholder,
+        input[type="search"]::placeholder,
+        textarea::placeholder {
+            color: rgb(148 163 184) !important; /* slate-400 */
+        }
+        
+        /* Dark mode form fields */
+        .dark input[type="text"],
+        .dark input[type="email"],
+        .dark input[type="password"],
+        .dark input[type="number"],
+        .dark input[type="url"],
+        .dark input[type="tel"],
+        .dark input[type="search"],
+        .dark input[type="date"],
+        .dark input[type="time"],
+        .dark input[type="datetime-local"],
+        .dark textarea,
+        .dark select {
+            background-color: rgb(15 23 42) !important; /* slate-900 */
+            color: rgb(241 245 249) !important; /* slate-100 */
+            border-color: rgb(51 65 85) !important; /* slate-700 */
+        }
+        
+        .dark input[type="text"]::placeholder,
+        .dark input[type="email"]::placeholder,
+        .dark input[type="password"]::placeholder,
+        .dark input[type="number"]::placeholder,
+        .dark input[type="url"]::placeholder,
+        .dark input[type="tel"]::placeholder,
+        .dark input[type="search"]::placeholder,
+        .dark textarea::placeholder {
+            color: rgb(100 116 139) !important; /* slate-500 */
+        }
+        
+        /* File inputs */
+        input[type="file"] {
+            background-color: white !important;
+            color: rgb(15 23 42) !important;
+        }
+        
+        .dark input[type="file"] {
+            background-color: rgb(15 23 42) !important;
+            color: rgb(241 245 249) !important;
+        }
+        
+        /* Select options - ensure readable */
+        select option {
+            background-color: white !important;
+            color: rgb(15 23 42) !important;
+        }
+        
+        .dark select option {
+            background-color: rgb(15 23 42) !important;
+            color: rgb(241 245 249) !important;
+        }
+        
+        /* Autofill - prevent dark backgrounds with dark text */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus {
+            -webkit-text-fill-color: rgb(15 23 42) !important;
+            -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+        
+        .dark input:-webkit-autofill,
+        .dark input:-webkit-autofill:hover,
+        .dark input:-webkit-autofill:focus,
+        .dark textarea:-webkit-autofill,
+        .dark textarea:-webkit-autofill:hover,
+        .dark textarea:-webkit-autofill:focus,
+        .dark select:-webkit-autofill,
+        .dark select:-webkit-autofill:hover,
+        .dark select:-webkit-autofill:focus {
+            -webkit-text-fill-color: rgb(241 245 249) !important;
+            -webkit-box-shadow: 0 0 0px 1000px rgb(15 23 42) inset !important;
+        }
+        
+        /* Global Label Styling - Single Source of Truth */
+        /* Prevent labels from inheriting selection or focus styles */
+        label {
+            color: rgb(15 23 42) !important; /* slate-900 - dark neutral for light mode */
+            user-select: none !important; /* Prevent text selection on labels */
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            cursor: default !important;
+        }
+        
+        /* Dark mode labels */
+        .dark label {
+            color: rgb(241 245 249) !important; /* slate-100 - soft light, not pure white */
+        }
+        
+        /* Prevent labels from getting selection highlight */
+        label::selection,
+        label::-moz-selection {
+            background: transparent !important;
+            color: inherit !important;
+        }
+        
+        /* Required asterisks - always visible and styled */
+        label span.text-rose-500,
+        label .text-rose-500,
+        label > span[class*="rose"] {
+            color: rgb(244 63 94) !important; /* rose-500 - subtle red */
+            font-weight: 600 !important;
+        }
+        
+        /* Dark mode required asterisks */
+        .dark label span.text-rose-500,
+        .dark label .text-rose-500,
+        .dark label > span[class*="rose"] {
+            color: rgb(251 113 133) !important; /* rose-400 - slightly lighter for dark mode */
+            font-weight: 600 !important;
+        }
+        
+        /* Direct asterisk styling if not wrapped in span */
+        label:has(> *:contains("*")) {
+            /* Fallback for asterisks */
+        }
+        
+        /* Prevent any focus/active states from changing label color */
+        label:focus,
+        label:active,
+        label:hover {
+            color: rgb(15 23 42) !important; /* Maintain color on interaction */
+        }
+        
+        .dark label:focus,
+        .dark label:active,
+        .dark label:hover {
+            color: rgb(241 245 249) !important; /* Maintain color on interaction */
+        }
+        
+        /* Ensure labels don't inherit from parent containers - wrapper level fix */
+        form label,
+        .form-group label,
+        [class*="form"] label,
+        div label,
+        .space-y-6 label,
+        .space-y-4 label,
+        [class*="space-y"] label {
+            color: rgb(15 23 42) !important;
+        }
+        
+        .dark form label,
+        .dark .form-group label,
+        .dark [class*="form"] label,
+        .dark div label,
+        .dark .space-y-6 label,
+        .dark .space-y-4 label,
+        .dark [class*="space-y"] label {
+            color: rgb(241 245 249) !important;
+        }
+        
+        /* Prevent wrapper classes from affecting labels - comprehensive override */
+        [class*="text-"] label,
+        [class*="text-white"] label,
+        [class*="text-slate"] label,
+        [class*="text-ink"] label,
+        [class*="text-gray"] label,
+        [class*="text-blue"] label,
+        [class*="text-purple"] label {
+            color: rgb(15 23 42) !important;
+        }
+        
+        .dark [class*="text-"] label,
+        .dark [class*="text-white"] label,
+        .dark [class*="text-slate"] label,
+        .dark [class*="text-ink"] label,
+        .dark [class*="text-gray"] label,
+        .dark [class*="text-blue"] label,
+        .dark [class*="text-purple"] label {
+            color: rgb(241 245 249) !important;
+        }
+        
+        /* Prevent selection from affecting labels */
+        *::selection {
+            background: rgba(139, 92, 246, 0.2) !important; /* violet selection */
+        }
+        
+        label::selection,
+        label *::selection {
+            background: transparent !important;
+            color: inherit !important;
+        }
+        
+        /* Ensure labels in cards/containers remain readable */
+        .bg-ivory label,
+        .bg-white label,
+        .bg-porcelain label,
+        [class*="bg-"] label {
+            color: rgb(15 23 42) !important;
+        }
+        
+        .dark .bg-ivory label,
+        .dark .bg-white label,
+        .dark .bg-porcelain label,
+        .dark [class*="bg-"] label {
+            color: rgb(241 245 249) !important;
+        }
+        
+        /* Premium Animation System - Apple/Stripe/Linear vibe */
+        /* Respect reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Card hover animations - subtle lift + scale + shadow + glow */
+        .animate-card-hover {
+            transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animate-card-hover:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(139, 92, 246, 0.2);
+        }
+        
+        .dark .animate-card-hover:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(139, 92, 246, 0.3);
+        }
+        
+        /* Card press feedback */
+        .animate-card-hover:active {
+            transform: translateY(-1px) scale(0.99);
+            transition: transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Button hover animations */
+        .animate-button-hover {
+            transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
+                        filter 150ms cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animate-button-hover:hover {
+            transform: translateY(-0.5px);
+            filter: brightness(1.05);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        }
+        
+        .animate-button-hover:active {
+            transform: translateY(0) scale(0.98);
+            transition: transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Icon hover animations */
+        .animate-icon-float {
+            transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animate-icon-float:hover {
+            transform: translateY(-2px);
+        }
+        
+        .animate-icon-rotate {
+            transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animate-icon-rotate:hover {
+            transform: rotate(5deg);
+        }
+        
+        /* Progress bar fill animation */
+        .animate-progress-fill {
+            transition: width 800ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Table row hover */
+        .animate-table-row {
+            transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+                        border-left 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animate-table-row:hover {
+            background-color: rgba(241, 245, 249, 0.5);
+            border-left: 3px solid rgba(139, 92, 246, 0.5);
+        }
+        
+        .dark .animate-table-row:hover {
+            background-color: rgba(30, 41, 59, 0.5);
+            border-left: 3px solid rgba(139, 92, 246, 0.6);
+        }
+        
+        /* Staggered entrance animations */
+        .animate-fade-in-up {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animate-fade-in-up.animate-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Stagger delays */
+        .animate-delay-100 { transition-delay: 100ms; }
+        .animate-delay-200 { transition-delay: 200ms; }
+        .animate-delay-300 { transition-delay: 300ms; }
+        .animate-delay-400 { transition-delay: 400ms; }
+        .animate-delay-500 { transition-delay: 500ms; }
+    </style>
+    
     {% block extra_head %}{% endblock %}
 </head>
-<body class="h-full bg-porcelain antialiased">
+<body class="h-full bg-porcelain dark:bg-slate-900 antialiased font-sans">
     <!-- Universal Preloader -->
-    <div id="global-preloader" class="fixed inset-0 z-[9999] bg-white/90 backdrop-blur-sm hidden items-center justify-center">
+    <div id="global-preloader" class="fixed inset-0 z-[9999] bg-charcoal/80 backdrop-blur-sm hidden items-center justify-center">
         <div class="text-center">
             <div class="inline-block relative w-16 h-16">
-                <div class="absolute inset-0 border-4 border-purple-200 rounded-full"></div>
-                <div class="absolute inset-0 border-4 border-purple-600 rounded-full border-t-transparent animate-spin"></div>
+                <div class="absolute inset-0 border-4 border-violet-200 rounded-full"></div>
+                <div class="absolute inset-0 border-4 border-violet-500 rounded-full border-t-transparent animate-spin"></div>
             </div>
-            <p class="mt-4 text-slate-600 font-medium" id="preloader-text">Loading...</p>
+            <p class="mt-4 text-ivory font-medium" id="preloader-text">Loading...</p>
         </div>
     </div>
 
     <!-- Navigation -->
     {% if user.is_authenticated %}
-    <nav class="bg-ivory border-b border-glass sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="bg-ivory border-b border-glass/50 sticky top-0 z-50 shadow-soft">
+        <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center space-x-8">
-                    <a href="{% url 'home' %}" class="text-ink font-bold text-xl">Learning Platform</a>
-                    <div class="hidden md:flex space-x-6">
-                        <a href="{% url 'courses' %}" class="text-slate hover:text-ink transition-colors">
-                            <i class="fas fa-book mr-2"></i>Courses
+                    <a href="{% url 'home' %}" class="text-ink font-semibold text-xl tracking-tight hover:text-violet-600 transition-colors">
+                        Learning Platform
+                    </a>
+                    <div class="hidden md:flex space-x-1">
+                        <a href="{% url 'courses' %}" class="px-4 py-2 text-sm font-medium text-slate hover:text-ink hover:bg-mist rounded-lg transition-colors">
+                            <i class="fas fa-book mr-2 text-violet-500"></i>Courses
                         </a>
-                        <a href="{% url 'student_dashboard' %}" class="text-slate hover:text-ink transition-colors">
-                            <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                        <a href="{% url 'student_dashboard' %}" class="px-4 py-2 text-sm font-medium text-slate hover:text-ink hover:bg-mist rounded-lg transition-colors">
+                            <i class="fas fa-tachometer-alt mr-2 text-violet-500"></i>Dashboard
                         </a>
-                        <a href="{% url 'student_certifications' %}" class="text-slate hover:text-ink transition-colors">
-                            <i class="fas fa-trophy mr-2"></i>Certifications
+                        <a href="{% url 'student_certifications' %}" class="px-4 py-2 text-sm font-medium text-slate hover:text-ink hover:bg-mist rounded-lg transition-colors">
+                            <i class="fas fa-trophy mr-2 text-violet-500"></i>Certifications
                         </a>
                         {% if user.is_staff %}
-                        <a href="{% url 'dashboard_home' %}" class="text-purple-600 hover:text-purple-700 transition-colors">
+                        <a href="{% url 'dashboard_home' %}" class="px-4 py-2 text-sm font-medium text-violet-600 bg-violet-50 rounded-lg hover:bg-violet-100 transition-colors">
                             <i class="fas fa-cog mr-2"></i>Admin
                         </a>
                         {% endif %}
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <span class="text-sm text-slate">{{ user.get_full_name|default:user.username }}</span>
-                    <a href="{% url 'logout' %}" class="px-4 py-2 text-sm text-slate hover:text-ink transition-colors">
+                    <span class="text-sm font-medium text-ink">{{ user.get_full_name|default:user.username }}</span>
+                    <a href="{% url 'logout' %}" class="px-4 py-2 text-sm font-medium text-slate hover:text-ink hover:bg-mist rounded-lg transition-colors">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </a>
                 </div>
@@ -82,12 +470,15 @@
 
     <!-- Messages -->
     {% if messages %}
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+    <div class="max-w-7xl mx-auto px-6 pt-6">
         {% for message in messages %}
-        <div class="mb-4 p-4 rounded-lg border {% if message.tags == 'error' %}bg-red-50 border-red-200 text-red-800{% elif message.tags == 'success' %}bg-green-50 border-green-200 text-green-800{% elif message.tags == 'warning' %}bg-yellow-50 border-yellow-200 text-yellow-800{% else %}bg-blue-50 border-blue-200 text-blue-800{% endif %}">
+        <div class="mb-4 p-4 rounded-xl border-2 shadow-soft {% if message.tags == 'error' %}bg-red-50/80 border-red-300 text-red-900{% elif message.tags == 'success' %}bg-emerald-50/80 border-emerald-300 text-emerald-900{% elif message.tags == 'warning' %}bg-amber-50/80 border-amber-300 text-amber-900{% else %}bg-cyan-50/80 border-cyan-300 text-cyan-900{% endif %}">
             <div class="flex items-center justify-between">
-                <span>{{ message }}</span>
-                <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-slate-500 hover:text-slate-700">
+                <div class="flex items-center">
+                    <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% elif message.tags == 'success' %}fa-check-circle{% elif message.tags == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %} mr-3 text-lg"></i>
+                    <span class="font-medium">{{ message }}</span>
+                </div>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-slate-600 hover:text-ink transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500 rounded-lg p-1">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -102,9 +493,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-ink text-white mt-16 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center text-sm text-gray-400">
+    <footer class="bg-charcoal text-ivory/80 mt-16 py-10 border-t border-charcoal/20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center text-sm">
                 <p>&copy; 2025 Learning Platform. All rights reserved.</p>
             </div>
         </div>
@@ -193,6 +584,54 @@
                 console.error('Fetch error:', error);
                 throw error;
             }
+        }
+
+        // Premium Animation System - Staggered Entrance Animations
+        // Respects prefers-reduced-motion
+        function initStaggeredAnimations() {
+            // Check for reduced motion preference
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) {
+                return; // Skip animations if user prefers reduced motion
+            }
+
+            // IntersectionObserver for fade-in-up animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all elements with animate-fade-in-up class
+            document.querySelectorAll('.animate-fade-in-up').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Animate progress bars on load
+            document.querySelectorAll('.animate-progress-fill').forEach(progressBar => {
+                const targetWidth = progressBar.style.width || progressBar.getAttribute('data-width');
+                if (targetWidth) {
+                    progressBar.style.width = '0%';
+                    setTimeout(() => {
+                        progressBar.style.width = targetWidth;
+                    }, 100);
+                }
+            });
+        }
+
+        // Initialize animations when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initStaggeredAnimations);
+        } else {
+            initStaggeredAnimations();
         }
     </script>
 

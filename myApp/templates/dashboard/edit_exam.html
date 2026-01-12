@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Exam - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-porcelain py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <a href="{% url 'dashboard_course_detail' course.slug %}" class="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 mb-4">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Course</span>
+            </a>
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold text-ink mb-2">Edit Exam</h1>
+                    <p class="text-lg text-slate">{{ exam.title }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Exam Settings Form -->
+            <div class="lg:col-span-2">
+                <div class="bg-ivory border border-glass rounded-xl p-8 mb-8">
+                    <h2 class="text-2xl font-bold text-ink mb-6">Exam Settings</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="space-y-6">
+                            <div class="p-4 bg-mist rounded-lg mb-4">
+                                <p class="text-sm text-slate"><strong>Course:</strong> {{ course.name }}</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-ink mb-2">
+                                    <i class="fas fa-heading mr-2 text-muted"></i>Exam Title *</label>
+                                <input type="text" name="title" value="{{ exam.title }}" required
+                                       class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-ink mb-2">
+                                    <i class="fas fa-align-left mr-2 text-muted"></i>Description
+                                </label>
+                                <textarea name="description" rows="3"
+                                          class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink">{{ exam.description }}</textarea>
+                            </div>
+
+                            <div class="grid md:grid-cols-3 gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-ink mb-2">
+                                        <i class="fas fa-percent mr-2 text-muted"></i>Passing Score (%) *</label>
+                                    <input type="number" name="passing_score" value="{{ exam.passing_score }}" min="0" max="100" required
+                                           class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-ink mb-2">
+                                        <i class="fas fa-redo mr-2 text-muted"></i>Max Attempts</label>
+                                    <input type="number" name="max_attempts" value="{{ exam.max_attempts }}" min="0"
+                                           class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                                           placeholder="0 = unlimited">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-ink mb-2">
+                                        <i class="fas fa-clock mr-2 text-muted"></i>Time Limit (minutes)</label>
+                                    <input type="number" name="time_limit_minutes" value="{{ exam.time_limit_minutes|default:'' }}" min="0"
+                                           class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                                           placeholder="Leave empty for no limit">
+                                </div>
+                            </div>
+
+                            <div class="flex items-center pt-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="is_active" {% if exam.is_active %}checked{% endif %}
+                                           class="mr-2 rounded border-glass">
+                                    <span class="text-sm text-slate">Active (students can take this exam)</span>
+                                </label>
+                            </div>
+
+                            <button type="submit"
+                                    class="px-8 py-4 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition shadow-sm hover:shadow-md">
+                                <i class="fas fa-save mr-2"></i>Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Questions List -->
+                <div class="bg-ivory border border-glass rounded-xl p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-ink">Questions</h2>
+                        <a href="{% url 'dashboard_add_exam_question' exam.id %}"
+                           class="px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition">
+                            <i class="fas fa-plus mr-2"></i>Add Question
+                        </a>
+                    </div>
+
+                    {% if questions %}
+                    <div class="space-y-4">
+                        {% for question in questions %}
+                        <div class="p-6 bg-mist rounded-lg border border-glass">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                                            Question {{ forloop.counter }}
+                                        </span>
+                                        <span class="text-xs text-slate">Order: {{ question.order }}</span>
+                                    </div>
+                                    <h3 class="font-semibold text-ink mb-3">{{ question.text }}</h3>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-8 text-center font-bold {% if question.correct_option == 'A' %}text-green-600{% else %}text-slate{% endif %}">A:</span>
+                                            <span class="{% if question.correct_option == 'A' %}font-semibold text-green-600{% else %}text-ink{% endif %}">{{ question.option_a }}</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-8 text-center font-bold {% if question.correct_option == 'B' %}text-green-600{% else %}text-slate{% endif %}">B:</span>
+                                            <span class="{% if question.correct_option == 'B' %}font-semibold text-green-600{% else %}text-ink{% endif %}">{{ question.option_b }}</span>
+                                        </div>
+                                        {% if question.option_c %}
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-8 text-center font-bold {% if question.correct_option == 'C' %}text-green-600{% else %}text-slate{% endif %}">C:</span>
+                                            <span class="{% if question.correct_option == 'C' %}font-semibold text-green-600{% else %}text-ink{% endif %}">{{ question.option_c }}</span>
+                                        </div>
+                                        {% endif %}
+                                        {% if question.option_d %}
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-8 text-center font-bold {% if question.correct_option == 'D' %}text-green-600{% else %}text-slate{% endif %}">D:</span>
+                                            <span class="{% if question.correct_option == 'D' %}font-semibold text-green-600{% else %}text-ink{% endif %}">{{ question.option_d }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2 ml-4">
+                                    <a href="{% url 'dashboard_edit_exam_question' question.id %}"
+                                       class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm">
+                                        <i class="fas fa-edit mr-1"></i>Edit
+                                    </a>
+                                    <form method="post" action="{% url 'dashboard_delete_exam_question' question.id %}" 
+                                          onsubmit="return confirm('Delete this question?');" 
+                                          class="inline">
+                                        {% csrf_token %}
+                                        <button type="submit"
+                                                class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm">
+                                            <i class="fas fa-trash mr-1"></i>Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-12">
+                        <i class="fas fa-question-circle text-6xl text-muted mb-4"></i>
+                        <p class="text-slate mb-4">No questions yet. Add your first question to get started.</p>
+                        <a href="{% url 'dashboard_add_exam_question' exam.id %}"
+                           class="inline-block px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition">
+                            <i class="fas fa-plus mr-2"></i>Add First Question
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-ivory border border-glass rounded-xl p-6 sticky top-4">
+                    <h3 class="text-lg font-bold text-ink mb-4">Exam Info</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-slate">Questions</span>
+                            <span class="font-semibold text-ink">{{ questions.count }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate">Passing Score</span>
+                            <span class="font-semibold text-ink">{{ exam.passing_score }}%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate">Max Attempts</span>
+                            <span class="font-semibold text-ink">{% if exam.max_attempts == 0 %}Unlimited{% else %}{{ exam.max_attempts }}{% endif %}</span>
+                        </div>
+                        {% if exam.time_limit_minutes %}
+                        <div class="flex justify-between">
+                            <span class="text-slate">Time Limit</span>
+                            <span class="font-semibold text-ink">{{ exam.time_limit_minutes }} min</span>
+                        </div>
+                        {% endif %}
+                        <div class="flex justify-between">
+                            <span class="text-slate">Status</span>
+                            <span class="font-semibold {% if exam.is_active %}text-green-600{% else %}text-red-600{% endif %}">
+                                {% if exam.is_active %}Active{% else %}Inactive{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-6 border-t border-glass">
+                        <h4 class="font-semibold text-ink mb-3">Statistics</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-slate">Total Attempts</span>
+                                <span class="font-semibold text-ink">{{ total_attempts }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate">Passed</span>
+                                <span class="font-semibold text-green-600">{{ passed_attempts }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate">Avg Score</span>
+                                <span class="font-semibold text-ink">{{ avg_score }}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

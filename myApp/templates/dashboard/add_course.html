@@ -22,31 +22,31 @@
                 
                 <div class="space-y-6">
                     <div>
-                        <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-heading mr-2 text-muted"></i>Course Name *
+                        <label for="name" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                            Course Name <span class="text-rose-500">*</span>
                         </label>
-                        <input type="text" name="name" required
-                               class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                        <input type="text" name="name" id="name" required
+                               class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                placeholder="e.g., Assets Mastery">
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-link mr-2 text-muted"></i>Slug *
+                        <label for="slug" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                            Slug <span class="text-rose-500">*</span>
                         </label>
-                        <input type="text" name="slug" required
-                               class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                        <input type="text" name="slug" id="slug" required
+                               class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                placeholder="e.g., assets-mastery">
-                        <p class="mt-2 text-sm text-muted">URL-friendly version of the course name</p>
+                        <p class="mt-2 text-xs text-slate-600 dark:text-slate-400">URL-friendly version of the course name</p>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-semibold text-ink mb-2">
-                                <i class="fas fa-tag mr-2 text-muted"></i>Course Type
+                            <label for="course_type" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                                Course Type
                             </label>
-                            <select name="course_type"
-                                    class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink">
+                            <select name="course_type" id="course_type"
+                                    class="w-full px-4 py-3 pr-10 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3E%3Cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3E%3C/svg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.75rem_center] bg-no-repeat">
                                 <option value="sprint">Sprint</option>
                                 <option value="speaking">Speaking</option>
                                 <option value="consultancy">Consultancy</option>
@@ -55,11 +55,11 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-semibold text-ink mb-2">
-                                <i class="fas fa-toggle-on mr-2 text-muted"></i>Status
+                            <label for="status" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                                Status
                             </label>
-                            <select name="status"
-                                    class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink">
+                            <select name="status" id="status"
+                                    class="w-full px-4 py-3 pr-10 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3E%3Cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3E%3C/svg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.75rem_center] bg-no-repeat">
                                 <option value="active">Active</option>
                                 <option value="locked">Locked</option>
                                 <option value="coming_soon">Coming Soon</option>
@@ -68,30 +68,30 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-align-left mr-2 text-muted"></i>Description *
+                        <label for="description" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                            Description <span class="text-rose-500">*</span>
                         </label>
-                        <textarea name="description" rows="6" required
-                                  class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                        <textarea name="description" id="description" rows="6" required
+                                  class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 min-h-[150px] resize-y"
                                   placeholder="Full course description..."></textarea>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-align-center mr-2 text-muted"></i>Short Description
+                        <label for="short_description" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                            Short Description
                         </label>
-                        <input type="text" name="short_description" maxlength="300"
-                               class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink"
+                        <input type="text" name="short_description" id="short_description" maxlength="300"
+                               class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500"
                                placeholder="Brief description for course cards (max 300 characters)">
                     </div>
 
                     <div class="flex items-center space-x-4">
                         <button type="submit"
-                                class="px-8 py-4 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition shadow-sm hover:shadow-md">
-                            <i class="fas fa-save mr-2"></i>Create Course
+                                class="px-8 py-4 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 animate-button-hover shadow-sm">
+                            <i class="fas fa-save mr-2 animate-icon-float"></i>Create Course
                         </button>
                         <a href="{% url 'dashboard_courses' %}"
-                           class="px-8 py-4 bg-mist text-ink rounded-xl font-semibold hover:bg-glass transition">
+                           class="px-8 py-4 bg-mist text-ink rounded-xl font-semibold hover:bg-glass animate-button-hover">
                             Cancel
                         </a>
                     </div>

@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ exam.title }} - {{ course.name }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-porcelain py-10">
+    <div class="max-w-4xl mx-auto px-6">
+        <!-- Header -->
+        <nav class="mb-6 text-sm font-medium">
+            <a href="{% url 'student_dashboard' %}" class="text-slate hover:text-ink transition-colors">Dashboard</a>
+            <i class="fas fa-chevron-right mx-2 text-muted"></i>
+            <a href="{% url 'student_course_progress' course.slug %}" class="text-slate hover:text-ink transition-colors">{{ course.name }}</a>
+            <i class="fas fa-chevron-right mx-2 text-muted"></i>
+            <span class="text-ink font-semibold">{{ exam.title }}</span>
+        </nav>
+        
+        <div class="bg-ivory border border-glass/50 rounded-2xl p-10 mb-6 shadow-soft">
+            <h1 class="text-4xl font-semibold text-ink tracking-tight mb-4">{{ exam.title }}</h1>
+            {% if exam.description %}
+            <p class="text-sm text-slate leading-6 mb-6">{{ exam.description }}</p>
+            {% endif %}
+            
+            <div class="grid md:grid-cols-3 gap-4 mb-6 p-6 bg-porcelain border border-glass/50 rounded-xl">
+                <div>
+                    <div class="text-xs font-semibold text-slate mb-1">Questions</div>
+                    <div class="text-2xl font-bold text-ink">{{ questions.count }}</div>
+                </div>
+                <div>
+                    <div class="text-xs font-semibold text-slate mb-1">Passing Score</div>
+                    <div class="text-2xl font-bold text-ink">{{ exam.passing_score }}%</div>
+                </div>
+                {% if exam.time_limit_minutes %}
+                <div>
+                    <div class="text-xs font-semibold text-slate mb-1">Time Limit</div>
+                    <div class="text-2xl font-bold text-ink">{{ exam.time_limit_minutes }} min</div>
+                </div>
+                {% endif %}
+            </div>
+            
+            {% if previous_attempts %}
+            <div class="mb-6 p-4 bg-amber-50/80 border-2 border-amber-300 rounded-xl shadow-soft">
+                <h3 class="font-semibold text-amber-900 mb-3 text-sm">Previous Attempts</h3>
+                <div class="space-y-2">
+                    {% for attempt in previous_attempts %}
+                    <div class="text-sm font-medium text-amber-900">
+                        <span>{{ attempt.completed_at|date:"M d, Y H:i" }}</span> - 
+                        <span class="font-semibold {% if attempt.passed %}text-emerald-700{% else %}text-red-700{% endif %}">
+                            {{ attempt.score|floatformat:1 }}% {% if attempt.passed %}(Passed){% else %}(Failed){% endif %}
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Exam Form -->
+        <form method="post" action="{% url 'submit_exam' course.slug %}" id="exam-form" data-no-preloader>
+            {% csrf_token %}
+            <input type="hidden" name="time_taken_seconds" id="time-taken" value="0">
+            
+            {% if exam.time_limit_minutes %}
+            <div class="mb-6 p-6 bg-cyan-50/80 border-2 border-cyan-300 rounded-xl shadow-soft">
+                <div class="flex items-center justify-between">
+                    <span class="font-semibold text-cyan-900 text-sm">Time Remaining:</span>
+                    <span class="text-3xl font-bold text-cyan-700" id="timer">{{ exam.time_limit_minutes }}:00</span>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="space-y-6">
+                {% for question in questions %}
+                <div class="bg-ivory border-2 border-glass/50 rounded-2xl p-6 shadow-soft">
+                    <div class="flex items-start gap-3 mb-4">
+                        <span class="px-3 py-1.5 bg-violet-100 text-violet-700 rounded-full text-xs font-bold">
+                            Question {{ forloop.counter }}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-ink mb-6 leading-relaxed">{{ question.text }}</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-start p-4 bg-ivory border-2 border-glass rounded-xl cursor-pointer hover:bg-violet-50 hover:border-violet-400 transition-all has-[:checked]:bg-violet-100 has-[:checked]:border-violet-600 shadow-soft hover:shadow-medium">
+                            <input type="radio" name="question_{{ question.id }}" value="A" required
+                                   class="mt-1 mr-4 w-5 h-5 text-violet-600 border-glass focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 cursor-pointer">
+                            <div class="flex-1">
+                                <span class="font-bold text-violet-700 mr-2 text-sm">A.</span>
+                                <span class="text-ink font-semibold text-sm leading-6">{{ question.option_a }}</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start p-4 bg-ivory border-2 border-glass rounded-xl cursor-pointer hover:bg-violet-50 hover:border-violet-400 transition-all has-[:checked]:bg-violet-100 has-[:checked]:border-violet-600 shadow-soft hover:shadow-medium">
+                            <input type="radio" name="question_{{ question.id }}" value="B" required
+                                   class="mt-1 mr-4 w-5 h-5 text-violet-600 border-glass focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 cursor-pointer">
+                            <div class="flex-1">
+                                <span class="font-bold text-violet-700 mr-2 text-sm">B.</span>
+                                <span class="text-ink font-semibold text-sm leading-6">{{ question.option_b }}</span>
+                            </div>
+                        </label>
+                        {% if question.option_c %}
+                        <label class="flex items-start p-4 bg-ivory border-2 border-glass rounded-xl cursor-pointer hover:bg-violet-50 hover:border-violet-400 transition-all has-[:checked]:bg-violet-100 has-[:checked]:border-violet-600 shadow-soft hover:shadow-medium">
+                            <input type="radio" name="question_{{ question.id }}" value="C" required
+                                   class="mt-1 mr-4 w-5 h-5 text-violet-600 border-glass focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 cursor-pointer">
+                            <div class="flex-1">
+                                <span class="font-bold text-violet-700 mr-2 text-sm">C.</span>
+                                <span class="text-ink font-semibold text-sm leading-6">{{ question.option_c }}</span>
+                            </div>
+                        </label>
+                        {% endif %}
+                        {% if question.option_d %}
+                        <label class="flex items-start p-4 bg-ivory border-2 border-glass rounded-xl cursor-pointer hover:bg-violet-50 hover:border-violet-400 transition-all has-[:checked]:bg-violet-100 has-[:checked]:border-violet-600 shadow-soft hover:shadow-medium">
+                            <input type="radio" name="question_{{ question.id }}" value="D" required
+                                   class="mt-1 mr-4 w-5 h-5 text-violet-600 border-glass focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 cursor-pointer">
+                            <div class="flex-1">
+                                <span class="font-bold text-violet-700 mr-2 text-sm">D.</span>
+                                <span class="text-ink font-semibold text-sm leading-6">{{ question.option_d }}</span>
+                            </div>
+                        </label>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="mt-8 flex items-center justify-between">
+                <a href="{% url 'student_course_progress' course.slug %}"
+                   class="px-6 py-3.5 bg-mist text-ink rounded-xl font-semibold hover:bg-glass transition-all shadow-soft hover:shadow-medium focus:outline-none focus:ring-2 focus:ring-violet-500">
+                    Cancel
+                </a>
+                <button type="submit" id="submit-exam-btn"
+                        class="px-8 py-4 bg-violet-600 text-white rounded-xl font-semibold hover:bg-violet-700 transition-all shadow-medium hover:shadow-elevated disabled:opacity-75 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
+                    <i class="fas fa-paper-plane mr-2"></i>Submit Exam
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+// Exam state management
+let examSubmitted = false;
+let timerInterval = null;
+let timeTrackingInterval = null;
+let examStartTime = new Date().toISOString();
+let timeElapsed = 0;
+
+// Store start time in hidden field
+document.addEventListener('DOMContentLoaded', function() {
+    const startTimeInput = document.createElement('input');
+    startTimeInput.type = 'hidden';
+    startTimeInput.name = 'exam_start_time';
+    startTimeInput.value = examStartTime;
+    document.getElementById('exam-form').appendChild(startTimeInput);
+});
+
+// Timer functionality
+{% if exam.time_limit_minutes %}
+let timeLimitSeconds = {{ exam.time_limit_minutes }} * 60;
+
+function updateTimer() {
+    if (examSubmitted) {
+        return; // Stop if already submitted
+    }
+    
+    timeElapsed++;
+    let remaining = timeLimitSeconds - timeElapsed;
+    
+    if (remaining <= 0) {
+        stopTimer();
+        document.getElementById('timer').textContent = '00:00';
+        document.getElementById('time-taken').value = timeElapsed;
+        
+        // Only auto-submit if not already submitted
+        if (!examSubmitted) {
+            examSubmitted = true;
+            alert('Time is up! Submitting your exam...');
+            submitExam();
+        }
+        return;
+    }
+    
+    let minutes = Math.floor(remaining / 60);
+    let seconds = remaining % 60;
+    document.getElementById('timer').textContent = 
+        String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+    
+    document.getElementById('time-taken').value = timeElapsed;
+}
+
+function stopTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    if (timeTrackingInterval) {
+        clearInterval(timeTrackingInterval);
+        timeTrackingInterval = null;
+    }
+}
+
+// Start timer
+timerInterval = setInterval(updateTimer, 1000);
+{% else %}
+// Track time even without limit
+timeTrackingInterval = setInterval(function() {
+    if (!examSubmitted) {
+        timeElapsed++;
+        document.getElementById('time-taken').value = timeElapsed;
+    }
+}, 1000);
+{% endif %}
+
+// Form submission handler
+function submitExam() {
+    if (examSubmitted) {
+        console.log('Exam already submitted, ignoring duplicate submission');
+        return false; // Prevent double submission
+    }
+    
+    examSubmitted = true;
+    
+    // Stop timer immediately
+    stopTimer();
+    
+    // Disable submit button and show loading state
+    const submitButton = document.getElementById('submit-exam-btn') || document.querySelector('button[type="submit"]');
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
+        submitButton.classList.add('opacity-75', 'cursor-not-allowed');
+    }
+    
+    // Remove beforeunload warning (submission in progress)
+    window.removeEventListener('beforeunload', preventLeave);
+    
+    // Freeze timer display
+    const timerElement = document.getElementById('timer');
+    if (timerElement) {
+        timerElement.classList.add('opacity-75');
+    }
+    
+    // Show preloader
+    if (typeof showPreloader === 'function') {
+        showPreloader('Submitting exam...');
+    }
+    
+    // Set a safety timeout (30 seconds) - if backend doesn't respond, show error
+    const timeoutId = setTimeout(function() {
+        if (typeof hidePreloader === 'function') {
+            hidePreloader();
+        }
+        alert('The exam submission is taking longer than expected. Please check your connection and try again. If the problem persists, contact support.');
+        // Re-enable button (but keep examSubmitted flag to prevent double submission)
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Exam';
+            submitButton.classList.remove('opacity-75', 'cursor-not-allowed');
+        }
+        examSubmitted = false; // Allow retry
+    }, 30000);
+    
+    // Clear timeout if page unloads (redirect happens)
+    window.addEventListener('beforeunload', function() {
+        clearTimeout(timeoutId);
+    });
+    
+    // Submit form
+    const form = document.getElementById('exam-form');
+    if (form) {
+        form.submit();
+    } else {
+        console.error('Exam form not found');
+        clearTimeout(timeoutId);
+        if (typeof hidePreloader === 'function') {
+            hidePreloader();
+        }
+        alert('Error: Could not find exam form. Please refresh the page and try again.');
+        examSubmitted = false;
+    }
+    
+    return false; // Prevent default form submission
+}
+
+// Prevent leaving during exam
+function preventLeave(e) {
+    if (!examSubmitted) {
+        e.preventDefault();
+        e.returnValue = 'Are you sure you want to leave? Your progress will be lost.';
+        return e.returnValue;
+    }
+}
+
+// Attach submit handler
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('exam-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            submitExam();
+        });
+    }
+    
+    // Warn before leaving (only if not submitted)
+    window.addEventListener('beforeunload', preventLeave);
+});
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', function() {
+    stopTimer();
+});
+</script>
+{% endblock %}
+{% endblock %}
+

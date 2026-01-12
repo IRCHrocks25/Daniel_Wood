@@ -136,6 +136,43 @@
                         </div>
                     </div>
 
+                    <!-- Quiz Management Section -->
+                    <div class="border-t border-glass pt-6 mt-6">
+                        <h3 class="text-lg font-bold text-ink mb-4">
+                            <i class="fas fa-question-circle mr-2 text-purple-600"></i>Quiz Management
+                        </h3>
+                        {% if lesson.quiz %}
+                        <div class="p-4 bg-mist rounded-lg mb-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="font-semibold text-ink">{{ lesson.quiz.title }}</p>
+                                    <p class="text-sm text-slate">
+                                        {{ lesson.quiz.questions.count }} question{{ lesson.quiz.questions.count|pluralize }} | 
+                                        Passing: {{ lesson.quiz.passing_score }}% | 
+                                        {% if lesson.quiz.is_required %}
+                                        <span class="text-green-600">Required</span>
+                                        {% else %}
+                                        <span class="text-slate">Optional</span>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <a href="{% url 'dashboard_edit_quiz' lesson.quiz.id %}"
+                                   class="px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition">
+                                    <i class="fas fa-edit mr-2"></i>Manage Quiz
+                                </a>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="p-4 bg-mist rounded-lg mb-4">
+                            <p class="text-slate mb-4">No quiz created for this lesson yet.</p>
+                            <a href="{% url 'dashboard_add_quiz' lesson.id %}"
+                               class="inline-block px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition">
+                                <i class="fas fa-plus mr-2"></i>Create Quiz
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+
                     <div class="flex items-center space-x-4 pt-4">
                         <button type="submit"
                                 class="px-8 py-4 bg-purple-600 text-white rounded-xl font-semibold hover:bg-purple-700 transition shadow-sm hover:shadow-md">

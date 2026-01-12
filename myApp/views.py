@@ -14,7 +14,7 @@ from .models import (
     UserProgress, CourseEnrollment, FavoriteCourse, Certification, Exam, ExamAttempt,
     CourseAccess, Bundle, BundlePurchase, Cohort, CohortMember
 )
-from .utils.access import has_course_access, get_courses_by_visibility
+from .utils.access import has_course_access, get_courses_by_visibility, check_course_prerequisites
 
 
 def home(request):
@@ -87,6 +87,12 @@ def course_detail(request, course_slug):
     """Course detail page"""
     course = get_object_or_404(Course, slug=course_slug)
     
+    # Check prerequisites
+    prerequisites_met = True
+    missing_prerequisites = []
+    if request.user.is_authenticated:
+        prerequisites_met, missing_prerequisites = check_course_prerequisites(request.user, course)
+    
     # Check access
     has_access, access_record, reason = has_course_access(request.user, course)
     
@@ -120,6 +126,8 @@ def course_detail(request, course_slug):
         'user_progress': user_progress,
         'course_progress': course_progress,
         'is_favorited': is_favorited,
+        'prerequisites_met': prerequisites_met,
+        'missing_prerequisites': missing_prerequisites,
     }
     return render(request, 'course_detail.html', context)
 
@@ -129,6 +137,12 @@ def lesson_detail(request, course_slug, lesson_slug):
     """Lesson video player page"""
     course = get_object_or_404(Course, slug=course_slug)
     lesson = get_object_or_404(Lesson, course=course, slug=lesson_slug)
+    
+    # Check prerequisites
+    prerequisites_met, missing_prerequisites = check_course_prerequisites(request.user, course)
+    if not prerequisites_met:
+        messages.warning(request, f'You must complete the following prerequisite courses: {", ".join([p.name for p in missing_prerequisites])}')
+        return redirect('course_detail', course_slug=course_slug)
     
     # Check access
     has_access, access_record, reason = has_course_access(request.user, course)

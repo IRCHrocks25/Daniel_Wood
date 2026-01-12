@@ -1,0 +1,51 @@
+{% comment %}
+Reusable Form Field Pattern
+Usage: {% include 'partials/_form_field.html' with field_type='input' field_name='name' label='Name' required=True placeholder='Enter name' help_text='Optional help text' error='Error message' %}
+{% endcomment %}
+
+<div class="{% if field_type == 'hidden' %}hidden{% endif %}">
+    {% if label %}
+    <label for="{{ field_name }}" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+        {{ label }}{% if required %}<span class="text-rose-500 ml-1">*</span>{% endif %}
+    </label>
+    {% endif %}
+    
+    {% if field_type == 'input' %}
+    <input type="{{ input_type|default:'text' }}" 
+           name="{{ field_name }}" 
+           id="{{ field_name }}"
+           {% if required %}required{% endif %}
+           {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+           {% if value %}value="{{ value }}"{% endif %}
+           {% if disabled %}disabled{% endif %}
+           {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
+           class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border {% if error %}border-rose-400 dark:border-rose-500{% else %}border-slate-200 dark:border-slate-700{% endif %} rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 {% if error %}focus:ring-rose-300/40 focus:border-rose-400{% else %}focus:ring-violet-500 focus:border-violet-500{% endif %} focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-50 dark:disabled:bg-slate-900 disabled:text-slate-900 dark:disabled:text-slate-100">
+    
+    {% elif field_type == 'textarea' %}
+    <textarea name="{{ field_name }}" 
+              id="{{ field_name }}"
+              rows="{{ rows|default:4 }}"
+              {% if required %}required{% endif %}
+              {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+              {% if disabled %}disabled{% endif %}
+              class="w-full px-4 py-3 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border {% if error %}border-rose-400 dark:border-rose-500{% else %}border-slate-200 dark:border-slate-700{% endif %} rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 {% if error %}focus:ring-rose-300/40 focus:border-rose-400{% else %}focus:ring-violet-500 focus:border-violet-500{% endif %} focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-50 dark:disabled:bg-slate-900 disabled:text-slate-900 dark:disabled:text-slate-100 min-h-[100px] resize-y">{{ value|default:'' }}</textarea>
+    
+    {% elif field_type == 'select' %}
+    <select name="{{ field_name }}" 
+            id="{{ field_name }}"
+            {% if required %}required{% endif %}
+            {% if disabled %}disabled{% endif %}
+            class="w-full px-4 py-3 pr-10 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border {% if error %}border-rose-400 dark:border-rose-500{% else %}border-slate-200 dark:border-slate-700{% endif %} rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 {% if error %}focus:ring-rose-300/40 focus:border-rose-400{% else %}focus:ring-violet-500 focus:border-violet-500{% endif %} focus:outline-none transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-50 dark:disabled:bg-slate-900 disabled:text-slate-900 dark:disabled:text-slate-100 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3E%3Cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3E%3C/svg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.75rem_center] bg-no-repeat">
+        {{ options|safe }}
+    </select>
+    {% endif %}
+    
+    {% if help_text %}
+    <p class="mt-2 text-xs text-slate-600 dark:text-slate-400">{{ help_text }}</p>
+    {% endif %}
+    
+    {% if error %}
+    <p class="mt-2 text-xs text-rose-600 dark:text-rose-400">{{ error }}</p>
+    {% endif %}
+</div>
+

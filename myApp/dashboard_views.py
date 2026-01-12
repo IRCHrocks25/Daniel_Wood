@@ -17,6 +17,7 @@ from .models import (
     CourseAccess, Bundle, BundlePurchase, Cohort, CohortMember, User
 )
 from .utils.access import grant_course_access, revoke_course_access, grant_bundle_access
+from .utils.exam import calculate_exam_score
 
 
 def is_staff(user):
@@ -639,6 +640,351 @@ def dashboard_delete_lesson(request, lesson_id):
     return redirect('dashboard_lessons')
 
 
-# Additional views for lessons, quizzes, bundles will be added as needed
-# For now, focusing on core functionality
+# ============================================
+# QUIZ MANAGEMENT VIEWS
+# ============================================
+
+@login_required
+@user_passes_test(is_staff)
+def dashboard_add_quiz(request, lesson_id):
+    """Create a quiz for a lesson"""
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    
+    # Check if quiz already exists
+    if hasattr(lesson, 'quiz'):
+        messages.info(request, f'A quiz already exists for this lesson. You can edit it instead.')
+        return redirect('dashboard_edit_quiz', quiz_id=lesson.quiz.id)
+    
+    if request.method == 'POST':
+        title = request.POST.get('title', '').strip()
+        description = request.POST.get('description', '').strip()
+        is_required = request.POST.get('is_required') == 'on'
+        passing_score = int(request.POST.get('passing_score', 70) or 70)
+        
+        if not title:
+            messages.error(request, 'Quiz title is required.')
+        else:
+            quiz = LessonQuiz.objects.create(
+                lesson=lesson,
+                title=title,
+                description=description,
+                is_required=is_required,
+                passing_score=passing_score
+            )
+            messages.success(request, f'Quiz "{quiz.title}" created successfully!')
+            return redirect('dashboard_edit_quiz', quiz_id=quiz.id)
+    
+    context = {
+        'lesson': lesson,
+    }
+    return render(request, 'dashboard/add_quiz.html', context)
+
+
+@login_required
+@user_passes_test(is_staff)
+def dashboard_edit_quiz(request, quiz_id):
+    """Edit quiz details"""
+    quiz = get_object_or_404(LessonQuiz, id=quiz_id)
+    
+    if request.method == 'POST':
+        quiz.title = request.POST.get('title', '').strip()
+        quiz.description = request.POST.get('description', '').strip()
+        quiz.is_required = request.POST.get('is_required') == 'on'
+        quiz.passing_score = int(request.POST.get('passing_score', 70) or 70)
+        
+        if not quiz.title:
+            messages.error(request, 'Quiz title is required.')
+        else:
+            quiz.save()
+            messages.success(request, 'Quiz updated successfully!')
+            return redirect('dashboard_edit_quiz', quiz_id=quiz.id)
+    
+    # Get questions ordered by order field
+    questions = quiz.questions.all().order_by('order', 'id')
+    
+    context = {
+        'quiz': quiz,
+        'lesson': quiz.lesson,
+        'questions': questions,
+    }
+    return render(request, 'dashboard/edit_quiz.html', context)
+
+
+@login_required
+@user_passes_test(is_staff)
+@require_POST
+def dashboard_delete_quiz(request, quiz_id):
+    """Delete a quiz"""
+    quiz = get_object_or_404(LessonQuiz, id=quiz_id)
+    lesson = quiz.lesson
+    quiz_title = quiz.title
+    quiz.delete()
+    messages.success(request, f'Quiz "{quiz_title}" deleted successfully!')
+    return redirect('dashboard_edit_lesson', lesson_id=lesson.id)
+
+
+@login_required
+@user_passes_test(is_staff)
+def dashboard_add_quiz_question(request, quiz_id):
+    """Add a question to a quiz"""
+    quiz = get_object_or_404(LessonQuiz, id=quiz_id)
+    
+    if request.method == 'POST':
+        text = request.POST.get('text', '').strip()
+        option_a = request.POST.get('option_a', '').strip()
+        option_b = request.POST.get('option_b', '').strip()
+        option_c = request.POST.get('option_c', '').strip()
+        option_d = request.POST.get('option_d', '').strip()
+        correct_option = request.POST.get('correct_option', 'A')
+        order = int(request.POST.get('order', 0) or 0)
+        
+        if not text or not option_a or not option_b:
+            messages.error(request, 'Question text and at least options A and B are required.')
+        elif correct_option not in ['A', 'B', 'C', 'D']:
+            messages.error(request, 'Invalid correct option selected.')
+        else:
+            question = LessonQuizQuestion.objects.create(
+                quiz=quiz,
+                text=text,
+                option_a=option_a,
+                option_b=option_b,
+                option_c=option_c,
+                option_d=option_d,
+                correct_option=correct_option,
+                order=order
+            )
+            messages.success(request, 'Question added successfully!')
+            return redirect('dashboard_edit_quiz', quiz_id=quiz.id)
+    
+    # Get next order number
+    last_question = quiz.questions.all().order_by('-order').first()
+    next_order = (last_question.order + 1) if last_question else 0
+    
+    context = {
+        'quiz': quiz,
+        'lesson': quiz.lesson,
+        'next_order': next_order,
+    }
+    return render(request, 'dashboard/add_quiz_question.html', context)
+
+
+@login_required
+@user_passes_test(is_staff)
+def dashboard_edit_quiz_question(request, question_id):
+    """Edit a quiz question"""
+    question = get_object_or_404(LessonQuizQuestion, id=question_id)
+    quiz = question.quiz
+    
+    if request.method == 'POST':
+        question.text = request.POST.get('text', '').strip()
+        question.option_a = request.POST.get('option_a', '').strip()
+        question.option_b = request.POST.get('option_b', '').strip()
+        question.option_c = request.POST.get('option_c', '').strip()
+        question.option_d = request.POST.get('option_d', '').strip()
+        question.correct_option = request.POST.get('correct_option', 'A')
+        question.order = int(request.POST.get('order', 0) or 0)
+        
+        if not question.text or not question.option_a or not question.option_b:
+            messages.error(request, 'Question text and at least options A and B are required.')
+        elif question.correct_option not in ['A', 'B', 'C', 'D']:
+            messages.error(request, 'Invalid correct option selected.')
+        else:
+            question.save()
+            messages.success(request, 'Question updated successfully!')
+            return redirect('dashboard_edit_quiz', quiz_id=quiz.id)
+    
+    context = {
+        'question': question,
+        'quiz': quiz,
+        'lesson': quiz.lesson,
+    }
+    return render(request, 'dashboard/edit_quiz_question.html', context)
+
+
+@login_required
+@user_passes_test(is_staff)
+@require_POST
+def dashboard_delete_quiz_question(request, question_id):
+    """Delete a quiz question"""
+    question = get_object_or_404(LessonQuizQuestion, id=question_id)
+    quiz = question.quiz
+    question.delete()
+    messages.success(request, 'Question deleted successfully!')
+    return redirect('dashboard_edit_quiz', quiz_id=quiz.id)
+
+
+# ============================================
+# EXAM MANAGEMENT VIEWS
+# ============================================
+
+@login_required
+@user_passes_test(is_staff)
+def dashboard_add_exam(request, course_slug):
+    """Create an exam for a course"""
+    course = get_object_or_404(Course, slug=course_slug)
+    
+    # Check if exam already exists
+    if hasattr(course, 'exam'):
+        messages.info(request, 'An exam already exists for this course. You can edit it instead.')
+        return redirect('dashboard_edit_exam', exam_id=course.exam.id)
+    
+    if request.method == 'POST':
+        title = request.POST.get('title', '').strip()
+        description = request.POST.get('description', '').strip()
+        passing_score = int(request.POST.get('passing_score', 70) or 70)
+        max_attempts = int(request.POST.get('max_attempts', 0) or 0)
+        time_limit_minutes = request.POST.get('time_limit_minutes', '').strip()
+        is_active = request.POST.get('is_active') == 'on'
+        
+        if not title:
+            messages.error(request, 'Exam title is required.')
+        else:
+            exam = Exam.objects.create(
+                course=course,
+                title=title,
+                description=description,
+                passing_score=passing_score,
+                max_attempts=max_attempts if max_attempts > 0 else 0,
+                time_limit_minutes=int(time_limit_minutes) if time_limit_minutes else None,
+                is_active=is_active
+            )
+            messages.success(request, f'Exam "{exam.title}" created successfully!')
+            return redirect('dashboard_edit_exam', exam_id=exam.id)
+    
+    context = {
+        'course': course,
+    }
+    return render(request, 'dashboard/add_exam.html', context)
+
+
+@login_required
+@user_passes_test(is_staff)
+def dashboard_edit_exam(request, exam_id):
+    """Edit exam details"""
+    exam = get_object_or_404(Exam, id=exam_id)
+    course = exam.course
+    
+    if request.method == 'POST':
+        exam.title = request.POST.get('title', '').strip()
+        exam.description = request.POST.get('description', '').strip()
+        exam.passing_score = int(request.POST.get('passing_score', 70) or 70)
+        exam.max_attempts = int(request.POST.get('max_attempts', 0) or 0)
+        time_limit_minutes = request.POST.get('time_limit_minutes', '').strip()
+        exam.time_limit_minutes = int(time_limit_minutes) if time_limit_minutes else None
+        exam.is_active = request.POST.get('is_active') == 'on'
+        
+        if not exam.title:
+            messages.error(request, 'Exam title is required.')
+        else:
+            exam.save()
+            messages.success(request, 'Exam updated successfully!')
+            return redirect('dashboard_edit_exam', exam_id=exam.id)
+    
+    # Get questions ordered
+    questions = exam.questions.all().order_by('order', 'id')
+    
+    # Get attempt statistics
+    total_attempts = ExamAttempt.objects.filter(exam=exam).count()
+    passed_attempts = ExamAttempt.objects.filter(exam=exam, passed=True).count()
+    avg_score = ExamAttempt.objects.filter(exam=exam).aggregate(Avg('score'))['score__avg'] or 0
+    
+    context = {
+        'exam': exam,
+        'course': course,
+        'questions': questions,
+        'total_attempts': total_attempts,
+        'passed_attempts': passed_attempts,
+        'avg_score': round(avg_score, 1),
+    }
+    return render(request, 'dashboard/edit_exam.html', context)
+
+
+@login_required
+@user_passes_test(is_staff)
+def dashboard_add_exam_question(request, exam_id):
+    """Add a question to an exam"""
+    exam = get_object_or_404(Exam, id=exam_id)
+    
+    if request.method == 'POST':
+        text = request.POST.get('text', '').strip()
+        option_a = request.POST.get('option_a', '').strip()
+        option_b = request.POST.get('option_b', '').strip()
+        option_c = request.POST.get('option_c', '').strip()
+        option_d = request.POST.get('option_d', '').strip()
+        correct_option = request.POST.get('correct_option', 'A')
+        order = int(request.POST.get('order', 0) or 0)
+        
+        if not text or not option_a or not option_b:
+            messages.error(request, 'Question text and at least options A and B are required.')
+        elif correct_option not in ['A', 'B', 'C', 'D']:
+            messages.error(request, 'Invalid correct option selected.')
+        else:
+            question = ExamQuestion.objects.create(
+                exam=exam,
+                text=text,
+                option_a=option_a,
+                option_b=option_b,
+                option_c=option_c,
+                option_d=option_d,
+                correct_option=correct_option,
+                order=order
+            )
+            messages.success(request, 'Question added successfully!')
+            return redirect('dashboard_edit_exam', exam_id=exam.id)
+    
+    # Get next order number
+    last_question = exam.questions.all().order_by('-order').first()
+    next_order = (last_question.order + 1) if last_question else 0
+    
+    context = {
+        'exam': exam,
+        'course': exam.course,
+        'next_order': next_order,
+    }
+    return render(request, 'dashboard/add_exam_question.html', context)
+
+
+@login_required
+@user_passes_test(is_staff)
+def dashboard_edit_exam_question(request, question_id):
+    """Edit an exam question"""
+    question = get_object_or_404(ExamQuestion, id=question_id)
+    exam = question.exam
+    
+    if request.method == 'POST':
+        question.text = request.POST.get('text', '').strip()
+        question.option_a = request.POST.get('option_a', '').strip()
+        question.option_b = request.POST.get('option_b', '').strip()
+        question.option_c = request.POST.get('option_c', '').strip()
+        question.option_d = request.POST.get('option_d', '').strip()
+        question.correct_option = request.POST.get('correct_option', 'A')
+        question.order = int(request.POST.get('order', 0) or 0)
+        
+        if not question.text or not question.option_a or not question.option_b:
+            messages.error(request, 'Question text and at least options A and B are required.')
+        elif question.correct_option not in ['A', 'B', 'C', 'D']:
+            messages.error(request, 'Invalid correct option selected.')
+        else:
+            question.save()
+            messages.success(request, 'Question updated successfully!')
+            return redirect('dashboard_edit_exam', exam_id=exam.id)
+    
+    context = {
+        'question': question,
+        'exam': exam,
+        'course': exam.course,
+    }
+    return render(request, 'dashboard/edit_exam_question.html', context)
+
+
+@login_required
+@user_passes_test(is_staff)
+@require_POST
+def dashboard_delete_exam_question(request, question_id):
+    """Delete an exam question"""
+    question = get_object_or_404(ExamQuestion, id=question_id)
+    exam = question.exam
+    question.delete()
+    messages.success(request, 'Question deleted successfully!')
+    return redirect('dashboard_edit_exam', exam_id=exam.id)
 

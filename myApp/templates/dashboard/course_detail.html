@@ -44,29 +44,33 @@
                         
                         <div class="space-y-6">
                             <div>
-                                <label class="block text-sm font-semibold text-ink mb-2">Course Name *</label>
-                                <input type="text" name="name" value="{{ course.name }}" required
-                                       class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                                <label for="name" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                                    Course Name <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" name="name" id="name" value="{{ course.name }}" required
+                                       class="w-full px-4 py-3 text-sm border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-ink mb-2">Slug *</label>
-                                <input type="text" name="slug" value="{{ course.slug }}" required
-                                       class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                                <label for="slug" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                                    Slug <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" name="slug" id="slug" value="{{ course.slug }}" required
+                                       class="w-full px-4 py-3 text-sm border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                             </div>
 
                             <div class="grid md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-sm font-semibold text-ink mb-2">Course Type</label>
-                                    <select name="course_type" class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                                    <label for="course_type" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">Course Type</label>
+                                    <select name="course_type" id="course_type" class="w-full px-4 py-3 pr-10 text-sm border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3E%3Cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3E%3C/svg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.75rem_center] bg-no-repeat">
                                         {% for value, label in course.COURSE_TYPE_CHOICES %}
                                         <option value="{{ value }}" {% if course.course_type == value %}selected{% endif %}>{{ label }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-semibold text-ink mb-2">Status</label>
-                                    <select name="status" class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                                    <label for="status" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">Status</label>
+                                    <select name="status" id="status" class="w-full px-4 py-3 pr-10 text-sm border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 fill=%27none%27 viewBox=%270 0 20 20%27%3E%3Cpath stroke=%27%236b7280%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%271.5%27 d=%27M6 8l4 4 4-4%27/%3E%3C/svg%3E')] bg-[length:1.5em_1.5em] bg-[right_0.75rem_center] bg-no-repeat">
                                         {% for value, label in course.STATUS_CHOICES %}
                                         <option value="{{ value }}" {% if course.status == value %}selected{% endif %}>{{ label }}</option>
                                         {% endfor %}
@@ -75,26 +79,28 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-ink mb-2">Description *</label>
-                                <textarea name="description" rows="6" required
-                                          class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">{{ course.description }}</textarea>
+                                <label for="description" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">
+                                    Description <span class="text-rose-500">*</span>
+                                </label>
+                                <textarea name="description" id="description" rows="6" required
+                                          class="w-full px-4 py-3 text-sm border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500 min-h-[150px] resize-y">{{ course.description }}</textarea>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-ink mb-2">Short Description</label>
-                                <input type="text" name="short_description" value="{{ course.short_description }}" maxlength="300"
-                                       class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 text-ink">
+                                <label for="short_description" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">Short Description</label>
+                                <input type="text" name="short_description" id="short_description" value="{{ course.short_description }}" maxlength="300"
+                                       class="w-full px-4 py-3 text-sm border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all placeholder:text-slate-400 dark:placeholder:text-slate-500">
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-ink mb-2">Thumbnail</label>
+                                <label for="thumbnail" class="block text-sm font-medium text-slate-900 dark:text-slate-100 mb-2">Thumbnail</label>
                                 {% if course.thumbnail %}
                                 <div class="mb-3">
                                     <img src="{{ course.thumbnail.url }}" alt="{{ course.name }}" class="h-32 w-32 rounded-lg object-cover">
                                 </div>
                                 {% endif %}
-                                <input type="file" name="thumbnail" accept="image/*"
-                                       class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500">
+                                <input type="file" name="thumbnail" id="thumbnail" accept="image/*"
+                                       class="w-full px-4 py-3 text-sm border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 focus:outline-none transition-all">
                             </div>
 
                             <div>
@@ -161,18 +167,116 @@
                     </div>
                     <div class="space-y-2">
                         {% for lesson in lessons %}
-                        <div class="p-3 bg-mist rounded-lg">
-                            <div class="font-medium text-ink text-sm">{{ lesson.title }}</div>
-                            <div class="text-xs text-slate mt-1">{{ lesson.get_formatted_duration }}</div>
+                        <div class="p-3 bg-mist rounded-lg hover:bg-glass transition">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <a href="{% url 'dashboard_edit_lesson' lesson.id %}" 
+                                       class="font-medium text-ink text-sm hover:text-purple-600">
+                                        {{ lesson.title }}
+                                    </a>
+                                    <div class="text-xs text-slate mt-1">{{ lesson.get_formatted_duration }}</div>
+                                    {% if lesson.quiz %}
+                                    <div class="mt-1">
+                                        <span class="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded">Has Quiz</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="flex items-center gap-1 ml-2">
+                                    <a href="{% url 'dashboard_edit_lesson' lesson.id %}" 
+                                       class="text-purple-600 hover:text-purple-700 text-xs"
+                                       title="Edit Lesson">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         {% empty %}
                         <p class="text-sm text-slate text-center py-4">No lessons yet</p>
                         {% endfor %}
                     </div>
-                    <a href="{% url 'dashboard_lessons' %}?course={{ course.id }}" 
-                       class="mt-4 block text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm">
-                        <i class="fas fa-plus mr-2"></i>Manage Lessons
+                    <div class="mt-4 space-y-2">
+                        <a href="{% url 'dashboard_add_lesson' %}" 
+                           class="block text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm">
+                            <i class="fas fa-plus mr-2"></i>Add Lesson
+                        </a>
+                        <a href="{% url 'dashboard_lessons' %}?course={{ course.id }}" 
+                           class="block text-center px-4 py-2 bg-mist text-ink rounded-lg hover:bg-glass transition text-sm">
+                            <i class="fas fa-list mr-2"></i>View All Lessons
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quiz Management -->
+                <div class="bg-ivory border border-glass rounded-xl p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-ink">Quizzes</h3>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        {% for lesson in lessons %}
+                        {% if lesson.quiz %}
+                        <div class="p-3 bg-mist rounded-lg">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <div class="font-medium text-ink text-sm">{{ lesson.title }}</div>
+                                    <div class="text-xs text-slate mt-1">
+                                        {{ lesson.quiz.questions.count }} question{{ lesson.quiz.questions.count|pluralize }} | 
+                                        Passing: {{ lesson.quiz.passing_score }}%
+                                        {% if lesson.quiz.is_required %}
+                                        <span class="text-red-600 ml-1">(Required)</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <a href="{% url 'dashboard_edit_quiz' lesson.quiz.id %}" 
+                                   class="text-purple-600 hover:text-purple-700 text-xs ml-2"
+                                   title="Manage Quiz">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% empty %}
+                        <p class="text-sm text-slate text-center py-2">No lessons yet</p>
+                        {% endfor %}
+                        {% if not lessons %}
+                        <p class="text-sm text-slate text-center py-2">Add lessons first to create quizzes</p>
+                        {% elif not lessons|length %}
+                        <p class="text-sm text-slate text-center py-2">No quizzes yet</p>
+                        {% endif %}
+                    </div>
+                    <p class="text-xs text-slate mb-2">Create quizzes from lesson edit page</p>
+                </div>
+
+                <!-- Exam Management -->
+                <div class="bg-ivory border border-glass rounded-xl p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-ink">Exam</h3>
+                    </div>
+                    {% if course.exam %}
+                    <div class="p-3 bg-mist rounded-lg mb-4">
+                        <div class="font-medium text-ink text-sm">{{ course.exam.title }}</div>
+                        <div class="text-xs text-slate mt-1">
+                            {{ course.exam.questions.count }} question{{ course.exam.questions.count|pluralize }} | 
+                            Passing: {{ course.exam.passing_score }}% | 
+                            {% if course.exam.is_active %}
+                            <span class="text-green-600">Active</span>
+                            {% else %}
+                            <span class="text-red-600">Inactive</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <a href="{% url 'dashboard_edit_exam' course.exam.id %}"
+                       class="block text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm">
+                        <i class="fas fa-edit mr-2"></i>Manage Exam
                     </a>
+                    {% else %}
+                    <div class="p-3 bg-mist rounded-lg mb-4">
+                        <p class="text-sm text-slate">No exam created yet.</p>
+                    </div>
+                    <a href="{% url 'dashboard_add_exam' course.slug %}"
+                       class="block text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm">
+                        <i class="fas fa-plus mr-2"></i>Create Exam
+                    </a>
+                    {% endif %}
                 </div>
 
                 <!-- Quick Stats -->

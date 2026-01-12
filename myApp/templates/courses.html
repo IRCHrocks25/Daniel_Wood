@@ -3,22 +3,24 @@
 {% block title %}Courses - Learning Platform{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-porcelain py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-porcelain py-10">
+    <div class="max-w-7xl mx-auto px-6">
         <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-4xl font-bold text-ink mb-4">Course Catalog</h1>
-            <p class="text-lg text-slate">Discover courses designed to accelerate your career</p>
+        <div class="mb-10">
+            <h1 class="text-4xl font-semibold text-ink tracking-tight mb-2">Course Catalog</h1>
+            <p class="text-sm text-slate leading-6">Discover courses designed to accelerate your career</p>
         </div>
         
         <!-- Filters -->
-        <div class="bg-ivory border border-glass rounded-xl p-4 mb-8">
-            <div class="flex flex-wrap gap-4 items-center">
+        <div class="bg-ivory border border-glass/50 rounded-2xl p-6 mb-10 shadow-soft">
+            <div class="flex flex-wrap gap-6 items-center">
                 {% if user.is_authenticated %}
-                <label class="flex items-center cursor-pointer">
-                    <input type="checkbox" id="filter-favorites" class="mr-2" 
+                <label class="flex items-center cursor-pointer group">
+                    <input type="checkbox" id="filter-favorites" class="w-4 h-4 text-violet-600 border-glass rounded focus:ring-2 focus:ring-violet-500 cursor-pointer" 
                            onchange="window.location.href='?favorites=' + (this.checked ? 'true' : '')">
-                    <span class="text-slate"><i class="fas fa-heart text-red-500 mr-1"></i>My Favorites</span>
+                    <span class="ml-2 text-sm font-medium text-ink group-hover:text-violet-600 transition-colors">
+                        <i class="fas fa-heart text-red-500 mr-1.5"></i>My Favorites
+                    </span>
                 </label>
                 {% endif %}
             </div>
@@ -27,24 +29,24 @@
         <!-- Continue Learning Section -->
         {% if continue_learning %}
         <div class="mb-12">
-            <h2 class="text-2xl font-bold text-ink mb-6">
-                <i class="fas fa-play-circle mr-2 text-purple-600"></i>Continue Learning
+            <h2 class="text-xl font-semibold text-ink mb-6">
+                <i class="fas fa-play-circle mr-2 text-violet-600"></i>Continue Learning
             </h2>
             <div class="grid md:grid-cols-3 gap-6">
                 {% for course in continue_learning %}
-                <div class="bg-ivory border border-glass rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="bg-ivory border border-glass/50 rounded-2xl overflow-hidden shadow-soft hover:shadow-elevated transition-all group">
                     {% if course.thumbnail %}
                     <img src="{{ course.thumbnail.url }}" alt="{{ course.name }}" class="w-full h-48 object-cover">
                     {% else %}
-                    <div class="w-full h-48 bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
-                        <i class="fas fa-book text-6xl text-white opacity-50"></i>
+                    <div class="w-full h-48 bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
+                        <i class="fas fa-book text-6xl text-white/30"></i>
                     </div>
                     {% endif %}
                     <div class="p-6">
-                        <h3 class="text-xl font-bold text-ink mb-2">{{ course.name }}</h3>
-                        <p class="text-sm text-slate mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
+                        <h3 class="text-xl font-semibold text-ink mb-2 leading-tight">{{ course.name }}</h3>
+                        <p class="text-sm text-slate leading-6 mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
                         <a href="{% url 'course_detail' course.slug %}" 
-                           class="inline-block w-full text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                           class="inline-flex items-center justify-center w-full px-4 py-2.5 bg-violet-600 text-white rounded-xl hover:bg-violet-700 transition-all shadow-soft hover:shadow-medium text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
                             Continue Learning
                         </a>
                     </div>
