@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en" class="h-full" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,6 +60,38 @@
                         'soft': '0 2px 8px rgba(15, 23, 42, 0.08)',
                         'medium': '0 4px 12px rgba(15, 23, 42, 0.12)',
                         'elevated': '0 8px 24px rgba(15, 23, 42, 0.16)',
+                        'luxury': '0 12px 32px rgba(15, 23, 42, 0.12), 0 4px 8px rgba(15, 23, 42, 0.08)',
+                        'glow': '0 0 24px rgba(201, 162, 39, 0.15)',
+                        'glow-strong': '0 0 32px rgba(201, 162, 39, 0.25)',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'fade-up': 'fadeUp 0.6s ease-out',
+                        'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                        'scale-in': 'scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                        'glow-pulse': 'glowPulse 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        fadeUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        glowPulse: {
+                            '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+                            '50%': { opacity: '0.6', transform: 'scale(1.05)' },
+                        },
                     }
                 }
             }
@@ -305,121 +337,11 @@
         .dark [class*="bg-"] label {
             color: rgb(241 245 249) !important;
         }
-        
-        /* Premium Animation System - Apple/Stripe/Linear vibe */
-        /* Respect reduced motion preference */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-        
-        /* Card hover animations - subtle lift + scale + shadow + glow */
-        .animate-card-hover {
-            transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
-                        box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1),
-                        border-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .animate-card-hover:hover {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(139, 92, 246, 0.2);
-        }
-        
-        .dark .animate-card-hover:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(139, 92, 246, 0.3);
-        }
-        
-        /* Card press feedback */
-        .animate-card-hover:active {
-            transform: translateY(-1px) scale(0.99);
-            transition: transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        /* Button hover animations */
-        .animate-button-hover {
-            transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
-                        filter 150ms cubic-bezier(0.4, 0, 0.2, 1),
-                        box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .animate-button-hover:hover {
-            transform: translateY(-0.5px);
-            filter: brightness(1.05);
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
-        }
-        
-        .animate-button-hover:active {
-            transform: translateY(0) scale(0.98);
-            transition: transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        /* Icon hover animations */
-        .animate-icon-float {
-            transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .animate-icon-float:hover {
-            transform: translateY(-2px);
-        }
-        
-        .animate-icon-rotate {
-            transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .animate-icon-rotate:hover {
-            transform: rotate(5deg);
-        }
-        
-        /* Progress bar fill animation */
-        .animate-progress-fill {
-            transition: width 800ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        /* Table row hover */
-        .animate-table-row {
-            transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-                        border-left 150ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .animate-table-row:hover {
-            background-color: rgba(241, 245, 249, 0.5);
-            border-left: 3px solid rgba(139, 92, 246, 0.5);
-        }
-        
-        .dark .animate-table-row:hover {
-            background-color: rgba(30, 41, 59, 0.5);
-            border-left: 3px solid rgba(139, 92, 246, 0.6);
-        }
-        
-        /* Staggered entrance animations */
-        .animate-fade-in-up {
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1),
-                        transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .animate-fade-in-up.animate-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Stagger delays */
-        .animate-delay-100 { transition-delay: 100ms; }
-        .animate-delay-200 { transition-delay: 200ms; }
-        .animate-delay-300 { transition-delay: 300ms; }
-        .animate-delay-400 { transition-delay: 400ms; }
-        .animate-delay-500 { transition-delay: 500ms; }
     </style>
     
     {% block extra_head %}{% endblock %}
 </head>
-<body class="h-full bg-porcelain dark:bg-slate-900 antialiased font-sans">
+<body class="loading h-full bg-porcelain dark:bg-slate-900 antialiased font-sans">
     <!-- Universal Preloader -->
     <div id="global-preloader" class="fixed inset-0 z-[9999] bg-charcoal/80 backdrop-blur-sm hidden items-center justify-center">
         <div class="text-center">
@@ -487,9 +409,11 @@
     </div>
     {% endif %}
 
-    <!-- Main Content -->
+    <!-- Main Content - Unified Page Transition System -->
     <main class="min-h-screen">
-        {% block content %}{% endblock %}
+        <div class="page-content" data-page-content="true">
+            {% block content %}{% endblock %}
+        </div>
     </main>
 
     <!-- Footer -->
@@ -586,56 +510,970 @@
             }
         }
 
-        // Premium Animation System - Staggered Entrance Animations
-        // Respects prefers-reduced-motion
-        function initStaggeredAnimations() {
-            // Check for reduced motion preference
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (prefersReducedMotion) {
-                return; // Skip animations if user prefers reduced motion
-            }
-
-            // IntersectionObserver for fade-in-up animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-visible');
-                        observer.unobserve(entry.target);
-                    }
+        // =========================
+        // SAFE HERO FADE-IN ONLY (ONE ANIMATION, NO RISK)
+        // Hero section only, on first load, no scroll triggers
+        // =========================
+        
+        // Hero fade-in (one-time, load-only, safe method)
+        function initHeroFadeIn() {
+            const heroContent = document.getElementById('hero-content');
+            if (!heroContent) return;
+            
+            // Hero starts visible (opacity: 1 in CSS), so we animate from 0 to 1
+            // Add Tailwind transition classes
+            heroContent.classList.add('transition-all', 'duration-500', 'ease-out');
+            
+            // Use requestAnimationFrame to ensure smooth transition without flash
+            requestAnimationFrame(() => {
+                // Set initial state for animation (0, translateY 6px)
+                heroContent.style.opacity = '0';
+                heroContent.style.transform = 'translateY(6px)';
+                
+                // Immediately animate to visible (1, translateY 0)
+                requestAnimationFrame(() => {
+                    heroContent.style.opacity = '1';
+                    heroContent.style.transform = 'translateY(0)';
                 });
-            }, observerOptions);
-
-            // Observe all elements with animate-fade-in-up class
-            document.querySelectorAll('.animate-fade-in-up').forEach(el => {
-                observer.observe(el);
             });
-
-            // Animate progress bars on load
-            document.querySelectorAll('.animate-progress-fill').forEach(progressBar => {
-                const targetWidth = progressBar.style.width || progressBar.getAttribute('data-width');
-                if (targetWidth) {
-                    progressBar.style.width = '0%';
-                    setTimeout(() => {
-                        progressBar.style.width = targetWidth;
-                    }, 100);
+        }
+        
+        // Hero underline animation (simple, one-time, non-visibility affecting)
+        function initHeroUnderline() {
+            const underline = document.querySelector('.underline-animate');
+            if (underline) {
+                setTimeout(() => {
+                    underline.style.width = '100%';
+                }, 500);
+            }
+        }
+        
+        // Safety: Remove any hiding classes from main content
+        function ensureContentVisible() {
+            const main = document.querySelector('main');
+            if (!main) return;
+            
+            // Remove hiding classes from all content
+            const allElements = main.querySelectorAll('*');
+            
+            allElements.forEach(el => {
+                // Skip hero-content (it's handled by fade-in)
+                if (el.id === 'hero-content') return;
+                
+                // Remove opacity-0
+                if (el.classList.contains('opacity-0')) {
+                    el.classList.remove('opacity-0');
+                    el.classList.add('opacity-100');
+                }
+                // Remove invisible
+                if (el.classList.contains('invisible')) {
+                    el.classList.remove('invisible');
+                }
+                // Remove hidden (but preserve responsive utilities)
+                if (el.classList.contains('hidden') && 
+                    !el.classList.contains('sm:block') && 
+                    !el.classList.contains('md:block') && 
+                    !el.classList.contains('lg:block')) {
+                    el.classList.remove('hidden');
                 }
             });
         }
+        
+        // Smooth scrolling for anchor links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure all content is visible first (safety)
+            ensureContentVisible();
+            
+            // Initialize hero fade-in (one-time, load-only, hero only)
+            initHeroFadeIn();
+            
+            // Initialize hero underline animation (simple, non-visibility affecting)
+            initHeroUnderline();
+            
+            // Run safety check again after a brief delay
+            setTimeout(ensureContentVisible, 100);
+            
+            // Navigation link polish - add active state tracking
+            const currentPath = window.location.pathname;
+            document.querySelectorAll('nav a, footer a').forEach(link => {
+                const linkPath = new URL(link.href).pathname;
+                if (linkPath === currentPath || (currentPath === '/' && linkPath === '/')) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Add smooth scroll behavior to anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#' && href.length > 1) {
+                        const targetId = href.substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        if (targetElement) {
+                            e.preventDefault();
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                            // Update URL without jumping
+                            if (history.pushState) {
+                                history.pushState(null, null, href);
+                            }
+                        }
+                    }
+                });
+            });
 
-        // Initialize animations when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initStaggeredAnimations);
-        } else {
-            initStaggeredAnimations();
-        }
+            // Handle hash on page load
+            if (window.location.hash) {
+                const targetId = window.location.hash.substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 100);
+                }
+            }
+        });
     </script>
 
     {% block extra_js %}{% endblock %}
+    
+    <!-- Back-to-Top Scripts (only on landing page) -->
+    {% if request.resolver_match.url_name == 'home' %}
+    <script>
+        // =========================
+        // CHATBOT DISABLED
+        // =========================
+        const CHATBOT_ENABLED = false;
+        
+        // Wait for DOM to be fully loaded before initializing chatbot
+        function initChatbot() {
+            // Chatbot is disabled - return immediately
+            if (!CHATBOT_ENABLED) {
+                return;
+            }
+            'use strict';
+            
+            // Check for reduced motion preference
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            
+            // =========================
+            // CHATBOT FUNCTIONALITY - SINGLE SOURCE OF TRUTH
+            // =========================
+            const chatbotToggle = document.getElementById('chatbot-toggle');
+            const chatbotPanel = document.getElementById('chatbot-panel');
+            const chatbotPanelMobile = document.getElementById('chatbot-panel-mobile');
+            const chatbotBackdrop = document.getElementById('chatbot-backdrop');
+            const chatbotForm = document.getElementById('chatbot-form');
+            const chatbotFormMobile = document.getElementById('chatbot-form-mobile');
+            const chatbotInput = document.getElementById('chatbot-input');
+            const chatbotInputMobile = document.getElementById('chatbot-input-mobile');
+            const chatbotSend = document.getElementById('chatbot-send');
+            const chatbotSendMobile = document.getElementById('chatbot-send-mobile');
+            const chatbotMessages = document.getElementById('chatbot-messages');
+            const chatbotMessagesMobile = document.getElementById('chatbot-messages-mobile');
+            const chatbotTyping = document.getElementById('chatbot-typing');
+            const chatbotTypingMobile = document.getElementById('chatbot-typing-mobile');
+            const quickPromptBtns = document.querySelectorAll('.quick-prompt-btn');
+            
+            // Verify elements exist
+            if (!chatbotToggle) {
+                console.error('Chatbot toggle button not found');
+                return;
+            }
+            
+            // SINGLE SOURCE OF TRUTH - ONE BOOLEAN STATE
+            let isChatOpen = false;
+            let isMobile = window.innerWidth < 768;
+            let lastSendTime = 0;
+            const DEBOUNCE_MS = 1000;
+            
+            // Load chat history from localStorage (DO NOT restore open state)
+            function loadChatHistory() {
+                try {
+                    const saved = localStorage.getItem('swi_chat_history');
+                    
+                    // Only load messages if we have saved history (skip welcome message if history exists)
+                    if (saved) {
+                        const messages = JSON.parse(saved);
+                        if (messages.length > 0) {
+                            // Clear welcome message if we have history
+                            const messagesContainer = isMobile ? chatbotMessagesMobile : chatbotMessages;
+                            if (messagesContainer) {
+                                // Remove welcome message (first child)
+                                const welcomeMsg = messagesContainer.querySelector('.flex.items-start.gap-3');
+                                if (welcomeMsg && !welcomeMsg.classList.contains('chat-message')) {
+                                    welcomeMsg.remove();
+                                }
+                            }
+                            
+                            // Restore messages (but keep panel closed)
+                            messages.forEach(msg => {
+                                if (msg.role === 'user') {
+                                    addUserMessage(msg.text, false);
+                                } else {
+                                    addBotMessage(msg.text, false);
+                                }
+                            });
+                        }
+                    }
+                    
+                    // DO NOT restore open state - always start closed
+                } catch (e) {
+                    console.error('Error loading chat history:', e);
+                }
+            }
+            
+            // Save chat history to localStorage (DO NOT save open state)
+            function saveChatHistory() {
+                try {
+                    const messages = [];
+                    const messageElements = (isMobile ? chatbotMessagesMobile : chatbotMessages).querySelectorAll('.chat-message');
+                    messageElements.forEach(el => {
+                        const role = el.dataset.role;
+                        const text = el.querySelector('p').textContent;
+                        if (role && text) {
+                            messages.push({ role, text });
+                        }
+                    });
+                    localStorage.setItem('swi_chat_history', JSON.stringify(messages));
+                    // DO NOT save open state - always start closed on reload
+                } catch (e) {
+                    console.error('Error saving chat history:', e);
+                }
+            }
+            
+            // UNIFIED TOGGLE FUNCTION - ONE FUNCTION FOR BOTH LAUNCHER AND X BUTTON
+            function toggleChat() {
+                console.log('toggleChat() called, isChatOpen:', isChatOpen); // Debug
+                if (isChatOpen) {
+                    closeChat();
+                } else {
+                    openChat();
+                }
+            }
+            
+            // Open chatbot
+            function openChat() {
+                console.log('openChat() called'); // Debug
+                if (isChatOpen) {
+                    console.log('Chat already open, returning'); // Debug
+                    return;
+                }
+                isChatOpen = true;
+                
+                const panel = isMobile ? chatbotPanelMobile : chatbotPanel;
+                const toggle = document.getElementById('chatbot-toggle');
+                
+                if (!panel || !toggle) {
+                    console.error('Panel or toggle not found', { panel: !!panel, toggle: !!toggle }); // Debug
+                    return;
+                }
+                
+                // Ensure launcher button is always fully opaque and clickable
+                toggle.style.opacity = '1';
+                toggle.style.pointerEvents = 'auto';
+                toggle.style.zIndex = '101';
+                toggle.style.cursor = 'pointer';
+                
+                console.log('Opening chat panel'); // Debug
+                
+                // Show panel (keep DOM mounted - never destroy)
+                panel.classList.remove('hidden');
+                panel.setAttribute('aria-hidden', 'false');
+                toggle.setAttribute('aria-expanded', 'true');
+                
+                // Show backdrop (desktop only)
+                if (!isMobile && chatbotBackdrop) {
+                    chatbotBackdrop.classList.remove('hidden');
+                    chatbotBackdrop.setAttribute('aria-hidden', 'false');
+                }
+                
+                // Animate in (open state: opacity-100 pointer-events-auto translate-y-0 scale-100)
+                requestAnimationFrame(() => {
+                    panel.style.pointerEvents = 'auto';
+                    panel.style.zIndex = '9999';
+                    panel.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2', 'scale-[0.98]');
+                    panel.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0', 'scale-100');
+                    
+                    if (!isMobile && chatbotBackdrop) {
+                        chatbotBackdrop.style.pointerEvents = 'auto';
+                        chatbotBackdrop.style.zIndex = '9998';
+                        chatbotBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+                        chatbotBackdrop.classList.add('opacity-100', 'pointer-events-auto');
+                    }
+                    
+                    // Restore chat history and scroll to bottom
+                    setTimeout(() => {
+                        scrollToBottom();
+                    }, 100);
+                    
+                    // Focus trap
+                    const firstInput = isMobile ? chatbotInputMobile : chatbotInput;
+                    if (firstInput) {
+                        setTimeout(() => firstInput.focus(), 150);
+                    }
+                });
+            }
+            
+            // Close chatbot (preserves chat history - does NOT clear messages)
+            function closeChat() {
+                console.log('closeChat() called'); // Debug
+                if (!isChatOpen) {
+                    console.log('Chat already closed, returning'); // Debug
+                    return;
+                }
+                isChatOpen = false;
+                
+                const panel = isMobile ? chatbotPanelMobile : chatbotPanel;
+                const toggle = document.getElementById('chatbot-toggle');
+                
+                if (!panel || !toggle) {
+                    console.error('Panel or toggle not found', { panel: !!panel, toggle: !!toggle }); // Debug
+                    return;
+                }
+                
+                // Ensure launcher button is always fully opaque and clickable
+                toggle.style.opacity = '1';
+                toggle.style.pointerEvents = 'auto';
+                toggle.style.zIndex = '101';
+                toggle.style.cursor = 'pointer';
+                
+                console.log('Closing chat panel'); // Debug
+                
+                // Save chat history before closing (messages persist)
+                saveChatHistory();
+                
+                // Animate out (closed state: opacity-0 pointer-events-none translate-y-2 scale-[0.98])
+                panel.style.pointerEvents = 'none';
+                panel.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0', 'scale-100');
+                panel.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2', 'scale-[0.98]');
+                panel.setAttribute('aria-hidden', 'true');
+                toggle.setAttribute('aria-expanded', 'false');
+                
+                // Hide backdrop
+                if (chatbotBackdrop) {
+                    chatbotBackdrop.style.pointerEvents = 'none';
+                    chatbotBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+                    chatbotBackdrop.classList.add('opacity-0', 'pointer-events-none');
+                    chatbotBackdrop.setAttribute('aria-hidden', 'true');
+                }
+                
+                // Return focus to toggle button
+                setTimeout(() => {
+                    if (toggle) {
+                        toggle.focus();
+                        toggle.style.opacity = '1';
+                        toggle.style.pointerEvents = 'auto';
+                    }
+                }, 100);
+                
+                // Hide after animation (DOM stays mounted - never destroy)
+                setTimeout(() => {
+                    panel.classList.add('hidden');
+                    if (chatbotBackdrop) {
+                        chatbotBackdrop.classList.add('hidden');
+                    }
+                }, 300);
+            }
+            
+            // Add user message
+            function addUserMessage(text, save = true) {
+                const messagesContainer = isMobile ? chatbotMessagesMobile : chatbotMessages;
+                const messageEl = document.createElement('div');
+                messageEl.className = 'flex items-start gap-3 chat-message animate-fade-up';
+                messageEl.setAttribute('data-role', 'user');
+                messageEl.innerHTML = `
+                    <div class="flex-1 flex justify-end">
+                        <div class="max-w-[80%]">
+                            <div class="rounded-2xl rounded-tr-sm bg-[#0B1220] text-white p-3">
+                                <p class="text-sm leading-relaxed">${escapeHtml(text)}</p>
+                            </div>
+                            <p class="text-xs text-[#9CA3AF] mt-1 text-right">Just now</p>
+                        </div>
+                    </div>
+                `;
+                messagesContainer.appendChild(messageEl);
+                scrollToBottom();
+                if (save) saveChatHistory();
+            }
+            
+            // Add bot message
+            function addBotMessage(text, save = true) {
+                const messagesContainer = isMobile ? chatbotMessagesMobile : chatbotMessages;
+                const typingIndicator = isMobile ? chatbotTypingMobile : chatbotTyping;
+                
+                // Hide typing indicator
+                if (typingIndicator) {
+                    typingIndicator.classList.add('hidden');
+                }
+                
+                const messageEl = document.createElement('div');
+                messageEl.className = 'flex items-start gap-3 chat-message animate-fade-up';
+                messageEl.setAttribute('data-role', 'bot');
+                messageEl.innerHTML = `
+                    <div class="h-8 w-8 rounded-full bg-[#0B1220]/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-robot text-[#0B1220] text-sm"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="rounded-2xl rounded-tl-sm bg-[#F7F7F5] border border-[#E6E8EC] p-3">
+                            <p class="text-sm text-[#475569] leading-relaxed">${escapeHtml(text)}</p>
+                        </div>
+                        <p class="text-xs text-[#9CA3AF] mt-1 ml-1">Just now</p>
+                    </div>
+                `;
+                messagesContainer.appendChild(messageEl);
+                scrollToBottom();
+                if (save) saveChatHistory();
+            }
+            
+            // Show typing indicator
+            function showTyping() {
+                const typingIndicator = isMobile ? chatbotTypingMobile : chatbotTyping;
+                if (typingIndicator) {
+                    typingIndicator.classList.remove('hidden');
+                    scrollToBottom();
+                }
+            }
+            
+            // Scroll to bottom of messages
+            function scrollToBottom() {
+                const messagesContainer = isMobile ? chatbotMessagesMobile : chatbotMessages;
+                if (messagesContainer) {
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            }
+            
+            // Escape HTML
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+            
+            // Send message
+            async function sendMessage(message) {
+                if (!message.trim()) return;
+                
+                const now = Date.now();
+                if (now - lastSendTime < DEBOUNCE_MS) {
+                    return; // Rate limit
+                }
+                lastSendTime = now;
+                
+                // Add user message
+                addUserMessage(message);
+                
+                // Disable input
+                const input = isMobile ? chatbotInputMobile : chatbotInput;
+                const sendBtn = isMobile ? chatbotSendMobile : chatbotSend;
+                if (input) input.disabled = true;
+                if (sendBtn) sendBtn.disabled = true;
+                
+                // Show typing
+                showTyping();
+                
+                try {
+                    const response = await fetch('/api/chat/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '',
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            page_context: {
+                                page: 'landing',
+                                section: getCurrentSection()
+                            }
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        addBotMessage(data.response);
+                    } else {
+                        addBotMessage('I apologize, but I encountered an error. Please try again or contact us directly at hello@swedishwealthinstitute.com');
+                    }
+                } catch (error) {
+                    console.error('Chat error:', error);
+                    addBotMessage('I apologize, but I\'m having trouble connecting right now. Please try again in a moment or contact us at hello@swedishwealthinstitute.com');
+                } finally {
+                    // Re-enable input
+                    if (input) {
+                        input.disabled = false;
+                        input.value = '';
+                        updateSendButton();
+                        input.focus();
+                    }
+                    if (sendBtn) sendBtn.disabled = false;
+                }
+            }
+            
+            // Get current section
+            function getCurrentSection() {
+                const sections = ['hero', 'proof', 'pillars', 'community', 'testimonials', 'cta'];
+                const scrollPos = window.scrollY + 200;
+                for (const section of sections) {
+                    const el = document.getElementById(section);
+                    if (el) {
+                        const rect = el.getBoundingClientRect();
+                        if (rect.top <= scrollPos && rect.bottom >= scrollPos) {
+                            return section;
+                        }
+                    }
+                }
+                return 'unknown';
+            }
+            
+            // Update send button state
+            function updateSendButton() {
+                const input = isMobile ? chatbotInputMobile : chatbotInput;
+                const sendBtn = isMobile ? chatbotSendMobile : chatbotSend;
+                if (input && sendBtn) {
+                    sendBtn.disabled = !input.value.trim();
+                }
+            }
+            
+            // Auto-resize textarea
+            function autoResizeTextarea(textarea) {
+                textarea.style.height = 'auto';
+                textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+            }
+            
+            // Event listeners - ALL use toggleChat() - ONE FUNCTION FOR BOTH LAUNCHER AND X
+            // Launcher button - ALWAYS CLICKABLE - GUARANTEED CLICK WIRING
+            chatbotToggle.style.opacity = '1';
+            chatbotToggle.style.pointerEvents = 'auto';
+            chatbotToggle.style.zIndex = '101';
+            chatbotToggle.style.cursor = 'pointer';
+            
+            // Bind click handler - GUARANTEED TO FIRE
+            chatbotToggle.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Launcher clicked - toggling chat'); // Debug
+                toggleChat();
+                return false;
+            };
+            
+            // Also addEventListener as backup
+            chatbotToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Launcher clicked (addEventListener) - toggling chat'); // Debug
+                toggleChat();
+            }, false);
+            
+            // X button - ALWAYS CLOSES CHAT (does not toggle)
+            // Use capture phase to ensure X button handler runs BEFORE panel handler
+            const chatbotClose = document.getElementById('chatbot-close');
+            const chatbotCloseMobile = document.getElementById('chatbot-close-mobile');
+            
+            if (chatbotClose) {
+                chatbotClose.style.zIndex = '10001';
+                chatbotClose.style.pointerEvents = 'auto';
+                chatbotClose.style.cursor = 'pointer';
+                
+                // Use capture phase (true) so this runs BEFORE panel's stopPropagation
+                chatbotClose.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation(); // Stop all other handlers
+                    console.log('X button clicked - closing chat'); // Debug
+                    closeChat(); // Always close, never toggle
+                }, true); // Capture phase - runs first
+                
+                // Also bind onclick as backup
+                chatbotClose.onclick = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('X button clicked (onclick) - closing chat'); // Debug
+                    closeChat(); // Always close, never toggle
+                    return false;
+                };
+            }
+            
+            if (chatbotCloseMobile) {
+                chatbotCloseMobile.style.zIndex = '10001';
+                chatbotCloseMobile.style.pointerEvents = 'auto';
+                chatbotCloseMobile.style.cursor = 'pointer';
+                
+                // Use capture phase (true) so this runs BEFORE panel's stopPropagation
+                chatbotCloseMobile.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation(); // Stop all other handlers
+                    console.log('X button (mobile) clicked - closing chat'); // Debug
+                    closeChat(); // Always close, never toggle
+                }, true); // Capture phase - runs first
+                
+                // Also bind onclick as backup
+                chatbotCloseMobile.onclick = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('X button (mobile) clicked (onclick) - closing chat'); // Debug
+                    closeChat(); // Always close, never toggle
+                    return false;
+                };
+            }
+            
+            // Backdrop click to close (desktop only)
+            if (chatbotBackdrop) {
+                chatbotBackdrop.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeChat(); // Always close, don't toggle
+                });
+            }
+            
+            // Prevent panel clicks from closing (but allow X button clicks)
+            // Use bubble phase (false) so X button's capture handler runs first
+            if (chatbotPanel) {
+                chatbotPanel.addEventListener('click', function(e) {
+                    // Check if click is on X button or its children
+                    const clickedClose = e.target.closest('#chatbot-close') || 
+                                       e.target.closest('button[id="chatbot-close"]') ||
+                                       (e.target.id === 'chatbot-close');
+                    
+                    if (clickedClose) {
+                        // Don't interfere with X button click
+                        return;
+                    }
+                    // Only stop propagation for other panel clicks
+                    e.stopPropagation();
+                }, false); // Bubble phase - runs after capture
+            }
+            
+            if (chatbotPanelMobile) {
+                chatbotPanelMobile.addEventListener('click', function(e) {
+                    // Check if click is on X button or its children
+                    const clickedClose = e.target.closest('#chatbot-close-mobile') || 
+                                       e.target.closest('button[id="chatbot-close-mobile"]') ||
+                                       (e.target.id === 'chatbot-close-mobile');
+                    
+                    if (clickedClose) {
+                        // Don't interfere with X button click
+                        return;
+                    }
+                    // Only stop propagation for other panel clicks
+                    e.stopPropagation();
+                }, false); // Bubble phase - runs after capture
+            }
+            
+            // Quick prompt buttons
+            document.querySelectorAll('.quick-prompt-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const prompt = btn.dataset.prompt;
+                    if (prompt) {
+                        if (!isChatOpen) openChat();
+                        setTimeout(() => {
+                            sendMessage(prompt);
+                        }, 300);
+                    }
+                });
+            });
+            
+            // Form submission
+            if (chatbotForm) {
+                chatbotForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const message = chatbotInput.value.trim();
+                    if (message) {
+                        sendMessage(message);
+                    }
+                });
+            }
+            
+            if (chatbotFormMobile) {
+                chatbotFormMobile.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const message = chatbotInputMobile.value.trim();
+                    if (message) {
+                        sendMessage(message);
+                    }
+                });
+            }
+            
+            // Input handlers
+            if (chatbotInput) {
+                chatbotInput.addEventListener('input', () => {
+                    updateSendButton();
+                    autoResizeTextarea(chatbotInput);
+                });
+                
+                chatbotInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        if (chatbotInput.value.trim()) {
+                            chatbotForm.dispatchEvent(new Event('submit'));
+                        }
+                    }
+                });
+            }
+            
+            if (chatbotInputMobile) {
+                chatbotInputMobile.addEventListener('input', () => {
+                    updateSendButton();
+                    autoResizeTextarea(chatbotInputMobile);
+                });
+                
+                chatbotInputMobile.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        if (chatbotInputMobile.value.trim()) {
+                            chatbotFormMobile.dispatchEvent(new Event('submit'));
+                        }
+                    }
+                });
+            }
+            
+            // ESC key to close
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isChatOpen) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeChat(); // Always close, don't toggle
+                }
+            });
+            
+            // Handle window resize
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    const wasMobile = isMobile;
+                    isMobile = window.innerWidth < 768;
+                    if (wasMobile !== isMobile && isChatOpen) {
+                        closeChat();
+                        setTimeout(openChat, 100);
+                    }
+                }, 250);
+            });
+            
+            // Load chat history on page load (but keep panel closed)
+            loadChatHistory();
+            
+            // Force closed state on init (bulletproof - always start closed)
+            isChatOpen = false;
+            const panel = isMobile ? chatbotPanelMobile : chatbotPanel;
+            if (panel) {
+                panel.classList.add('hidden', 'opacity-0', 'pointer-events-none', 'translate-y-2', 'scale-[0.98]');
+                panel.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0', 'scale-100');
+                panel.setAttribute('aria-hidden', 'true');
+                panel.style.pointerEvents = 'none';
+            }
+            if (chatbotBackdrop) {
+                chatbotBackdrop.classList.add('hidden', 'opacity-0', 'pointer-events-none');
+                chatbotBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+                chatbotBackdrop.setAttribute('aria-hidden', 'true');
+                chatbotBackdrop.style.pointerEvents = 'none';
+            }
+            if (chatbotToggle) {
+                chatbotToggle.setAttribute('aria-expanded', 'false');
+            }
+        }
+        
+        // Initialize chatbot when DOM is ready (only if enabled)
+        if (CHATBOT_ENABLED) {
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initChatbot);
+            } else {
+                // DOM already loaded
+                initChatbot();
+            }
+        }
+        
+        // =========================
+        // BACK TO TOP BUTTON (ALWAYS ENABLED)
+        // =========================
+        function initBackToTop() {
+            const backToTopBtn = document.getElementById('back-to-top');
+            if (!backToTopBtn) return;
+            
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let lastScrollTop = 0;
+            const SCROLL_THRESHOLD = 400;
+            
+            function updateBackToTop() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (scrollTop > SCROLL_THRESHOLD) {
+                    backToTopBtn.style.opacity = '1';
+                    backToTopBtn.style.pointerEvents = 'auto';
+                    backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                    backToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
+                    
+                    // More prominent when scrolling up
+                    if (scrollTop < lastScrollTop && !prefersReducedMotion) {
+                        backToTopBtn.classList.add('scale-110');
+                    } else {
+                        backToTopBtn.classList.remove('scale-110');
+                    }
+                } else {
+                    backToTopBtn.style.opacity = '0';
+                    backToTopBtn.style.pointerEvents = 'none';
+                    backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                    backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto', 'scale-110');
+                }
+                
+                lastScrollTop = scrollTop;
+            }
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: prefersReducedMotion ? 'auto' : 'smooth'
+                });
+            });
+            
+            // Throttled scroll listener
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                if (!scrollTimeout) {
+                    scrollTimeout = requestAnimationFrame(() => {
+                        updateBackToTop();
+                        scrollTimeout = null;
+                    });
+                }
+            }, { passive: true });
+            
+            // Initial check
+            updateBackToTop();
+        }
+        
+        // Initialize Back-to-Top on all pages
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initBackToTop);
+        } else {
+            initBackToTop();
+        }
+    </script>
+    
+    <style>
+        /* =========================
+           FORCE ALL CONTENT VISIBLE - NO MOTION
+           Production stability fix - all content visible immediately
+        ========================= */
+        
+        /* Force all main content visible */
+        main, main *, section, section * {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        /* Hero section - ALWAYS visible */
+        #hero, #hero *, #hero h1, #hero h2, #hero h3, #hero p, #hero .lead,
+        #hero .hero-line-1, #hero .hero-line-2, #hero .hero-accent,
+        #hero a, #hero button, #hero .luxury-button {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        /* Hero content - starts visible (failsafe) */
+        #hero-content {
+            opacity: 1 !important; /* Start visible - readable even if JS fails */
+            transform: translateY(0) !important;
+        }
+        
+        /* Hero fade-in animation (only when JS adds transition classes) */
+        #hero-content.transition-all {
+            /* Transition will be handled by inline styles from JS */
+        }
+        
+        /* Remove any hiding classes */
+        .opacity-0, .invisible {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        /* Hero underline - visible immediately */
+        .underline-animate {
+            width: 100% !important;
+        }
+        
+        /* Hero lines - ALWAYS visible */
+        .hero-line-1,
+        .hero-line-2,
+        .hero-accent {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            visibility: visible !important;
+        }
+        
+        /* Ensure sections never collapse */
+        section {
+            position: relative;
+            display: block;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        /* Prevent content clipping */
+        .overflow-hidden {
+            overflow-x: hidden;
+        }
+        
+        /* Footer never overlaps */
+        footer {
+            margin-top: 4rem;
+            padding-bottom: 2rem;
+        }
+        
+        /* Hairline Separators */
+        .hairline {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(226, 232, 240, 0.8), transparent);
+        }
+        
+        .dark .hairline {
+            background: linear-gradient(90deg, transparent, rgba(51, 65, 85, 0.8), transparent);
+        }
+        
+        /* Luxury Dark Mode */
+        .dark {
+            color-scheme: dark;
+        }
+        
+        .dark .luxury-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+            border-color: rgba(51, 65, 85, 0.5);
+        }
+        
+        /* Prevent flash of unstyled content */
+        html {
+            visibility: visible;
+        }
+        
+        body, body.loading, body.loaded {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    </style>
+    {% endif %}
+    
+    <!-- Floating Actions (Back-to-Top) - BODY LEVEL - Only on landing page -->
+    {% if request.resolver_match.url_name == 'home' %}
+    <!-- Chatbot disabled -->
+    <!-- Back-to-Top Button -->
+    <div id="floating-actions" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100; display: flex; flex-direction: row; align-items: center; gap: 0.75rem; pointer-events: none;">
+      <button
+        id="back-to-top"
+        type="button"
+        class="h-12 w-12 rounded-full bg-white/95 dark:bg-[#1E293B]/95 backdrop-blur-md border border-[#E6E8EC] dark:border-[#334155] text-[#0B1220] dark:text-white shadow-luxury hover:shadow-glow hover:scale-110 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#C9A227]/50 focus:ring-offset-2 group luxury-button"
+        aria-label="Back to top"
+        style="opacity: 0; pointer-events: none;"
+      >
+        <i class="fas fa-arrow-up group-hover:-translate-y-0.5 transition-transform duration-300"></i>
+        <span class="sr-only">Back to top</span>
+      </button>
+    </div>
+    {% endif %}
 </body>
 </html>
 

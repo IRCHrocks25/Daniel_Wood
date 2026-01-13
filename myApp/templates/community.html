@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Community - Swedish Wealth Institute{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#F7F7F5] dark:bg-[#0F172A] py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 section-content">
+            <h1 class="text-4xl sm:text-5xl font-semibold text-[#0B1220] dark:text-white tracking-tight mb-6">
+                Our Community
+            </h1>
+            <p class="text-lg text-[#475569] dark:text-[#CBD5E1] max-w-2xl mx-auto text-content">
+                A high-trust environment built for bold action and real connection.
+            </p>
+        </div>
+        
+        <div class="bg-white dark:bg-[#1E293B] rounded-3xl border border-[#E6E8EC] dark:border-[#334155] shadow-soft p-8 sm:p-10 section-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="luxury-card rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-[#F7F7F5] dark:bg-[#0F172A] p-6">
+                    <div class="flex items-start gap-4">
+                        <span class="h-12 w-12 rounded-2xl bg-[#0B1220]/10 dark:bg-white/10 flex items-center justify-center shrink-0">
+                            <i class="fas fa-user-check text-[#0B1220] dark:text-white"></i>
+                        </span>
+                        <div>
+                            <h3 class="font-semibold text-[#0B1220] dark:text-white mb-2">Vetted Experts Only</h3>
+                            <p class="text-sm text-[#6B7280] dark:text-[#94A3B8]">We showcase proof. No hype. No guessing. You meet mentors who are battle-tested.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="luxury-card rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-[#F7F7F5] dark:bg-[#0F172A] p-6">
+                    <div class="flex items-start gap-4">
+                        <span class="h-12 w-12 rounded-2xl bg-[#C9A227]/15 dark:bg-[#C9A227]/20 flex items-center justify-center shrink-0">
+                            <i class="fas fa-handshake text-[#C9A227]"></i>
+                        </span>
+                        <div>
+                            <h3 class="font-semibold text-[#0B1220] dark:text-white mb-2">High-Trust Community</h3>
+                            <p class="text-sm text-[#6B7280] dark:text-[#94A3B8]">You're supported, challenged, and seen—by people who don't just talk about growth. They live it.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-[#E6E8EC] pt-8 text-center">
+                <p class="text-[#475569] mb-6">Ready to join the movement?</p>
+                <a href="{% url 'courses' %}" class="inline-flex items-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition">
+                    <i class="fas fa-door-open"></i>
+                    <span>Explore Programs</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="mt-8 text-center">
+            <a href="{% url 'home' %}" class="inline-flex items-center gap-2 text-[#475569] hover:text-[#0B1220] transition">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

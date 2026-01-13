@@ -119,6 +119,7 @@ def revoke_course_access(user, course, revoked_by, reason='', notes=''):
 def get_user_accessible_courses(user):
     """
     Get all courses that user has active access to.
+    Uses the same logic as has_course_access() to ensure consistency.
     
     Returns:
         QuerySet: Courses with active access
@@ -126,15 +127,37 @@ def get_user_accessible_courses(user):
     if not user.is_authenticated:
         return Course.objects.none()
     
+    accessible_course_ids = set()
+    
+    # 1. Courses with active CourseAccess records
     active_access = CourseAccess.objects.filter(
         user=user,
         status='unlocked'
     ).exclude(
         expires_at__lt=timezone.now()
     )
+    accessible_course_ids.update(active_access.values_list('course_id', flat=True))
     
-    course_ids = active_access.values_list('course_id', flat=True)
-    return Course.objects.filter(id__in=course_ids)
+    # 2. Courses with CourseEnrollment (legacy support)
+    enrollments = CourseEnrollment.objects.filter(user=user)
+    accessible_course_ids.update(enrollments.values_list('course_id', flat=True))
+    
+    # 3. Public courses with open enrollment
+    public_courses = Course.objects.filter(
+        visibility='public',
+        enrollment_method='open',
+        status='active'
+    )
+    accessible_course_ids.update(public_courses.values_list('id', flat=True))
+    
+    # 4. Courses where user has progress (if they can view it, they have access)
+    from myApp.models import UserProgress
+    progress_courses = UserProgress.objects.filter(
+        user=user
+    ).values_list('lesson__course_id', flat=True).distinct()
+    accessible_course_ids.update(progress_courses)
+    
+    return Course.objects.filter(id__in=accessible_course_ids)
 
 
 def get_courses_by_visibility(user):

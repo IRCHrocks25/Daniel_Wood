@@ -1,47 +1,48 @@
 <!-- =========================
   PILLARS — Courses section (Billion-dollar editorial)
   Upgrades:
-  - Premium intro header with subtle “gold” accent + micro-proof
+  - Premium intro header with subtle "gold" accent + micro-proof
   - Each pillar card feels like a luxury editorial spread (image treatment, label, outcomes, CTA)
   - Better hierarchy + tighter typography rhythm
   - Mobile-first: stacked cleanly, no awkward spacing
   - Tailwind-only + Font Awesome only
 ========================= -->
-<section class="relative py-24 bg-[#F7F7F5] overflow-hidden">
+<section id="pillars" class="section-content relative py-24 sm:py-28 lg:py-32 bg-gradient-to-b from-[#F7F7F5] to-white dark:from-[#0F172A] dark:to-[#1E293B] overflow-hidden min-h-[800px]">
   <!-- soft ambient glows -->
-  <div class="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full bg-[#C9A227]/15 blur-3xl"></div>
-  <div class="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-[#0B1220]/10 blur-3xl"></div>
+  <div class="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full bg-[#C9A227]/15 dark:bg-[#C9A227]/10 blur-3xl animate-pulse"></div>
+  <div class="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-[#0B1220]/10 dark:bg-[#C9A227]/5 blur-3xl"></div>
 
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <!-- Intro -->
-    <div class="mb-16 lg:mb-20 max-w-4xl">
-      <div class="inline-flex items-center gap-3 rounded-full border border-[#E6E8EC] bg-white/80 px-4 py-2 text-sm text-[#475569] shadow-sm">
-        <span class="h-7 w-7 rounded-full bg-[#C9A227]/15 flex items-center justify-center">
+    <!-- Intro - FIXED SPACING TO PREVENT COLLAPSE -->
+    <div class="mb-16 lg:mb-20 max-w-4xl min-h-[400px] sm:min-h-[450px]">
+      <div class="inline-flex items-center gap-3 rounded-full border border-[#E6E8EC] dark:border-[#334155] bg-white/90 dark:bg-[#1E293B]/90 backdrop-blur-sm px-4 py-2 text-sm text-[#475569] dark:text-[#CBD5E1] shadow-soft hover:shadow-medium transition-all duration-300">
+        <span class="h-7 w-7 rounded-full bg-[#C9A227]/15 dark:bg-[#C9A227]/20 flex items-center justify-center">
           <i class="fas fa-layer-group text-[#C9A227] text-xs"></i>
         </span>
         <span class="font-medium">Pillars-first learning.</span>
-        <span class="text-[#9CA3AF]">•</span>
+        <span class="text-[#9CA3AF] dark:text-[#64748B]">•</span>
         <span class="font-medium">Built for action.</span>
-        <span class="text-[#9CA3AF]">•</span>
+        <span class="text-[#9CA3AF] dark:text-[#64748B]">•</span>
         <span class="font-medium">Designed for leaders.</span>
       </div>
 
-      <h2 class="mt-7 text-4xl sm:text-5xl lg:text-6xl font-semibold text-[#0B1220] tracking-tight leading-[1.05]">
+      <h2 class="mt-7 text-4xl sm:text-5xl lg:text-6xl font-semibold text-[#0B1220] dark:text-white tracking-tight leading-[1.05]">
         The Pillars of Personal Power
-        <span class="block mt-3 text-lg sm:text-xl font-medium text-[#475569]">
+        <span class="block mt-3 text-lg sm:text-xl font-medium text-[#475569] dark:text-[#CBD5E1]">
           Three foundations. One outcome: ownership of your future.
         </span>
       </h2>
 
-      <div class="mt-10 space-y-6 text-lg sm:text-xl text-[#475569] leading-relaxed">
+      <!-- "We don't overwhelm you..." foundation paragraph - RESTORED WITH PROPER SPACING -->
+      <div class="mt-10 sm:mt-12 space-y-6 text-lg sm:text-xl text-[#475569] dark:text-[#CBD5E1] leading-relaxed min-h-[120px]">
         <p class="text-xl sm:text-2xl">
           We don't overwhelm you with information.
-          <span class="text-[#0B1220] font-semibold"> We give you the foundations that actually change lives.</span>
+          <span class="text-[#0B1220] dark:text-white font-semibold"> We give you the foundations that actually change lives.</span>
         </p>
         <p class="text-xl sm:text-2xl">
           Every experience inside Swedish Wealth Institute is designed to strengthen one thing:
-          <span class="text-[#0B1220] font-semibold"> your ability to take ownership of your time, your money, and your future.</span>
+          <span class="text-[#0B1220] dark:text-white font-semibold"> your ability to take ownership of your time, your money, and your future.</span>
         </p>
       </div>
 
@@ -89,7 +90,7 @@
       <!-- =========================
         PILLAR CARD — Assets Mastery
       ========================= -->
-      <div class="group rounded-3xl border border-[#E6E8EC] bg-white shadow-sm overflow-hidden hover:shadow-md transition">
+      <div class="luxury-card group rounded-3xl border border-[#E6E8EC] dark:border-[#334155] bg-white/95 dark:bg-[#1E293B]/95 backdrop-blur-sm shadow-medium overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12">
           <!-- Image -->
           <div class="relative lg:col-span-5">
@@ -175,12 +176,14 @@
             <!-- CTAs -->
             <div class="mt-8 flex flex-col sm:flex-row gap-3">
               <a href="{% url 'courses' %}"
-                 class="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition">
+                 class="luxury-button group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] dark:bg-white dark:text-[#0B1220] px-6 py-4 text-white font-semibold shadow-medium hover:shadow-luxury focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2"
+                 aria-label="Explore Assets Mastery programs">
                 <span>Explore Assets Mastery</span>
-                <i class="fas fa-arrow-right text-white/70 group-hover:text-white transition"></i>
+                <i class="fas fa-arrow-right text-white/70 dark:text-[#0B1220]/70 group-hover:text-white dark:group-hover:text-[#0B1220] transition"></i>
               </a>
               <a href="{% url 'courses' %}"
-                 class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E6E8EC] bg-white px-6 py-4 text-[#0B1220] font-semibold hover:bg-[#F2F4F7] transition">
+                 class="luxury-button inline-flex items-center justify-center gap-2 rounded-xl border border-[#E6E8EC] dark:border-[#334155] bg-white dark:bg-[#1E293B] px-6 py-4 text-[#0B1220] dark:text-white font-semibold hover:bg-[#F2F4F7] dark:hover:bg-[#334155] transition focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2"
+                 aria-label="View all programs">
                 <i class="fas fa-list-ul"></i>
                 <span>View all programs</span>
               </a>
@@ -192,7 +195,7 @@
       <!-- =========================
         PILLAR CARD — Financial Literacy
       ========================= -->
-      <div class="group rounded-3xl border border-[#E6E8EC] bg-white shadow-sm overflow-hidden hover:shadow-md transition">
+      <div class="luxury-card group rounded-3xl border border-[#E6E8EC] dark:border-[#334155] bg-white/95 dark:bg-[#1E293B]/95 backdrop-blur-sm shadow-medium overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12">
           <div class="relative lg:col-span-5">
             <img
@@ -271,12 +274,14 @@
 
             <div class="mt-8 flex flex-col sm:flex-row gap-3">
               <a href="{% url 'courses' %}"
-                 class="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition">
+                 class="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2"
+                 aria-label="Explore Financial Literacy programs">
                 <span>Explore Financial Literacy</span>
                 <i class="fas fa-arrow-right text-white/70 group-hover:text-white transition"></i>
               </a>
               <a href="{% url 'courses' %}"
-                 class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E6E8EC] bg-white px-6 py-4 text-[#0B1220] font-semibold hover:bg-[#F2F4F7] transition">
+                 class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E6E8EC] bg-white px-6 py-4 text-[#0B1220] font-semibold hover:bg-[#F2F4F7] transition focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2"
+                 aria-label="View all programs">
                 <i class="fas fa-list-ul"></i>
                 <span>View all programs</span>
               </a>
@@ -288,7 +293,7 @@
       <!-- =========================
         PILLAR CARD — Time Management
       ========================= -->
-      <div class="group rounded-3xl border border-[#E6E8EC] bg-white shadow-sm overflow-hidden hover:shadow-md transition">
+      <div class="luxury-card group rounded-3xl border border-[#E6E8EC] dark:border-[#334155] bg-white/95 dark:bg-[#1E293B]/95 backdrop-blur-sm shadow-medium overflow-hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12">
           <div class="relative lg:col-span-5">
             <img
@@ -367,12 +372,14 @@
 
             <div class="mt-8 flex flex-col sm:flex-row gap-3">
               <a href="{% url 'courses' %}"
-                 class="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition">
+                 class="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2"
+                 aria-label="Explore Time Management programs">
                 <span>Explore Time Management</span>
                 <i class="fas fa-arrow-right text-white/70 group-hover:text-white transition"></i>
               </a>
               <a href="{% url 'courses' %}"
-                 class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E6E8EC] bg-white px-6 py-4 text-[#0B1220] font-semibold hover:bg-[#F2F4F7] transition">
+                 class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E6E8EC] bg-white px-6 py-4 text-[#0B1220] font-semibold hover:bg-[#F2F4F7] transition focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2"
+                 aria-label="View all programs">
                 <i class="fas fa-list-ul"></i>
                 <span>View all programs</span>
               </a>

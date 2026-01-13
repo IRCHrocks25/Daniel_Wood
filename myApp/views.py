@@ -14,12 +14,57 @@ from .models import (
     UserProgress, CourseEnrollment, FavoriteCourse, Certification, Exam, ExamAttempt,
     CourseAccess, Bundle, BundlePurchase, Cohort, CohortMember
 )
-from .utils.access import has_course_access, get_courses_by_visibility, check_course_prerequisites
+from .utils.access import has_course_access, get_courses_by_visibility, get_user_accessible_courses, check_course_prerequisites
 
 
 def home(request):
     """Landing page"""
     return render(request, 'landing.html')
+
+
+def coming_soon(request):
+    """Placeholder page for features coming soon"""
+    return render(request, 'coming_soon.html')
+
+
+def contact(request):
+    """Contact page"""
+    return render(request, 'contact.html')
+
+
+def about(request):
+    """About page"""
+    return render(request, 'about.html')
+
+
+def testimonials(request):
+    """Testimonials page - scrolls to testimonials section on landing page"""
+    return redirect('/#testimonials')
+
+
+def events(request):
+    """Events page"""
+    return render(request, 'events.html')
+
+
+def community(request):
+    """Community page"""
+    return render(request, 'community.html')
+
+
+def updates(request):
+    """Updates/Blog page"""
+    return render(request, 'updates.html')
+
+
+def terms(request):
+    """Terms of Service page"""
+    return render(request, 'terms.html')
+
+
+def privacy(request):
+    """Privacy Policy page"""
+    return render(request, 'privacy.html')
 
 
 def login_view(request):
@@ -51,34 +96,136 @@ def logout_view(request):
 
 def courses(request):
     """Course catalog page"""
-    if request.user.is_authenticated:
-        courses_dict = get_courses_by_visibility(request.user)
-        my_courses = courses_dict['my_courses']
-        available = courses_dict['available_to_unlock']
-    else:
-        my_courses = Course.objects.none()
-        available = Course.objects.filter(visibility='public', status='active')
+    import logging
+    logger = logging.getLogger(__name__)
     
-    # Get favorites if authenticated
-    favorited_ids = []
+    # Check favorites filter
+    filter_favorites = request.GET.get('favorites') == 'true'
+    
     if request.user.is_authenticated:
+        # Get accessible courses using the same logic as has_course_access()
+        accessible_courses = get_user_accessible_courses(request.user)
+        accessible_course_ids = set(accessible_courses.values_list('id', flat=True))
+        
+        # Also include courses where user has progress (bulletproof check)
+        progress_course_ids = set(UserProgress.objects.filter(
+            user=request.user
+        ).values_list('lesson__course_id', flat=True).distinct())
+        
+        # Union both sets - if user has progress, they have access
+        all_accessible_ids = accessible_course_ids | progress_course_ids
+        
+        # Get favorites
         favorited_ids = list(FavoriteCourse.objects.filter(user=request.user).values_list('course_id', flat=True))
-    
-    # Continue learning - courses with progress
-    continue_learning = []
-    if request.user.is_authenticated:
-        progress_courses = UserProgress.objects.filter(
-            user=request.user,
-            status__in=['in_progress', 'completed'],
-            lesson__course__in=my_courses
-        ).values_list('lesson__course_id', flat=True).distinct()
-        continue_learning = Course.objects.filter(id__in=progress_courses)
+        
+        # Get all active courses
+        all_active_courses = Course.objects.filter(status='active')
+        
+        # My Courses: courses in accessible set
+        my_courses_qs = Course.objects.filter(id__in=all_accessible_ids)
+        
+        # Available Courses: active courses NOT in accessible set
+        available_qs = all_active_courses.exclude(id__in=all_accessible_ids).filter(
+            visibility__in=['public', 'members_only']
+        )
+        
+        # Pre-calculate progress for ALL courses (my_courses + available)
+        all_courses_for_progress = list(my_courses_qs) + list(available_qs)
+        course_progress_map = {}
+        
+        for course in all_courses_for_progress:
+            total_lessons = course.lesson_set.count()
+            completed_lessons = UserProgress.objects.filter(
+                user=request.user,
+                lesson__course=course,
+                completed=True
+            ).count()
+            
+            # Calculate percentage and clamp between 0 and 100
+            if total_lessons > 0:
+                course_progress = int((completed_lessons / total_lessons) * 100)
+                course_progress = max(0, min(100, course_progress))  # Clamp to 0-100
+            else:
+                course_progress = 0
+            
+            course_progress_map[course.id] = {
+                'progress': course_progress,
+                'completed': course_progress == 100,
+                'total_lessons': total_lessons,
+                'completed_lessons': completed_lessons,
+            }
+            
+            logger.info(f"[PROGRESS DEBUG] Course: {course.name} (ID: {course.id}), User: {request.user.username} (ID: {request.user.id}), Completed: {completed_lessons}/{total_lessons}, Progress: {course_progress}%")
+        
+        # Build Continue Learning: My Courses with progress > 0 and < 100%
+        continue_learning_ids = [
+            course_id for course_id, data in course_progress_map.items()
+            if course_id in all_accessible_ids and data['progress'] > 0 and data['progress'] < 100
+        ]
+        continue_learning_qs = Course.objects.filter(id__in=continue_learning_ids)
+        
+        # My Courses: ALL accessible courses (including 100% completed)
+        # Filter by favorites if requested
+        my_courses_filtered = my_courses_qs
+        if filter_favorites:
+            my_courses_filtered = my_courses_filtered.filter(id__in=favorited_ids)
+        
+        # Continue Learning: filter by favorites if requested
+        continue_learning_filtered = continue_learning_qs
+        if filter_favorites:
+            continue_learning_filtered = continue_learning_filtered.filter(id__in=favorited_ids)
+        
+        # Available: filter by favorites if requested
+        available_filtered = available_qs
+        if filter_favorites:
+            available_filtered = available_filtered.filter(id__in=favorited_ids)
+        
+        # Attach progress data to course objects
+        my_courses_list = list(my_courses_filtered)
+        continue_learning_list = list(continue_learning_filtered)
+        available_list = list(available_filtered)
+        
+        for course in my_courses_list + continue_learning_list + available_list:
+            if course.id in course_progress_map:
+                data = course_progress_map[course.id]
+                course.user_progress_percent = data['progress']
+                course.is_completed = data['completed']
+            else:
+                course.user_progress_percent = 0
+                course.is_completed = False
+            course.is_favorited = course.id in favorited_ids
+        
+        # Debug output
+        logger.info(f"[COURSES DEBUG] User: {request.user.username} (ID: {request.user.id})")
+        logger.info(f"[COURSES DEBUG] Filter favorites: {filter_favorites}")
+        logger.info(f"[COURSES DEBUG] Accessible course IDs (from access): {sorted(accessible_course_ids)}")
+        logger.info(f"[COURSES DEBUG] Progress course IDs (from UserProgress): {sorted(progress_course_ids)}")
+        logger.info(f"[COURSES DEBUG] All accessible IDs (union): {sorted(all_accessible_ids)}")
+        logger.info(f"[COURSES DEBUG] My Courses count: {len(my_courses_list)}, IDs: {[c.id for c in my_courses_list]}")
+        logger.info(f"[COURSES DEBUG] Continue Learning count: {len(continue_learning_list)}, IDs: {[c.id for c in continue_learning_list]}")
+        logger.info(f"[COURSES DEBUG] Available count: {len(available_list)}, IDs: {[c.id for c in available_list]}")
+        logger.info(f"[COURSES DEBUG] Favorited IDs: {favorited_ids}")
+        
+    else:
+        my_courses_list = []
+        continue_learning_list = []
+        available_qs = Course.objects.filter(visibility='public', status='active')
+        if filter_favorites:
+            available_qs = available_qs.none()  # Can't favorite when not logged in
+        available_list = list(available_qs)
+        favorited_ids = []
+        
+        for course in available_list:
+            course.user_progress_percent = 0
+            course.is_completed = False
+            course.is_favorited = False
     
     context = {
-        'my_courses': my_courses,
-        'available_courses': available,
-        'continue_learning': continue_learning,
+        'my_courses': my_courses_list,
+        'available_courses': available_list,
+        'continue_learning': continue_learning_list,
         'favorited_ids': favorited_ids,
+        'filter_favorites': filter_favorites,
     }
     return render(request, 'courses.html', context)
 
@@ -107,10 +254,14 @@ def course_detail(request, course_slug):
         progress_records = UserProgress.objects.filter(user=request.user, lesson__course=course)
         for progress in progress_records:
             user_progress[progress.lesson_id] = progress
-        lessons_list = list(lessons)
-        if lessons_list:
-            total_progress = sum(p.progress_percentage for p in progress_records)
-            course_progress = int(total_progress / len(lessons_list)) if lessons_list else 0
+        # Calculate progress based on completed lessons count
+        total_lessons = lessons.count()
+        completed_lessons = UserProgress.objects.filter(
+            user=request.user,
+            lesson__course=course,
+            completed=True
+        ).count()
+        course_progress = int((completed_lessons / total_lessons * 100)) if total_lessons > 0 else 0
     
     # Check if favorited
     is_favorited = False

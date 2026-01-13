@@ -42,7 +42,7 @@
                     </thead>
                     <tbody class="bg-ivory divide-y divide-glass">
                         {% for student in students %}
-                        <tr class="animate-table-row">
+                        <tr class="hover:bg-mist transition-colors">
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
                                     <div class="h-10 w-10 rounded-full bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
@@ -67,8 +67,8 @@
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <a href="{% url 'dashboard_student_detail' student.id %}" 
-                                   class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 animate-button-hover text-sm">
-                                    <i class="fas fa-user-circle mr-2 animate-icon-rotate"></i>View Details
+                                   class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm">
+                                    <i class="fas fa-user-circle mr-2"></i>View Details
                                 </a>
                             </td>
                         </tr>

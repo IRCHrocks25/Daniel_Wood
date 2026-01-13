@@ -85,13 +85,19 @@ class Course(models.Model):
         return self.lesson_set.count()
     
     def get_user_progress(self, user):
+        """Calculate course progress as percentage of completed lessons"""
         if not user.is_authenticated:
             return 0
         lessons = self.lesson_set.all()
         if not lessons.exists():
             return 0
-        total_progress = sum(UserProgress.objects.filter(lesson__course=self, user=user).values_list('progress_percentage', flat=True))
-        return int(total_progress / lessons.count())
+        total_lessons = lessons.count()
+        completed_lessons = UserProgress.objects.filter(
+            lesson__course=self,
+            user=user,
+            completed=True
+        ).count()
+        return int((completed_lessons / total_lessons * 100)) if total_lessons > 0 else 0
 
 
 # Module Model

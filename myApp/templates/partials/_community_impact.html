@@ -1,13 +1,13 @@
 <!-- =========================
   COMMUNITY + IMPACT — brand-specific (IMPROVED)
   Upgrades:
-  - Feels like a premium “movement” section (TED x MasterClass energy)
+  - Feels like a premium "movement" section (TED x MasterClass energy)
   - Stronger hierarchy + better spacing rhythm
-  - Left side: identity-driven copy + “pill” proof markers + feature bullets
+  - Left side: identity-driven copy + "pill" proof markers + feature bullets
   - Right side: editorial collage + impact stat card + testimonial card
   - Tailwind-only + Font Awesome only
 ========================= -->
-<section class="relative py-24 bg-white border-y border-[#E6E8EC] overflow-hidden">
+<section id="community" class="section-content relative py-24 sm:py-28 lg:py-32 bg-white dark:bg-[#0F172A] border-y border-[#E6E8EC] dark:border-[#334155] overflow-hidden min-h-[600px]">
   <!-- ambient glows -->
   <div class="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full bg-[#C9A227]/12 blur-3xl"></div>
   <div class="pointer-events-none absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-[#0B1220]/10 blur-3xl"></div>
@@ -27,11 +27,11 @@
           <span class="font-medium">A movement, not a membership.</span>
         </div>
 
-        <h2 class="mt-7 text-4xl sm:text-5xl font-semibold text-[#0B1220] tracking-tight leading-[1.08]">
+        <h2 class="mt-7 text-4xl sm:text-5xl font-semibold text-[#0B1220] dark:text-white tracking-tight leading-[1.08]">
           Connection that turns action into momentum.
         </h2>
 
-        <p class="mt-6 text-lg sm:text-xl text-[#475569] leading-relaxed max-w-xl">
+        <p class="mt-6 text-lg sm:text-xl text-[#475569] dark:text-[#CBD5E1] leading-relaxed max-w-xl">
           People don't need more information. They need the right mentor at the right time—and a community that keeps them moving when life gets loud.
         </p>
 
@@ -101,13 +101,14 @@
 
         <!-- CTA (optional, quiet premium) -->
         <div class="mt-10 flex flex-col sm:flex-row gap-3">
-          <a href="{% url 'courses' %}"
-             class="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition">
+          <a href="{% url 'community' %}"
+             class="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2"
+             aria-label="Explore the community">
             <span>Explore the community</span>
             <i class="fas fa-arrow-right text-white/70 group-hover:text-white transition"></i>
           </a>
-          <a href="{% url 'courses' %}"
-             class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E6E8EC] bg-white px-6 py-4 text-[#0B1220] font-semibold hover:bg-[#F2F4F7] transition">
+          <a href="{% url 'events' %}"
+             class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E6E8EC] bg-white px-6 py-4 text-[#0B1220] font-semibold hover:bg-[#F2F4F7] transition focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2">
             <i class="fas fa-calendar-alt"></i>
             <span>See upcoming experiences</span>
           </a>
@@ -148,10 +149,10 @@
                   <i class="fas fa-hand-holding-heart text-[#16A34A]"></i>
                   <span>10% reinvested</span>
                 </div>
-                <div class="inline-flex items-center gap-2 text-[#475569]">
+                <a href="{% url 'about' %}" class="inline-flex items-center gap-2 text-[#475569] hover:text-[#0B1220] transition">
                   <i class="fas fa-arrow-right text-[#C9A227]"></i>
                   <span class="font-medium">Learn how</span>
-                </div>
+                </a>
               </div>
             </div>
           </div>

@@ -45,14 +45,14 @@
                     </div>
                     {% endif %}
                     
-                    {% if user.is_authenticated and course_progress > 0 %}
+                    {% if user.is_authenticated %}
                     <div class="mb-6">
                         <div class="flex justify-between text-sm text-slate mb-2">
                             <span>Your Progress</span>
                             <span>{{ course_progress }}%</span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-3">
-                            <div class="bg-purple-600 h-3 rounded-full" style="width: {{ course_progress }}%"></div>
+                        <div class="w-full bg-gray-200 rounded-full h-3" role="progressbar" aria-valuenow="{{ course_progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="Course progress: {{ course_progress }}%">
+                            <div class="bg-purple-600 h-3 rounded-full transition-all duration-500" style="width: {{ course_progress }}%"></div>
                         </div>
                     </div>
                     {% endif %}

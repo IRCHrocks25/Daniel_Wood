@@ -13,15 +13,32 @@
         
         <!-- Filters -->
         <div class="bg-ivory border border-glass/50 rounded-2xl p-6 mb-10 shadow-soft">
-            <div class="flex flex-wrap gap-6 items-center">
+            <div class="flex flex-wrap gap-6 items-center justify-between">
                 {% if user.is_authenticated %}
                 <label class="flex items-center cursor-pointer group">
                     <input type="checkbox" id="filter-favorites" class="w-4 h-4 text-violet-600 border-glass rounded focus:ring-2 focus:ring-violet-500 cursor-pointer" 
+                           {% if filter_favorites %}checked{% endif %}
                            onchange="window.location.href='?favorites=' + (this.checked ? 'true' : '')">
                     <span class="ml-2 text-sm font-medium text-ink group-hover:text-violet-600 transition-colors">
                         <i class="fas fa-heart text-red-500 mr-1.5"></i>My Favorites
                     </span>
                 </label>
+                {% endif %}
+                
+                <!-- DEBUG: Remove after verification - Set display:block to show -->
+                {% if user.is_authenticated %}
+                <div class="text-xs text-gray-400 p-2 bg-gray-100 rounded" style="display: none;">
+                    <div><strong>Debug Info:</strong></div>
+                    <div>My Courses: {{ my_courses|length }} courses</div>
+                    <div>Continue Learning: {{ continue_learning|length }} courses</div>
+                    <div>Available: {{ available_courses|length }} courses</div>
+                    <div>Favorites Filter: {{ filter_favorites|yesno:"ON,OFF" }}</div>
+                    <div>Favorited IDs: {{ favorited_ids|join:", " }}</div>
+                    <div class="mt-2"><strong>Check server logs for:</strong></div>
+                    <div>- Accessible course IDs (from access records)</div>
+                    <div>- Progress course IDs (from UserProgress)</div>
+                    <div>- All accessible IDs (union)</div>
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -45,6 +62,19 @@
                     <div class="p-6">
                         <h3 class="text-xl font-semibold text-ink mb-2 leading-tight">{{ course.name }}</h3>
                         <p class="text-sm text-slate leading-6 mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
+                        {% if user.is_authenticated %}
+                        {% with progress=course.user_progress_percent|default:0 %}
+                        <div class="mb-4">
+                            <div class="flex justify-between text-xs text-slate mb-1">
+                                <span>Progress</span>
+                                <span>{{ progress }}%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="Course progress: {{ progress }}%">
+                                <div class="bg-violet-600 h-2 rounded-full transition-all duration-500" style="width: {% if progress > 100 %}100{% elif progress < 0 %}0{% else %}{{ progress|floatformat:0 }}{% endif %}%"></div>
+                            </div>
+                        </div>
+                        {% endwith %}
+                        {% endif %}
                         <a href="{% url 'course_detail' course.slug %}" 
                            class="inline-flex items-center justify-center w-full px-4 py-2.5 bg-violet-600 text-white rounded-xl hover:bg-violet-700 transition-all shadow-soft hover:shadow-medium text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
                             Continue Learning
@@ -77,7 +107,7 @@
                             <h3 class="text-xl font-bold text-ink">{{ course.name }}</h3>
                             {% if user.is_authenticated %}
                             <button onclick="toggleFavorite({{ course.id }})" 
-                                    class="text-2xl {% if course.id in favorited_ids %}text-red-500{% else %}text-gray-300 hover:text-red-500{% endif %} transition-colors">
+                                    class="text-2xl {% if course.is_favorited or course.id in favorited_ids %}text-red-500{% else %}text-gray-300 hover:text-red-500{% endif %} transition-colors">
                                 <i class="fas fa-heart"></i>
                             </button>
                             {% endif %}
@@ -85,22 +115,27 @@
                         <p class="text-sm text-slate mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
                         
                         {% if user.is_authenticated %}
-                        {% with progress=course.get_user_progress|default:0 %}
+                        {% with progress=course.user_progress_percent|default:0 %}
                         <div class="mb-4">
                             <div class="flex justify-between text-sm text-slate mb-1">
                                 <span>Progress</span>
                                 <span>{{ progress }}%</span>
+                                {% if course.is_completed %}
+                                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">
+                                    <i class="fas fa-check-circle mr-1"></i>Completed
+                                </span>
+                                {% endif %}
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-purple-600 h-2 rounded-full" style="width: {{ progress }}%"></div>
+                            <div class="w-full bg-gray-200 rounded-full h-2" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="Course progress: {{ progress }}%">
+                                <div class="bg-purple-600 h-2 rounded-full transition-all duration-500" style="width: {% if progress > 100 %}100{% elif progress < 0 %}0{% else %}{{ progress|floatformat:0 }}{% endif %}%"></div>
                             </div>
                         </div>
                         {% endwith %}
                         {% endif %}
                         
                         <a href="{% url 'course_detail' course.slug %}" 
-                           class="inline-block w-full text-center px-4 py-2 {% if course.get_user_progress > 0 %}bg-blue-600 hover:bg-blue-700{% else %}bg-purple-600 hover:bg-purple-700{% endif %} text-white rounded-lg transition-colors">
-                            {% if course.get_user_progress > 0 %}<i class="fas fa-play mr-2"></i>Continue Learning{% else %}<i class="fas fa-arrow-right mr-2"></i>Start Course{% endif %}
+                           class="inline-block w-full text-center px-4 py-2 {% if course.is_completed %}bg-emerald-600 hover:bg-emerald-700{% elif course.user_progress_percent > 0 %}bg-blue-600 hover:bg-blue-700{% else %}bg-purple-600 hover:bg-purple-700{% endif %} text-white rounded-lg transition-colors">
+                            {% if course.is_completed %}<i class="fas fa-check-circle mr-2"></i>View Course{% elif course.user_progress_percent > 0 %}<i class="fas fa-play mr-2"></i>Continue Learning{% else %}<i class="fas fa-arrow-right mr-2"></i>Start Course{% endif %}
                         </a>
                     </div>
                 </div>
@@ -161,8 +196,14 @@ async function toggleFavorite(courseId) {
         });
         const data = await response.json();
         if (data.success) {
-            // Reload page to update UI
-            location.reload();
+            // Preserve favorites filter state when reloading
+            const urlParams = new URLSearchParams(window.location.search);
+            const favoritesParam = urlParams.get('favorites');
+            if (favoritesParam === 'true') {
+                window.location.href = window.location.pathname + '?favorites=true';
+            } else {
+                window.location.href = window.location.pathname;
+            }
         }
     } catch (error) {
         console.error('Error toggling favorite:', error);

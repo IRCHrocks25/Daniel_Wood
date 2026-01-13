@@ -1,0 +1,278 @@
+<!-- =========================
+  FLOATING ACTIONS — Body-Level Widget
+  Rendered directly under <body> to avoid stacking context issues
+========================= -->
+<div id="floating-actions" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100; display: flex; flex-direction: row; align-items: center; gap: 0.75rem; pointer-events: none;">
+  <!-- Back to Top Button with luxury polish -->
+  <button
+    id="back-to-top"
+    type="button"
+    class="h-12 w-12 rounded-full bg-white/95 dark:bg-[#1E293B]/95 backdrop-blur-md border border-[#E6E8EC] dark:border-[#334155] text-[#0B1220] dark:text-white shadow-luxury hover:shadow-glow hover:scale-110 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#C9A227]/50 focus:ring-offset-2 group luxury-button"
+    aria-label="Back to top"
+    style="opacity: 0; pointer-events: none;"
+  >
+    <i class="fas fa-arrow-up group-hover:-translate-y-0.5 transition-transform duration-300"></i>
+    <span class="sr-only">Back to top</span>
+  </button>
+
+  <!-- Chatbot Toggle Button - ALWAYS FULLY OPAQUE with luxury idle animation -->
+  <button
+    id="chatbot-toggle"
+    type="button"
+    class="group relative h-16 w-16 rounded-full bg-[#0B1220] dark:bg-white dark:text-[#0B1220] text-white shadow-luxury hover:shadow-glow-strong transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#C9A227]/50 focus:ring-offset-2 hover:scale-110 active:scale-95 glow-pulse"
+    aria-label="Open SWI Assistant chat"
+    aria-expanded="false"
+    aria-controls="chatbot-panel"
+    style="opacity: 1 !important; pointer-events: auto !important; z-index: 101;"
+  >
+    <!-- Pulse glow effect (idle) -->
+    <div class="absolute inset-0 rounded-full bg-[#C9A227]/20 dark:bg-[#C9A227]/30 animate-ping opacity-75 pointer-events-none"></div>
+    <!-- Icon -->
+    <div class="relative flex items-center justify-center h-full w-full pointer-events-none">
+      <i class="fas fa-comments text-2xl group-hover:rotate-12 transition-transform duration-300"></i>
+    </div>
+  </button>
+</div>
+
+<!-- Backdrop Overlay -->
+<div
+  id="chatbot-backdrop"
+  class="fixed inset-0 bg-black/20 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 hidden md:block"
+  aria-hidden="true"
+  style="z-index: 9998;"
+></div>
+
+<!-- Desktop Chat Panel - BODY LEVEL -->
+<div
+  id="chatbot-panel"
+  class="fixed bottom-28 right-6 w-[420px] max-w-[calc(100vw-3rem)] max-h-[75vh] bg-white/95 backdrop-blur-md border border-[#E6E8EC]/50 rounded-2xl shadow-2xl opacity-0 translate-y-2 scale-[0.98] transition-all duration-200 ease-out hidden md:flex flex-col pointer-events-none"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="chatbot-header"
+  aria-hidden="true"
+  style="z-index: 9999;"
+>
+  <!-- Header (Fixed) -->
+  <div class="relative flex items-center justify-between p-4 border-b border-[#E6E8EC] rounded-t-2xl bg-white/50 flex-shrink-0" style="flex-shrink: 0; position: relative; pointer-events: auto;">
+    <div class="flex items-center gap-3 pointer-events-none">
+      <div class="h-10 w-10 rounded-full bg-[#0B1220] flex items-center justify-center">
+        <i class="fas fa-robot text-white"></i>
+      </div>
+      <div>
+        <h3 id="chatbot-header" class="text-sm font-semibold text-[#0B1220]">SWI Assistant</h3>
+        <div class="flex items-center gap-1.5 mt-0.5">
+          <span class="h-2 w-2 rounded-full bg-[#16A34A] animate-pulse"></span>
+          <span class="text-xs text-[#6B7280]">Online</span>
+        </div>
+      </div>
+    </div>
+    <!-- X Button - HIGHEST Z-INDEX, ALWAYS CLICKABLE -->
+    <button
+      id="chatbot-close"
+      type="button"
+      class="h-8 w-8 rounded-lg flex items-center justify-center text-[#6B7280] hover:text-[#0B1220] hover:bg-[#F2F4F7] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227]"
+      aria-label="Close chat"
+      style="position: absolute; top: 1rem; right: 1rem; z-index: 10001; pointer-events: auto !important; cursor: pointer; background: transparent; border: none;"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Quick Prompts (Fixed) -->
+  <div id="chatbot-quick-prompts" class="p-4 border-b border-[#E6E8EC] bg-[#F7F7F5]/50 space-y-2 flex-shrink-0" style="flex-shrink: 0;">
+    <p class="text-xs font-medium text-[#6B7280] mb-2">Quick questions:</p>
+    <div class="flex flex-wrap gap-2">
+      <button type="button" class="quick-prompt-btn px-3 py-1.5 text-xs font-medium text-[#475569] bg-white border border-[#E6E8EC] rounded-full hover:bg-[#F2F4F7] hover:border-[#C9A227] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227]" data-prompt="What's inside the community?">What's inside the community?</button>
+      <button type="button" class="quick-prompt-btn px-3 py-1.5 text-xs font-medium text-[#475569] bg-white border border-[#E6E8EC] rounded-full hover:bg-[#F2F4F7] hover:border-[#C9A227] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227]" data-prompt="How do programs work?">How do programs work?</button>
+      <button type="button" class="quick-prompt-btn px-3 py-1.5 text-xs font-medium text-[#475569] bg-white border border-[#E6E8EC] rounded-full hover:bg-[#F2F4F7] hover:border-[#C9A227] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227]" data-prompt="How do I join?">How do I join?</button>
+      <button type="button" class="quick-prompt-btn px-3 py-1.5 text-xs font-medium text-[#475569] bg-white border border-[#E6E8EC] rounded-full hover:bg-[#F2F4F7] hover:border-[#C9A227] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227]" data-prompt="Upcoming experiences?">Upcoming experiences?</button>
+    </div>
+  </div>
+
+  <!-- Messages Area (Scrollable) - ONLY THIS SCROLLS -->
+  <div
+    id="chatbot-messages"
+    class="flex-1 overflow-y-auto p-4 space-y-4"
+    role="log"
+    aria-live="polite"
+    style="flex: 1 1 0%; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #E6E8EC transparent; padding-bottom: 8rem;"
+  >
+    <!-- Welcome message -->
+    <div class="flex items-start gap-3">
+      <div class="h-8 w-8 rounded-full bg-[#0B1220]/10 flex items-center justify-center flex-shrink-0">
+        <i class="fas fa-robot text-[#0B1220] text-sm"></i>
+      </div>
+      <div class="flex-1">
+        <div class="rounded-2xl rounded-tl-sm bg-[#F7F7F5] border border-[#E6E8EC] p-3">
+          <p class="text-sm text-[#475569] leading-relaxed">Hi! I'm the SWI Assistant. I can help you learn about our programs, community, events, and how to get started. What would you like to know?</p>
+        </div>
+        <p class="text-xs text-[#9CA3AF] mt-1 ml-1">Just now</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typing Indicator -->
+  <div id="chatbot-typing" class="px-4 pb-2 hidden flex-shrink-0" style="flex-shrink: 0;">
+    <div class="flex items-start gap-3">
+      <div class="h-8 w-8 rounded-full bg-[#0B1220]/10 flex items-center justify-center flex-shrink-0">
+        <i class="fas fa-robot text-[#0B1220] text-sm"></i>
+      </div>
+      <div class="flex-1">
+        <div class="rounded-2xl rounded-tl-sm bg-[#F7F7F5] border border-[#E6E8EC] p-3">
+          <div class="flex gap-1">
+            <span class="h-2 w-2 rounded-full bg-[#6B7280] animate-bounce" style="animation-delay: 0s"></span>
+            <span class="h-2 w-2 rounded-full bg-[#6B7280] animate-bounce" style="animation-delay: 0.2s"></span>
+            <span class="h-2 w-2 rounded-full bg-[#6B7280] animate-bounce" style="animation-delay: 0.4s"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Area (Fixed) - SIBLING OF SCROLL CONTAINER -->
+  <div class="p-4 border-t border-[#E6E8EC] bg-white/50 rounded-b-2xl flex-shrink-0" style="flex-shrink: 0;">
+    <form id="chatbot-form" class="flex items-end gap-2">
+      <div class="flex-1 relative">
+        <textarea
+          id="chatbot-input"
+          rows="1"
+          placeholder="Ask about programs, membership, events…"
+          class="w-full px-4 py-3 text-sm text-[#0B1220] bg-white border border-[#E6E8EC] rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:border-[#C9A227] transition-all overflow-y-auto"
+          style="max-height: 120px; scrollbar-width: thin; scrollbar-color: #E6E8EC transparent; padding-right: 3.5rem;"
+          aria-label="Type your message"
+          maxlength="500"
+        ></textarea>
+        <button
+          type="submit"
+          id="chatbot-send"
+          class="absolute right-2.5 bottom-2.5 h-9 w-9 rounded-lg bg-[#0B1220] text-white flex items-center justify-center hover:bg-[#0B1220]/90 transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Send message"
+          disabled
+          style="z-index: 10; pointer-events: auto;"
+        >
+          <i class="fas fa-paper-plane text-xs"></i>
+        </button>
+      </div>
+    </form>
+    <p class="text-xs text-[#9CA3AF] mt-2 text-center">This assistant provides guidance, not financial advice.</p>
+  </div>
+</div>
+
+<!-- Mobile Chat Panel -->
+<div
+  id="chatbot-panel-mobile"
+  class="fixed inset-0 z-[9999] bg-white/95 backdrop-blur-md opacity-0 pointer-events-none scale-[0.98] transition-all duration-200 ease-out md:hidden flex flex-col"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="chatbot-header-mobile"
+  aria-hidden="true"
+  style="z-index: 9999;"
+>
+  <!-- Mobile Header -->
+  <div class="relative flex items-center justify-between p-4 border-b border-[#E6E8EC] bg-white flex-shrink-0" style="flex-shrink: 0; position: relative; pointer-events: auto;">
+    <div class="flex items-center gap-3 pointer-events-none">
+      <div class="h-10 w-10 rounded-full bg-[#0B1220] flex items-center justify-center">
+        <i class="fas fa-robot text-white"></i>
+      </div>
+      <div>
+        <h3 id="chatbot-header-mobile" class="text-sm font-semibold text-[#0B1220]">SWI Assistant</h3>
+        <div class="flex items-center gap-1.5 mt-0.5">
+          <span class="h-2 w-2 rounded-full bg-[#16A34A] animate-pulse"></span>
+          <span class="text-xs text-[#6B7280]">Online</span>
+        </div>
+      </div>
+    </div>
+    <!-- X Button - HIGHEST Z-INDEX, ALWAYS CLICKABLE -->
+    <button
+      id="chatbot-close-mobile"
+      type="button"
+      class="h-8 w-8 rounded-lg flex items-center justify-center text-[#6B7280] hover:text-[#0B1220] hover:bg-[#F2F4F7] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227]"
+      aria-label="Close chat"
+      style="position: absolute; top: 1rem; right: 1rem; z-index: 10001; pointer-events: auto !important; cursor: pointer; background: transparent; border: none;"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Content -->
+  <div class="flex flex-col flex-1" style="flex: 1 1 0%; min-height: 0;">
+    <!-- Quick Prompts -->
+    <div class="p-4 border-b border-[#E6E8EC] bg-[#F7F7F5]/50 space-y-2 flex-shrink-0" style="flex-shrink: 0;">
+      <p class="text-xs font-medium text-[#6B7280] mb-2">Quick questions:</p>
+      <div class="flex flex-wrap gap-2">
+        <button type="button" class="quick-prompt-btn px-3 py-1.5 text-xs font-medium text-[#475569] bg-white border border-[#E6E8EC] rounded-full hover:bg-[#F2F4F7] hover:border-[#C9A227] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227]" data-prompt="What's inside the community?">What's inside the community?</button>
+        <button type="button" class="quick-prompt-btn px-3 py-1.5 text-xs font-medium text-[#475569] bg-white border border-[#E6E8EC] rounded-full hover:bg-[#F2F4F7] hover:border-[#C9A227] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227]" data-prompt="How do programs work?">How do programs work?</button>
+        <button type="button" class="quick-prompt-btn px-3 py-1.5 text-xs font-medium text-[#475569] bg-white border border-[#E6E8EC] rounded-full hover:bg-[#F2F4F7] hover:border-[#C9A227] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227]" data-prompt="How do I join?">How do I join?</button>
+        <button type="button" class="quick-prompt-btn px-3 py-1.5 text-xs font-medium text-[#475569] bg-white border border-[#E6E8EC] rounded-full hover:bg-[#F2F4F7] hover:border-[#C9A227] transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227]" data-prompt="Upcoming experiences?">Upcoming experiences?</button>
+      </div>
+    </div>
+
+    <!-- Messages Area (Scrollable) -->
+    <div
+      id="chatbot-messages-mobile"
+      class="flex-1 overflow-y-auto p-4 space-y-4"
+      role="log"
+      aria-live="polite"
+      style="flex: 1 1 0%; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #E6E8EC transparent; padding-bottom: 8rem;"
+    >
+      <!-- Welcome message -->
+      <div class="flex items-start gap-3">
+        <div class="h-8 w-8 rounded-full bg-[#0B1220]/10 flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-robot text-[#0B1220] text-sm"></i>
+        </div>
+        <div class="flex-1">
+          <div class="rounded-2xl rounded-tl-sm bg-[#F7F7F5] border border-[#E6E8EC] p-3">
+            <p class="text-sm text-[#475569] leading-relaxed">Hi! I'm the SWI Assistant. I can help you learn about our programs, community, events, and how to get started. What would you like to know?</p>
+          </div>
+          <p class="text-xs text-[#9CA3AF] mt-1 ml-1">Just now</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typing Indicator -->
+    <div id="chatbot-typing-mobile" class="px-4 pb-2 hidden flex-shrink-0" style="flex-shrink: 0;">
+      <div class="flex items-start gap-3">
+        <div class="h-8 w-8 rounded-full bg-[#0B1220]/10 flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-robot text-[#0B1220] text-sm"></i>
+        </div>
+        <div class="flex-1">
+          <div class="rounded-2xl rounded-tl-sm bg-[#F7F7F5] border border-[#E6E8EC] p-3">
+            <div class="flex gap-1">
+              <span class="h-2 w-2 rounded-full bg-[#6B7280] animate-bounce" style="animation-delay: 0s"></span>
+              <span class="h-2 w-2 rounded-full bg-[#6B7280] animate-bounce" style="animation-delay: 0.2s"></span>
+              <span class="h-2 w-2 rounded-full bg-[#6B7280] animate-bounce" style="animation-delay: 0.4s"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area (Fixed) -->
+    <div class="p-4 border-t border-[#E6E8EC] bg-white flex-shrink-0" style="flex-shrink: 0;">
+      <form id="chatbot-form-mobile" class="flex items-end gap-2">
+        <div class="flex-1 relative">
+          <textarea
+            id="chatbot-input-mobile"
+            rows="1"
+            placeholder="Ask about programs, membership, events…"
+            class="w-full px-4 py-3 text-sm text-[#0B1220] bg-white border border-[#E6E8EC] rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:border-[#C9A227] transition-all overflow-y-auto"
+            style="max-height: 120px; scrollbar-width: thin; scrollbar-color: #E6E8EC transparent; padding-right: 3.5rem;"
+            aria-label="Type your message"
+            maxlength="500"
+          ></textarea>
+          <button
+            type="submit"
+            id="chatbot-send-mobile"
+            class="absolute right-2.5 bottom-2.5 h-9 w-9 rounded-lg bg-[#0B1220] text-white flex items-center justify-center hover:bg-[#0B1220]/90 transition-colors focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Send message"
+            disabled
+            style="z-index: 10; pointer-events: auto;"
+          >
+            <i class="fas fa-paper-plane text-xs"></i>
+          </button>
+        </div>
+      </form>
+      <p class="text-xs text-[#9CA3AF] mt-2 text-center">This assistant provides guidance, not financial advice.</p>
+    </div>
+  </div>
+</div>

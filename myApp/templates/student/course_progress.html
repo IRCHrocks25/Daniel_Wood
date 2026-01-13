@@ -30,8 +30,8 @@
                             <span>Course Progress</span>
                             <span class="text-ink">{{ course_progress }}%</span>
                         </div>
-                        <div class="w-full bg-mist rounded-full h-3 overflow-hidden">
-                            <div class="bg-gradient-to-r from-violet-600 to-cyan-600 h-3 rounded-full animate-progress-fill" style="width: 0%" data-width="{{ course_progress }}%"></div>
+                        <div class="w-full bg-mist rounded-full h-3 overflow-hidden" role="progressbar" aria-valuenow="{{ course_progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="Course progress: {{ course_progress }}% ({{ completed_lessons }} of {{ total_lessons }} lessons completed)">
+                            <div class="bg-gradient-to-r from-violet-600 to-cyan-600 h-3 rounded-full transition-all duration-500" style="width: {{ course_progress }}%"></div>
                         </div>
                         <div class="text-xs font-medium text-slate mt-2">
                             {{ completed_lessons }} of {{ total_lessons }} lessons completed
@@ -39,8 +39,8 @@
                     </div>
 
                     <a href="{% url 'course_detail' course.slug %}" 
-                       class="inline-flex items-center px-6 py-3 bg-violet-600 text-white rounded-xl font-semibold hover:bg-violet-700 animate-button-hover shadow-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
-                        <i class="fas fa-arrow-left mr-2 animate-icon-float"></i>Back to Course
+                       class="inline-flex items-center px-6 py-3 bg-violet-600 text-white rounded-xl font-semibold hover:bg-violet-700 transition-all shadow-medium hover:shadow-elevated focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Course
                     </a>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                     <div class="space-y-3">
                         {% for lesson in lessons %}
                         {% if lesson.module == module %}
-                        <div class="p-6 bg-porcelain border border-glass/50 rounded-xl shadow-soft animate-card-hover">
+                        <div class="p-6 bg-porcelain border border-glass/50 rounded-xl shadow-soft hover:shadow-medium transition-all">
                             <div class="flex items-center justify-between mb-4">
                                 <div class="flex items-center space-x-4">
                                     <div class="w-14 h-14 bg-violet-100 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -84,8 +84,8 @@
                                         {% endif %}
                                     {% endif %}
                                     <a href="{% url 'lesson_detail' course.slug lesson.slug %}" 
-                                       class="px-4 py-2 bg-violet-600 text-white rounded-xl hover:bg-violet-700 animate-button-hover shadow-soft text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-violet-500">
-                                        <i class="fas fa-play mr-1.5 animate-icon-rotate"></i>View
+                                       class="px-4 py-2 bg-violet-600 text-white rounded-xl hover:bg-violet-700 transition-all shadow-soft hover:shadow-medium text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-violet-500">
+                                        <i class="fas fa-play mr-1.5"></i>View
                                     </a>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                     <span class="text-ink">{{ lesson.user_progress.video_watch_percentage|floatformat:1 }}%</span>
                                 </div>
                                 <div class="w-full bg-mist rounded-full h-2 overflow-hidden">
-                                    <div class="bg-gradient-to-r from-violet-600 to-cyan-600 h-2 rounded-full animate-progress-fill" style="width: 0%" data-width="{{ lesson.user_progress.video_watch_percentage }}%"></div>
+                                    <div class="bg-gradient-to-r from-violet-600 to-cyan-600 h-2 rounded-full transition-all duration-500" style="width: {{ lesson.user_progress.video_watch_percentage }}%"></div>
                                 </div>
                             </div>
                             {% endif %}

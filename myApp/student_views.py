@@ -32,15 +32,34 @@ def student_dashboard(request):
     courses_dict = get_courses_by_visibility(user)
     my_courses_list = list(courses_dict['my_courses'])
     
-    # Calculate course completion
+    # Pre-calculate progress for each course and attach as attribute
+    import logging
+    logger = logging.getLogger(__name__)
+    
     for course in my_courses_list:
-        lessons = Lesson.objects.filter(course=course)
-        completed = UserProgress.objects.filter(
+        # Calculate progress
+        total_lessons = course.lesson_set.count()
+        completed_lessons = UserProgress.objects.filter(
             user=user,
             lesson__course=course,
             completed=True
         ).count()
-        if lessons.count() > 0 and completed == lessons.count():
+        
+        # Calculate percentage and clamp between 0 and 100
+        if total_lessons > 0:
+            course_progress = int((completed_lessons / total_lessons) * 100)
+            course_progress = max(0, min(100, course_progress))  # Clamp to 0-100
+        else:
+            course_progress = 0
+        
+        # Attach as attribute for template access
+        course.user_progress_percent = course_progress
+        
+        # Debug logging
+        logger.info(f"[PROGRESS DEBUG] Course: {course.name} (ID: {course.id}), User: {user.username} (ID: {user.id}), Completed: {completed_lessons}/{total_lessons}, Progress: {course_progress}%")
+        
+        # Calculate course completion
+        if total_lessons > 0 and completed_lessons == total_lessons:
             completed_courses += 1
     
     # Get favorites

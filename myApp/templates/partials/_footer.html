@@ -1,18 +1,13 @@
 <!-- =========================
-  FOOTER — premium, editorial, “billion-dollar” clean (UPGRADED)
-  Upgrades:
-  - Stronger hierarchy + spacing rhythm
-  - Adds a slim “brand pledge” + impact note (still minimal)
-  - Better link layout on mobile
-  - Social icons feel intentional (not random)
-  - Tailwind-only + Font Awesome only
+  FOOTER — Luxury Premium Upgrade
+  Refined hover interactions, dark mode, premium polish
 ========================= -->
-<footer class="relative bg-white border-t border-[#E6E8EC] overflow-hidden">
+<footer class="relative bg-gradient-to-b from-white to-[#F7F7F5] dark:from-[#0F172A] dark:to-[#1E293B] border-t border-[#E6E8EC] dark:border-[#334155] overflow-hidden min-h-[500px] mt-16 sm:mt-20">
   <!-- subtle ambient glow -->
-  <div class="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#C9A227]/10 blur-3xl"></div>
-  <div class="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#0B1220]/10 blur-3xl"></div>
+  <div class="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#C9A227]/10 dark:bg-[#C9A227]/5 blur-3xl"></div>
+  <div class="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#0B1220]/10 dark:bg-[#C9A227]/5 blur-3xl"></div>
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16 lg:py-20">
     <!-- Top row -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
       <!-- Brand -->
@@ -62,18 +57,30 @@
             <p class="text-sm font-semibold text-[#0B1220]">Explore</p>
             <ul class="mt-4 space-y-3 text-sm text-[#475569]">
               <li>
-                <a href="{% url 'courses' %}" class="hover:text-[#0B1220] transition inline-flex items-center gap-2">
-                  <i class="fas fa-compass text-[#9CA3AF]"></i><span>Programs</span>
+                <a href="{% url 'courses' %}" class="group hover:text-[#0B1220] dark:hover:text-white transition-all duration-300 inline-flex items-center gap-2 relative">
+                  <i class="fas fa-compass text-[#9CA3AF] dark:text-[#64748B] group-hover:text-[#C9A227] transition-colors"></i>
+                  <span class="relative">
+                    Programs
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A227] group-hover:w-full transition-all duration-300"></span>
+                  </span>
                 </a>
               </li>
               <li>
-                <a href="#" class="hover:text-[#0B1220] transition inline-flex items-center gap-2">
-                  <i class="fas fa-calendar-alt text-[#9CA3AF]"></i><span>Events</span>
+                <a href="{% url 'events' %}" class="group hover:text-[#0B1220] dark:hover:text-white transition-all duration-300 inline-flex items-center gap-2 relative">
+                  <i class="fas fa-calendar-alt text-[#9CA3AF] dark:text-[#64748B] group-hover:text-[#C9A227] transition-colors"></i>
+                  <span class="relative">
+                    Events
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A227] group-hover:w-full transition-all duration-300"></span>
+                  </span>
                 </a>
               </li>
               <li>
-                <a href="#" class="hover:text-[#0B1220] transition inline-flex items-center gap-2">
-                  <i class="fas fa-users text-[#9CA3AF]"></i><span>Community</span>
+                <a href="{% url 'community' %}" class="group hover:text-[#0B1220] dark:hover:text-white transition-all duration-300 inline-flex items-center gap-2 relative">
+                  <i class="fas fa-users text-[#9CA3AF] dark:text-[#64748B] group-hover:text-[#C9A227] transition-colors"></i>
+                  <span class="relative">
+                    Community
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A227] group-hover:w-full transition-all duration-300"></span>
+                  </span>
                 </a>
               </li>
             </ul>
@@ -81,21 +88,33 @@
 
           <!-- Column 2 -->
           <div>
-            <p class="text-sm font-semibold text-[#0B1220]">Company</p>
-            <ul class="mt-4 space-y-3 text-sm text-[#475569]">
+            <p class="text-sm font-semibold text-[#0B1220] dark:text-white">Company</p>
+            <ul class="mt-4 space-y-3 text-sm text-[#475569] dark:text-[#CBD5E1]">
               <li>
-                <a href="#" class="hover:text-[#0B1220] transition inline-flex items-center gap-2">
-                  <i class="fas fa-info-circle text-[#9CA3AF]"></i><span>About</span>
+                <a href="{% url 'about' %}" class="group hover:text-[#0B1220] dark:hover:text-white transition-all duration-300 inline-flex items-center gap-2 relative">
+                  <i class="fas fa-info-circle text-[#9CA3AF] dark:text-[#64748B] group-hover:text-[#C9A227] transition-colors"></i>
+                  <span class="relative">
+                    About
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A227] group-hover:w-full transition-all duration-300"></span>
+                  </span>
                 </a>
               </li>
               <li>
-                <a href="#" class="hover:text-[#0B1220] transition inline-flex items-center gap-2">
-                  <i class="fas fa-star text-[#9CA3AF]"></i><span>Testimonials</span>
+                <a href="{% url 'testimonials' %}" class="group hover:text-[#0B1220] dark:hover:text-white transition-all duration-300 inline-flex items-center gap-2 relative">
+                  <i class="fas fa-star text-[#9CA3AF] dark:text-[#64748B] group-hover:text-[#C9A227] transition-colors"></i>
+                  <span class="relative">
+                    Testimonials
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A227] group-hover:w-full transition-all duration-300"></span>
+                  </span>
                 </a>
               </li>
               <li>
-                <a href="#" class="hover:text-[#0B1220] transition inline-flex items-center gap-2">
-                  <i class="fas fa-newspaper text-[#9CA3AF]"></i><span>Updates</span>
+                <a href="{% url 'updates' %}" class="group hover:text-[#0B1220] dark:hover:text-white transition-all duration-300 inline-flex items-center gap-2 relative">
+                  <i class="fas fa-newspaper text-[#9CA3AF] dark:text-[#64748B] group-hover:text-[#C9A227] transition-colors"></i>
+                  <span class="relative">
+                    Updates
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A227] group-hover:w-full transition-all duration-300"></span>
+                  </span>
                 </a>
               </li>
             </ul>
@@ -103,21 +122,33 @@
 
           <!-- Column 3 -->
           <div>
-            <p class="text-sm font-semibold text-[#0B1220]">Support</p>
-            <ul class="mt-4 space-y-3 text-sm text-[#475569]">
+            <p class="text-sm font-semibold text-[#0B1220] dark:text-white">Support</p>
+            <ul class="mt-4 space-y-3 text-sm text-[#475569] dark:text-[#CBD5E1]">
               <li>
-                <a href="#" class="hover:text-[#0B1220] transition inline-flex items-center gap-2">
-                  <i class="fas fa-envelope text-[#9CA3AF]"></i><span>Contact</span>
+                <a href="{% url 'contact' %}" class="group hover:text-[#0B1220] dark:hover:text-white transition-all duration-300 inline-flex items-center gap-2 relative">
+                  <i class="fas fa-envelope text-[#9CA3AF] dark:text-[#64748B] group-hover:text-[#C9A227] transition-colors"></i>
+                  <span class="relative">
+                    Contact
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A227] group-hover:w-full transition-all duration-300"></span>
+                  </span>
                 </a>
               </li>
               <li>
-                <a href="#" class="hover:text-[#0B1220] transition inline-flex items-center gap-2">
-                  <i class="fas fa-file-alt text-[#9CA3AF]"></i><span>Terms</span>
+                <a href="{% url 'terms' %}" class="group hover:text-[#0B1220] dark:hover:text-white transition-all duration-300 inline-flex items-center gap-2 relative">
+                  <i class="fas fa-file-alt text-[#9CA3AF] dark:text-[#64748B] group-hover:text-[#C9A227] transition-colors"></i>
+                  <span class="relative">
+                    Terms
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A227] group-hover:w-full transition-all duration-300"></span>
+                  </span>
                 </a>
               </li>
               <li>
-                <a href="#" class="hover:text-[#0B1220] transition inline-flex items-center gap-2">
-                  <i class="fas fa-shield-alt text-[#9CA3AF]"></i><span>Privacy</span>
+                <a href="{% url 'privacy' %}" class="group hover:text-[#0B1220] dark:hover:text-white transition-all duration-300 inline-flex items-center gap-2 relative">
+                  <i class="fas fa-shield-alt text-[#9CA3AF] dark:text-[#64748B] group-hover:text-[#C9A227] transition-colors"></i>
+                  <span class="relative">
+                    Privacy
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-[#C9A227] group-hover:w-full transition-all duration-300"></span>
+                  </span>
                 </a>
               </li>
             </ul>
@@ -126,18 +157,18 @@
 
         <!-- Social row -->
         <div class="mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div class="text-sm text-[#6B7280]">
+          <div class="text-sm text-[#6B7280] dark:text-[#94A3B8]">
             Follow for real tools, real people, real results.
           </div>
 
           <div class="flex items-center gap-2">
-            <a href="#" class="h-11 w-11 rounded-2xl border border-[#E6E8EC] bg-white flex items-center justify-center text-[#475569] hover:text-[#0B1220] hover:shadow-sm transition" aria-label="Instagram">
+            <a href="https://instagram.com/swedishwealthinstitute" target="_blank" rel="noopener noreferrer" class="luxury-button h-11 w-11 rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-white dark:bg-[#1E293B] flex items-center justify-center text-[#475569] dark:text-[#CBD5E1] hover:text-[#0B1220] dark:hover:text-white hover:shadow-medium transition focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2" aria-label="Follow us on Instagram">
               <i class="fab fa-instagram"></i>
             </a>
-            <a href="#" class="h-11 w-11 rounded-2xl border border-[#E6E8EC] bg-white flex items-center justify-center text-[#475569] hover:text-[#0B1220] hover:shadow-sm transition" aria-label="YouTube">
+            <a href="https://youtube.com/@swedishwealthinstitute" target="_blank" rel="noopener noreferrer" class="luxury-button h-11 w-11 rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-white dark:bg-[#1E293B] flex items-center justify-center text-[#475569] dark:text-[#CBD5E1] hover:text-[#0B1220] dark:hover:text-white hover:shadow-medium transition focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2" aria-label="Subscribe on YouTube">
               <i class="fab fa-youtube"></i>
             </a>
-            <a href="#" class="h-11 w-11 rounded-2xl border border-[#E6E8EC] bg-white flex items-center justify-center text-[#475569] hover:text-[#0B1220] hover:shadow-sm transition" aria-label="Email">
+            <a href="mailto:hello@swedishwealthinstitute.com" class="luxury-button h-11 w-11 rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-white dark:bg-[#1E293B] flex items-center justify-center text-[#475569] dark:text-[#CBD5E1] hover:text-[#0B1220] dark:hover:text-white hover:shadow-medium transition focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2" aria-label="Send us an email">
               <i class="fas fa-envelope"></i>
             </a>
           </div>
@@ -146,7 +177,7 @@
     </div>
 
     <!-- Bottom bar -->
-    <div class="mt-12 pt-8 border-t border-[#E6E8EC] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-[#9CA3AF]">
+    <div class="mt-12 pt-8 border-t border-[#E6E8EC] dark:border-[#334155] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-[#9CA3AF] dark:text-[#64748B]">
       <div>
         © {% now "Y" %} Swedish Wealth Institute. All rights reserved.
       </div>

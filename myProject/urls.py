@@ -16,6 +16,17 @@ urlpatterns = [
     path('courses/<slug:course_slug>/<slug:lesson_slug>/', views.lesson_detail, name='lesson_detail'),
     path('courses/<slug:course_slug>/<slug:lesson_slug>/quiz/', views.lesson_quiz_view, name='lesson_quiz'),
     
+    # Landing Page Links
+    path('about/', views.about, name='about'),
+    path('testimonials/', views.testimonials, name='testimonials'),
+    path('events/', views.events, name='events'),
+    path('community/', views.community, name='community'),
+    path('updates/', views.updates, name='updates'),
+    path('contact/', views.contact, name='contact'),
+    path('terms/', views.terms, name='terms'),
+    path('privacy/', views.privacy, name='privacy'),
+    path('coming-soon/', views.coming_soon, name='coming_soon'),
+    
     # Student Dashboard
     path('my-dashboard/', student_views.student_dashboard, name='student_dashboard'),
     path('my-dashboard/course/<slug:course_slug>/', student_views.student_course_progress, name='student_course_progress'),
@@ -63,6 +74,7 @@ urlpatterns = [
     path('api/lessons/<int:lesson_id>/progress/', api_views.update_video_progress, name='update_video_progress'),
     path('api/lessons/<int:lesson_id>/complete/', api_views.complete_lesson, name='complete_lesson'),
     path('api/courses/<int:course_id>/favorite/', api_views.toggle_favorite_course, name='toggle_favorite'),
+    path('api/chat/', api_views.chatbot_public, name='chatbot_public'),
     path('api/chatbot/', api_views.chatbot_webhook, name='chatbot_webhook'),
 ]
 

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Updates - Swedish Wealth Institute{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#F7F7F5] dark:bg-[#0F172A] py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 section-content">
+            <h1 class="text-4xl sm:text-5xl font-semibold text-[#0B1220] dark:text-white tracking-tight mb-6">
+                Updates & Insights
+            </h1>
+            <p class="text-lg text-[#475569] dark:text-[#CBD5E1] max-w-2xl mx-auto text-content">
+                Stay connected with the latest from Swedish Wealth Institute.
+            </p>
+        </div>
+        
+        <div class="bg-white dark:bg-[#1E293B] rounded-3xl border border-[#E6E8EC] dark:border-[#334155] shadow-soft p-8 sm:p-10 text-center section-content">
+            <div class="inline-flex items-center gap-3 rounded-full border border-[#E6E8EC] bg-[#F7F7F5] px-4 py-2 text-sm text-[#475569] mb-6">
+                <i class="fas fa-newspaper text-[#C9A227]"></i>
+                <span>Content Coming Soon</span>
+            </div>
+            <p class="text-[#475569] mb-8">
+                We're preparing valuable insights, updates, and stories from our community. Check back soon for the latest content.
+            </p>
+            <a href="{% url 'courses' %}" class="inline-flex items-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition">
+                <i class="fas fa-book"></i>
+                <span>Explore Programs</span>
+            </a>
+        </div>
+        
+        <div class="mt-8 text-center">
+            <a href="{% url 'home' %}" class="inline-flex items-center gap-2 text-[#475569] hover:text-[#0B1220] transition">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,131 +1,137 @@
 <!-- =========================
-  HERO — Premium, Light, Authority (IMPROVED)
-  Notes:
-  - Still Tailwind-only (no CSS)
-  - Font Awesome only
-  - Better hierarchy, spacing, and “billion-dollar” polish
-  - More intentional right-side card (feels like product + credibility)
+  HERO — Premium Luxury Experience
+  Clean, intentional, never disappears
 ========================= -->
-<section class="relative overflow-hidden bg-[#F7F7F5]">
-  <!-- Background image layer -->
-  <div class="absolute inset-0">
+<section id="hero" class="section-content relative overflow-hidden bg-gradient-to-br from-[#F7F7F5] via-white to-[#F7F7F5] dark:from-[#0F172A] dark:via-[#1E293B] dark:to-[#0F172A] min-h-[600px] sm:min-h-[700px] lg:min-h-[800px]">
+  <!-- Background image layer with subtle grain effect -->
+  <div class="absolute inset-0 min-h-full">
     <img
       src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=2400&q=80"
       alt="Premium event audience"
-      class="w-full h-full object-cover opacity-[0.12]"
+      class="w-full h-full min-h-full object-cover opacity-[0.08] dark:opacity-[0.05]"
     />
-    <div class="absolute inset-0 bg-gradient-to-b from-[#F7F7F5]/95 via-[#F7F7F5]/88 to-[#F7F7F5]"></div>
+    <!-- Soft radial gradient + gentle vignette -->
+    <div class="absolute inset-0 min-h-full bg-gradient-to-br from-[#F7F7F5]/98 via-white/95 to-[#F7F7F5]/98 dark:from-[#0F172A]/98 dark:via-[#1E293B]/95 dark:to-[#0F172A]/98"></div>
+    <!-- Subtle grain texture overlay -->
+    <div class="absolute inset-0 min-h-full opacity-[0.03] dark:opacity-[0.02]" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;100&quot; height=&quot;100&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cfilter id=&quot;noise&quot;%3E%3CfeTurbulence type=&quot;fractalNoise&quot; baseFrequency=&quot;0.9&quot; numOctaves=&quot;4&quot; stitchTiles=&quot;stitch&quot;/%3E%3C/filter%3E%3Crect width=&quot;100%25&quot; height=&quot;100%25&quot; filter=&quot;url(%23noise)&quot;/%3E%3C/svg%3E');"></div>
   </div>
 
-  <!-- Subtle glows + vignette -->
-  <div class="pointer-events-none absolute -top-28 -right-28 h-80 w-80 rounded-full bg-[#C9A227]/18 blur-3xl"></div>
-  <div class="pointer-events-none absolute -bottom-28 -left-28 h-80 w-80 rounded-full bg-[#0B1220]/10 blur-3xl"></div>
-  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(201,162,39,0.10),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(11,18,32,0.08),transparent_45%)]"></div>
+  <!-- Subtle luxury glows -->
+  <div class="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-[#C9A227]/12 blur-3xl"></div>
+  <div class="pointer-events-none absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-[#0B1220]/8 dark:bg-[#C9A227]/8 blur-3xl"></div>
+  <!-- Gentle vignette -->
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.02)_100%)] dark:bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.05)_100%)]"></div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 sm:pt-24 sm:pb-20">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-      <!-- LEFT: Copy -->
-      <div class="lg:col-span-7">
-        <!-- Eyebrow (more premium) -->
-        <div class="inline-flex items-center gap-3 rounded-full border border-[#E6E8EC] bg-white/80 px-4 py-2 text-sm text-[#475569] shadow-sm">
-          <span class="h-7 w-7 rounded-full bg-[#C9A227]/15 flex items-center justify-center">
+      <!-- LEFT: Copy with staggered entrance -->
+      <div id="hero-content" class="lg:col-span-7 relative z-10">
+        <!-- Eyebrow badge - premium pill -->
+        <div class="inline-flex items-center gap-3 rounded-full border border-[#E6E8EC] dark:border-[#334155] bg-white/95 dark:bg-[#1E293B]/95 backdrop-blur-sm px-5 py-2.5 text-sm text-[#475569] dark:text-[#CBD5E1] shadow-sm hover:shadow-md transition-all duration-300">
+          <span class="h-8 w-8 rounded-full bg-[#C9A227]/15 dark:bg-[#C9A227]/20 flex items-center justify-center ring-1 ring-[#C9A227]/10">
             <i class="fas fa-shield-alt text-[#C9A227] text-xs"></i>
           </span>
-          <span class="font-medium">Truth over trends.</span>
-          <span class="text-[#9CA3AF]">•</span>
-          <span class="font-medium">Proof over promises.</span>
-          <span class="text-[#9CA3AF]">•</span>
-          <span class="font-medium">Connection that moves you.</span>
+          <span class="font-semibold">Truth over trends.</span>
+          <span class="text-[#9CA3AF] dark:text-[#64748B]">•</span>
+          <span class="font-semibold">Proof over promises.</span>
+          <span class="text-[#9CA3AF] dark:text-[#64748B]">•</span>
+          <span class="font-semibold">Connection that moves you.</span>
         </div>
 
-        <h1 class="mt-7 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-[#0B1220] leading-[1.05]">
-          This isn’t just learning.<br class="hidden sm:block" />
-          <span class="inline-block">
+        <!-- Headline - PREMIUM STYLING, ALWAYS VISIBLE -->
+        <h1 class="mt-8 sm:mt-10 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-[-0.01em] text-[#0B1220] dark:text-white leading-[1.1] z-10 relative">
+          <span class="inline-block hero-line-1 mb-2 sm:mb-3">This isn't just learning.</span><br class="hidden sm:block" />
+          <span class="inline-block hero-line-2">
             This is your
-            <span class="relative inline-block">
+            <span class="relative inline-block hero-accent mx-1">
               turning point
-              <span class="absolute -bottom-1 left-0 right-0 h-[3px] bg-[#C9A227]/55 rounded-full"></span>
+              <span class="absolute -bottom-2 left-0 right-0 h-[4px] bg-gradient-to-r from-[#C9A227] via-[#C9A227]/90 to-[#C9A227]/60 rounded-full underline-animate shadow-sm" style="width: 100%;"></span>
             </span>.
           </span>
         </h1>
 
-        <p class="mt-7 text-lg sm:text-xl text-[#475569] leading-relaxed max-w-2xl">
+        <!-- Supporting copy - ENHANCED TYPOGRAPHY, ALWAYS VISIBLE -->
+        <p class="mt-8 sm:mt-10 text-xl sm:text-2xl text-[#475569] dark:text-[#CBD5E1] leading-[1.7] max-w-3xl font-light z-10 relative">
           Swedish Wealth Institute connects you directly with vetted mentors, world-class conversations, and a global
           community that turns ambition into momentum—without hype, fluff, or guesswork.
         </p>
 
-        <!-- CTAs (stronger states) -->
-        <div class="mt-10 flex flex-col sm:flex-row gap-3 sm:items-center">
+        <!-- CTAs - premium buttons with deeper contrast -->
+        <div class="mt-12 flex flex-col sm:flex-row gap-4 sm:items-center">
           {% if user.is_authenticated %}
             <a href="{% url 'student_dashboard' %}"
-               class="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition">
+               class="luxury-button group inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#0B1220] dark:bg-white dark:text-[#0B1220] px-8 py-4 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2"
+               aria-label="Go to your dashboard">
               <i class="fas fa-tachometer-alt"></i>
               <span>Go to Dashboard</span>
-              <i class="fas fa-arrow-right text-white/60 group-hover:text-white transition"></i>
+              <i class="fas fa-arrow-right text-white/70 dark:text-[#0B1220]/70 group-hover:text-white dark:group-hover:text-[#0B1220] transition"></i>
             </a>
             <a href="{% url 'courses' %}"
-               class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E6E8EC] bg-white px-6 py-4 text-[#0B1220] font-semibold hover:bg-[#F2F4F7] transition">
+               class="luxury-button inline-flex items-center justify-center gap-2.5 rounded-xl border-2 border-[#E6E8EC] dark:border-[#334155] bg-white dark:bg-[#1E293B] px-8 py-4 text-[#0B1220] dark:text-white font-bold hover:bg-[#F2F4F7] dark:hover:bg-[#334155] hover:border-[#C9A227]/30 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2"
+               aria-label="Browse all programs">
               <i class="fas fa-book"></i>
               <span>Browse Programs</span>
             </a>
           {% else %}
             <a href="{% url 'login' %}"
-               class="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition">
+               class="luxury-button group inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#0B1220] dark:bg-white dark:text-[#0B1220] px-8 py-4 text-white font-bold shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2"
+               aria-label="Step into the room - Login to Swedish Wealth Institute">
               <i class="fas fa-door-open"></i>
               <span>Step Into the Room</span>
-              <i class="fas fa-arrow-right text-white/60 group-hover:text-white transition"></i>
+              <i class="fas fa-arrow-right text-white/70 dark:text-[#0B1220]/70 group-hover:text-white dark:group-hover:text-[#0B1220] transition"></i>
             </a>
-            <a href="{% url 'courses' %}"
-               class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#E6E8EC] bg-white px-6 py-4 text-[#0B1220] font-semibold hover:bg-[#F2F4F7] transition">
+            <a href="{% url 'courses' %}#pillars"
+               class="luxury-button inline-flex items-center justify-center gap-2.5 rounded-xl border-2 border-[#E6E8EC] dark:border-[#334155] bg-white dark:bg-[#1E293B] px-8 py-4 text-[#0B1220] dark:text-white font-bold hover:bg-[#F2F4F7] dark:hover:bg-[#334155] hover:border-[#C9A227]/30 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#C9A227] focus:ring-offset-2"
+               aria-label="Explore the pillars - View our course programs">
               <i class="fas fa-compass"></i>
               <span>Explore the Pillars</span>
             </a>
           {% endif %}
         </div>
 
-        <!-- Micro-proof (more “executive” feel) -->
-        <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div class="rounded-2xl border border-[#E6E8EC] bg-white/85 p-5 shadow-sm">
+        <!-- Micro-proof (luxury cards with hover) -->
+        <div class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="luxury-card rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-white/90 dark:bg-[#1E293B]/90 backdrop-blur-sm p-5 shadow-soft">
             <div class="flex items-center gap-3">
-              <span class="h-11 w-11 rounded-2xl bg-[#C9A227]/15 flex items-center justify-center">
+              <span class="h-11 w-11 rounded-2xl bg-[#C9A227]/15 dark:bg-[#C9A227]/20 flex items-center justify-center">
                 <i class="fas fa-check-circle text-[#C9A227]"></i>
               </span>
               <div>
-                <p class="text-xs uppercase tracking-wide text-[#9CA3AF]">Standard</p>
-                <p class="font-semibold text-[#0B1220] leading-snug">Proof over promises</p>
+                <p class="text-xs uppercase tracking-wide text-[#9CA3AF] dark:text-[#64748B]">Standard</p>
+                <p class="font-semibold text-[#0B1220] dark:text-white leading-snug">Proof over promises</p>
               </div>
             </div>
           </div>
 
-          <div class="rounded-2xl border border-[#E6E8EC] bg-white/85 p-5 shadow-sm">
+          <div class="luxury-card rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-white/90 dark:bg-[#1E293B]/90 backdrop-blur-sm p-5 shadow-soft">
             <div class="flex items-center gap-3">
-              <span class="h-11 w-11 rounded-2xl bg-[#0B1220]/10 flex items-center justify-center">
-                <i class="fas fa-users text-[#0B1220]"></i>
+              <span class="h-11 w-11 rounded-2xl bg-[#0B1220]/10 dark:bg-white/10 flex items-center justify-center">
+                <i class="fas fa-users text-[#0B1220] dark:text-white"></i>
               </span>
               <div>
-                <p class="text-xs uppercase tracking-wide text-[#9CA3AF]">Community</p>
-                <p class="font-semibold text-[#0B1220] leading-snug">You’re not alone</p>
+                <p class="text-xs uppercase tracking-wide text-[#9CA3AF] dark:text-[#64748B]">Community</p>
+                <p class="font-semibold text-[#0B1220] dark:text-white leading-snug">You're not alone</p>
               </div>
             </div>
           </div>
 
-          <div class="rounded-2xl border border-[#E6E8EC] bg-white/85 p-5 shadow-sm">
+          <div class="luxury-card rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-white/90 dark:bg-[#1E293B]/90 backdrop-blur-sm p-5 shadow-soft">
             <div class="flex items-center gap-3">
-              <span class="h-11 w-11 rounded-2xl bg-[#16A34A]/10 flex items-center justify-center">
+              <span class="h-11 w-11 rounded-2xl bg-[#16A34A]/10 dark:bg-[#16A34A]/20 flex items-center justify-center">
                 <i class="fas fa-bolt text-[#16A34A]"></i>
               </span>
               <div>
-                <p class="text-xs uppercase tracking-wide text-[#9CA3AF]">Execution</p>
-                <p class="font-semibold text-[#0B1220] leading-snug">Implementation wins</p>
+                <p class="text-xs uppercase tracking-wide text-[#9CA3AF] dark:text-[#64748B]">Execution</p>
+                <p class="font-semibold text-[#0B1220] dark:text-white leading-snug">Implementation wins</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT: Premium “credibility/product” card -->
+      <!-- RIGHT: Premium "credibility/product" card -->
       <div class="lg:col-span-5">
-        <div class="rounded-3xl border border-[#E6E8EC] bg-white shadow-sm overflow-hidden">
+        <div class="luxury-card rounded-3xl border border-[#E6E8EC] dark:border-[#334155] bg-white/95 dark:bg-[#1E293B]/95 backdrop-blur-sm shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
           <!-- Card header with image -->
           <div class="relative">
             <img
@@ -169,23 +175,23 @@
             </div>
 
             <!-- Quote (cleaner + more premium) -->
-            <div class="mt-6 rounded-2xl border border-[#E6E8EC] bg-[#F7F7F5] p-5">
+            <div class="mt-6 rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-[#F7F7F5] dark:bg-[#0F172A]/50 p-5">
               <div class="flex items-start gap-3">
-                <span class="mt-1 h-10 w-10 rounded-2xl bg-[#C9A227]/15 flex items-center justify-center">
+                <span class="mt-1 h-10 w-10 rounded-2xl bg-[#C9A227]/15 dark:bg-[#C9A227]/20 flex items-center justify-center">
                   <i class="fas fa-quote-right text-[#C9A227]"></i>
                 </span>
                 <div>
-                  <p class="text-sm text-[#6B7280]">What members say</p>
-                  <p class="mt-2 text-[#0B1220] font-semibold leading-snug">
-                    “This isn’t motivation. This is momentum—with people who actually care.”
+                  <p class="text-sm text-[#6B7280] dark:text-[#94A3B8]">What members say</p>
+                  <p class="mt-2 text-[#0B1220] dark:text-white font-semibold leading-snug">
+                    "This isn't motivation. This is momentum—with people who actually care."
                   </p>
                   <div class="mt-4 flex items-center gap-3">
-                    <div class="h-9 w-9 rounded-full bg-[#0B1220]/10 flex items-center justify-center">
-                      <i class="fas fa-user text-[#0B1220] text-sm"></i>
+                    <div class="h-9 w-9 rounded-full bg-[#0B1220]/10 dark:bg-white/10 flex items-center justify-center">
+                      <i class="fas fa-user text-[#0B1220] dark:text-white text-sm"></i>
                     </div>
                     <div>
-                      <p class="text-sm font-semibold text-[#0B1220]">Member</p>
-                      <p class="text-xs text-[#6B7280]">Community feedback</p>
+                      <p class="text-sm font-semibold text-[#0B1220] dark:text-white">Member</p>
+                      <p class="text-xs text-[#6B7280] dark:text-[#94A3B8]">Community feedback</p>
                     </div>
                   </div>
                 </div>
@@ -193,14 +199,14 @@
             </div>
 
             <!-- Trust signals -->
-            <div class="mt-6 grid grid-cols-2 gap-4 text-sm text-[#475569]">
-              <div class="flex items-center gap-2 rounded-2xl border border-[#E6E8EC] bg-white p-4">
+            <div class="mt-6 grid grid-cols-2 gap-4 text-sm text-[#475569] dark:text-[#CBD5E1]">
+              <div class="luxury-card flex items-center gap-2 rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-white dark:bg-[#0F172A]/50 p-4">
                 <i class="fas fa-globe text-[#C9A227]"></i>
-                <span class="font-medium text-[#0B1220]">Global access</span>
+                <span class="font-medium text-[#0B1220] dark:text-white">Global access</span>
               </div>
-              <div class="flex items-center gap-2 rounded-2xl border border-[#E6E8EC] bg-white p-4">
-                <i class="fas fa-lock text-[#0B1220]"></i>
-                <span class="font-medium text-[#0B1220]">High-trust</span>
+              <div class="luxury-card flex items-center gap-2 rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-white dark:bg-[#0F172A]/50 p-4">
+                <i class="fas fa-lock text-[#0B1220] dark:text-white"></i>
+                <span class="font-medium text-[#0B1220] dark:text-white">High-trust</span>
               </div>
             </div>
 
@@ -219,8 +225,8 @@
           </div>
         </div>
 
-        <!-- Small note under card (optional, but premium) -->
-        <p class="mt-4 text-sm text-[#6B7280] leading-relaxed">
+        <!-- Small note under card (premium) -->
+        <p class="mt-6 text-sm text-[#6B7280] dark:text-[#94A3B8] leading-relaxed">
           No pedestal. No guru energy. Just vetted guidance, bold action, and a community built for leaders.
         </p>
       </div>

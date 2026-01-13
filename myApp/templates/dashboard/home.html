@@ -13,7 +13,7 @@
         
         <!-- Stats Grid -->
         <div class="grid md:grid-cols-4 gap-6 mb-10">
-            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft animate-card-hover animate-fade-in-up">
+            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft hover:shadow-medium transition-shadow">
                 <div class="text-sm font-medium text-slate mb-2">Total Students</div>
                 <div class="text-3xl font-bold text-ink mb-2">{{ total_students }}</div>
                 <div class="text-xs font-medium text-muted">
@@ -21,19 +21,19 @@
                 </div>
             </div>
             
-            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft animate-card-hover animate-fade-in-up animate-delay-100">
+            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft hover:shadow-medium transition-shadow">
                 <div class="text-sm font-medium text-slate mb-2">New Students</div>
                 <div class="text-3xl font-bold text-ink mb-2">{{ new_students }}</div>
                 <div class="text-xs font-medium text-muted">Last 7 days</div>
             </div>
             
-            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft animate-card-hover animate-fade-in-up animate-delay-200">
+            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft hover:shadow-medium transition-shadow">
                 <div class="text-sm font-medium text-slate mb-2">Total Enrollments</div>
                 <div class="text-3xl font-bold text-ink mb-2">{{ total_enrollments }}</div>
                 <div class="text-xs font-medium text-muted">All time</div>
             </div>
             
-            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft animate-card-hover animate-fade-in-up animate-delay-300">
+            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft hover:shadow-medium transition-shadow">
                 <div class="text-sm font-medium text-slate mb-2">Certifications</div>
                 <div class="text-3xl font-bold text-ink mb-2">{{ total_certifications }}</div>
                 <div class="text-xs font-medium text-muted">Issued</div>
@@ -42,27 +42,27 @@
         
         <!-- Quick Actions -->
         <div class="grid md:grid-cols-4 gap-6 mb-10">
-            <a href="{% url 'dashboard_courses' %}" class="bg-ivory border border-glass/50 rounded-2xl p-6 animate-card-hover animate-fade-in-up animate-delay-400 group">
+            <a href="{% url 'dashboard_courses' %}" class="bg-ivory border border-glass/50 rounded-2xl p-6 hover:shadow-elevated transition-all group">
                 <div class="w-14 h-14 bg-violet-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-violet-200 transition-colors">
-                    <i class="fas fa-book text-violet-600 text-2xl animate-icon-float"></i>
+                    <i class="fas fa-book text-violet-600 text-2xl"></i>
                 </div>
                 <div class="font-semibold text-ink text-sm">Manage Courses</div>
             </a>
-            <a href="{% url 'dashboard_students' %}" class="bg-ivory border border-glass/50 rounded-2xl p-6 animate-card-hover animate-fade-in-up animate-delay-500 group">
+            <a href="{% url 'dashboard_students' %}" class="bg-ivory border border-glass/50 rounded-2xl p-6 hover:shadow-elevated transition-all group">
                 <div class="w-14 h-14 bg-cyan-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-cyan-200 transition-colors">
-                    <i class="fas fa-users text-cyan-600 text-2xl animate-icon-float"></i>
+                    <i class="fas fa-users text-cyan-600 text-2xl"></i>
                 </div>
                 <div class="font-semibold text-ink text-sm">Manage Students</div>
             </a>
-            <a href="{% url 'dashboard_analytics' %}" class="bg-ivory border border-glass/50 rounded-2xl p-6 animate-card-hover animate-fade-in-up animate-delay-400 group">
+            <a href="{% url 'dashboard_analytics' %}" class="bg-ivory border border-glass/50 rounded-2xl p-6 hover:shadow-elevated transition-all group">
                 <div class="w-14 h-14 bg-emerald-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-emerald-200 transition-colors">
-                    <i class="fas fa-chart-bar text-emerald-600 text-2xl animate-icon-float"></i>
+                    <i class="fas fa-chart-bar text-emerald-600 text-2xl"></i>
                 </div>
                 <div class="font-semibold text-ink text-sm">Analytics</div>
             </a>
-            <a href="{% url 'dashboard_lessons' %}" class="bg-ivory border border-glass/50 rounded-2xl p-6 animate-card-hover animate-fade-in-up animate-delay-500 group">
+            <a href="{% url 'dashboard_lessons' %}" class="bg-ivory border border-glass/50 rounded-2xl p-6 hover:shadow-elevated transition-all group">
                 <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-200 transition-colors">
-                    <i class="fas fa-video text-amber-600 text-2xl animate-icon-float"></i>
+                    <i class="fas fa-video text-amber-600 text-2xl"></i>
                 </div>
                 <div class="font-semibold text-ink text-sm">Manage Lessons</div>
             </a>
@@ -74,7 +74,7 @@
             {% if recent_activities %}
             <div class="space-y-3">
                 {% for activity in recent_activities %}
-                <div class="flex items-center space-x-4 p-4 bg-porcelain border border-glass/50 rounded-xl animate-table-row">
+                <div class="flex items-center space-x-4 p-4 bg-porcelain border border-glass/50 rounded-xl hover:shadow-soft transition-all">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0
                         {% if activity.type == 'lesson_completion' %}bg-emerald-100 text-emerald-600
                         {% elif activity.type == 'quiz_attempt' %}bg-cyan-100 text-cyan-600

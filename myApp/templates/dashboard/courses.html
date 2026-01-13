@@ -12,8 +12,8 @@
                 <p class="text-lg text-slate">Create, edit, and manage all courses</p>
             </div>
             <a href="{% url 'dashboard_add_course' %}" 
-               class="inline-flex items-center gap-2 px-6 py-3 bg-[#0B1220] text-white rounded-xl font-semibold hover:shadow-md animate-button-hover">
-                <i class="fas fa-plus animate-icon-float"></i>
+               class="inline-flex items-center gap-2 px-6 py-3 bg-[#0B1220] text-white rounded-xl font-semibold hover:shadow-md transition">
+                <i class="fas fa-plus"></i>
                 <span>Add New Course</span>
             </a>
         </div>
@@ -36,8 +36,8 @@
                     </select>
                 </div>
                 <button type="submit" 
-                        class="px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 animate-button-hover">
-                    <i class="fas fa-search mr-2 animate-icon-rotate"></i>Search
+                        class="px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition">
+                    <i class="fas fa-search mr-2"></i>Search
                 </button>
             </form>
         </div>
@@ -59,7 +59,7 @@
                     </thead>
                     <tbody class="bg-ivory divide-y divide-glass">
                         {% for course in courses %}
-                        <tr class="animate-table-row">
+                        <tr class="hover:bg-mist transition-colors">
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-4">
                                     {% if course.thumbnail %}

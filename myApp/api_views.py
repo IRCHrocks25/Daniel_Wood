@@ -103,10 +103,26 @@ def complete_lesson(request, lesson_id):
         progress.video_watch_percentage = 100.0
         progress.save()
         
+        # Calculate updated course progress
+        total_lessons = lesson.course.lesson_set.count()
+        completed_lessons = UserProgress.objects.filter(
+            user=request.user,
+            lesson__course=lesson.course,
+            completed=True
+        ).count()
+        if total_lessons > 0:
+            course_progress = int((completed_lessons / total_lessons) * 100)
+            course_progress = max(0, min(100, course_progress))  # Clamp to 0-100
+        else:
+            course_progress = 0
+        
         return JsonResponse({
             'success': True,
             'message': 'Lesson marked as complete',
             'lesson_id': lesson.id,
+            'course_progress': course_progress,
+            'completed_lessons': completed_lessons,
+            'total_lessons': total_lessons,
         })
     
     except Lesson.DoesNotExist:
@@ -143,6 +159,52 @@ def toggle_favorite_course(request, course_id):
     
     except Course.DoesNotExist:
         return JsonResponse({'success': False, 'error': 'Course not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+
+@csrf_exempt
+@require_POST
+def chatbot_public(request):
+    """Public AI chatbot for landing page (no login required)"""
+    try:
+        data = json.loads(request.body)
+        message = data.get('message', '').strip()
+        page_context = data.get('page_context', {})
+        
+        if not message:
+            return JsonResponse({'success': False, 'error': 'Message is required'}, status=400)
+        
+        # Rate limiting check (simple in-memory, in production use Redis/cache)
+        # For now, just process the request
+        
+        # Stub response for now (replace with OpenAI later)
+        responses = {
+            'what\'s inside the community': 'Swedish Wealth Institute offers a high-trust community with vetted mentors, world-class conversations, and a global network. Members get access to programs across three pillars: Assets Mastery, Financial Literacy, and Time Management. The community is built for action, not just information—with real support and accountability.',
+            'how do programs work': 'Our programs are structured around three core pillars: Assets Mastery, Financial Literacy, and Time Management. Each program includes video lessons, practical exercises, and access to our community. You can learn at your own pace, track your progress, and connect with mentors and peers who are on the same journey.',
+            'how do i join': 'To join Swedish Wealth Institute, click "Step Into the Room" to create an account. Once you\'re registered, you\'ll have access to browse our programs, join the community, and start your journey toward financial freedom and personal growth.',
+            'upcoming experiences': 'We regularly host events, workshops, and live conversations with vetted experts. Check our Events page for the latest schedule. These experiences are designed to provide actionable insights and connect you with mentors who can guide your journey.'
+        }
+        
+        # Simple keyword matching for stub responses
+        message_lower = message.lower()
+        response_text = None
+        for key, value in responses.items():
+            if key in message_lower:
+                response_text = value
+                break
+        
+        if not response_text:
+            # Generic helpful response
+            response_text = 'Thank you for your question! Swedish Wealth Institute offers programs in Assets Mastery, Financial Literacy, and Time Management. Our community provides vetted mentors, world-class conversations, and a global network of ambitious individuals. Would you like to know more about our programs, how to join, or upcoming events?'
+        
+        return JsonResponse({
+            'success': True,
+            'response': response_text,
+        })
+    
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'Invalid JSON'}, status=400)
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=500)
 

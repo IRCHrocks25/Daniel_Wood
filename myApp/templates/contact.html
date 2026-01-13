@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - Swedish Wealth Institute{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-[#F7F7F5] dark:bg-[#0F172A] py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 section-content">
+            <h1 class="text-4xl sm:text-5xl font-semibold text-[#0B1220] dark:text-white tracking-tight mb-6">
+                Get in Touch
+            </h1>
+            <p class="text-lg text-[#475569] dark:text-[#CBD5E1] max-w-2xl mx-auto text-content">
+                Have questions? We're here to help. Reach out and we'll get back to you as soon as possible.
+            </p>
+        </div>
+        
+        <div class="bg-white dark:bg-[#1E293B] rounded-3xl border border-[#E6E8EC] dark:border-[#334155] shadow-soft p-8 sm:p-10 section-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="rounded-2xl border border-[#E6E8EC] bg-[#F7F7F5] p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="h-12 w-12 rounded-2xl bg-[#C9A227]/15 flex items-center justify-center">
+                            <i class="fas fa-envelope text-[#C9A227]"></i>
+                        </span>
+                        <div>
+                            <p class="text-sm text-[#9CA3AF] uppercase tracking-wide">Email</p>
+                            <a href="mailto:hello@swedishwealthinstitute.com" class="text-[#0B1220] font-semibold hover:text-[#C9A227] transition">
+                                hello@swedishwealthinstitute.com
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rounded-2xl border border-[#E6E8EC] bg-[#F7F7F5] p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="h-12 w-12 rounded-2xl bg-[#0B1220]/10 flex items-center justify-center">
+                            <i class="fas fa-clock text-[#0B1220]"></i>
+                        </span>
+                        <div>
+                            <p class="text-sm text-[#9CA3AF] uppercase tracking-wide">Response Time</p>
+                            <p class="text-[#0B1220] font-semibold">Within 24-48 hours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-[#E6E8EC] pt-8">
+                <p class="text-sm text-[#6B7280] text-center">
+                    For urgent matters, please email us directly. We prioritize all inquiries and respond as quickly as possible.
+                </p>
+            </div>
+        </div>
+        
+        <div class="mt-8 text-center">
+            <a href="{% url 'home' %}" class="inline-flex items-center gap-2 text-[#475569] hover:text-[#0B1220] transition">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Home</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
