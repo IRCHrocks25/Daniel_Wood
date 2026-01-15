@@ -99,6 +99,22 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        
+        if not username or not password:
+            messages.error(request, 'Please provide both username and password.')
+            return render(request, 'login.html')
+        
+        # Check if user exists first
+        from django.contrib.auth.models import User
+        try:
+            user_obj = User.objects.get(username=username)
+            if not user_obj.is_active:
+                messages.error(request, 'Your account is inactive. Please contact an administrator.')
+                return render(request, 'login.html')
+        except User.DoesNotExist:
+            messages.error(request, 'Invalid username or password.')
+            return render(request, 'login.html')
+        
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
