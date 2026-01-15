@@ -75,13 +75,15 @@ WSGI_APPLICATION = 'myProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# Use DATABASE_URL if available, otherwise fallback to SQLite
+# Always use DATABASE_URL if available (both local and production)
+# This ensures local development uses the same database as production
 if env('DATABASE_URL', default=None):
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.parse(env('DATABASE_URL'))
     }
 else:
+    # Fallback to SQLite only if DATABASE_URL is not set
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
