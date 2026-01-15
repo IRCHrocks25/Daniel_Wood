@@ -56,10 +56,21 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-ink mb-2">
-                            <i class="fas fa-align-left mr-2 text-muted"></i>Description
+                            <i class="fas fa-align-left mr-2 text-muted"></i>Description (Short Summary)
                         </label>
-                        <textarea name="description" rows="4"
+                        <textarea name="description" rows="3"
                                   class="w-full px-4 py-3 border border-glass rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-ink">{{ lesson.description }}</textarea>
+                        <p class="mt-2 text-xs text-slate">Short description shown in lesson lists. Use the rich content editor below for full lesson content.</p>
+                    </div>
+
+                    <!-- Rich Content Editor -->
+                    <div>
+                        <label class="block text-sm font-semibold text-ink mb-2">
+                            <i class="fas fa-edit mr-2 text-muted"></i>Lesson Content <span class="text-slate-500 font-normal">(Rich Text Editor)</span>
+                        </label>
+                        <div id="editorHost" class="min-h-[400px] bg-white dark:bg-slate-800 border border-glass rounded-lg p-4"></div>
+                        <input type="hidden" name="content" id="contentField" value="{}">
+                        <p class="mt-2 text-xs text-slate">Add rich content, headings, lists, images, and more using the editor above.</p>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-6">
@@ -197,6 +208,143 @@
         </div>
     </div>
 </div>
+
+<!-- Editor.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@2.28.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/header@2.8.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/list@1.11.3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@2.6.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/code@2.9.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/table@2.2.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@1.4.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/raw@2.5.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/image@2.9.0"></script>
+
+<script>
+// Debounce function
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Editor.js
+    const contentData = document.getElementById('content-data');
+    const initialBlocks = contentData ? JSON.parse(contentData.textContent) : {};
+    
+    const editor = new EditorJS({
+        holder: 'editorHost',
+        placeholder: 'Start typing or press "/" for blocks…',
+        data: initialBlocks,
+        autofocus: false,
+        minHeight: 400,
+        defaultBlock: 'paragraph',
+        tools: {
+            header: {
+                class: Header,
+                config: {
+                    levels: [1, 2, 3, 4],
+                    defaultLevel: 2
+                }
+            },
+            list: {
+                class: List,
+                inlineToolbar: true
+            },
+            quote: {
+                class: Quote,
+                inlineToolbar: true,
+                shortcut: 'CMD+SHIFT+O',
+                config: {
+                    quotePlaceholder: 'Enter a quote',
+                    captionPlaceholder: 'Quote\'s author'
+                }
+            },
+            code: CodeTool,
+            table: {
+                class: Table,
+                inlineToolbar: true,
+                config: {
+                    rows: 2,
+                    cols: 2,
+                }
+            },
+            delimiter: Delimiter,
+            raw: RawTool,
+            image: {
+                class: ImageTool,
+                config: {
+                    uploader: {
+                        async uploadByFile(file) {
+                            const formData = new FormData();
+                            formData.append('file', file);
+                            
+                            try {
+                                const response = await fetch('/u/editor-image/', {
+                                    method: 'POST',
+                                    body: formData,
+                                    headers: {
+                                        'X-CSRFToken': getCookie('csrftoken')
+                                    }
+                                });
+                                
+                                const result = await response.json();
+                                if (result.url) {
+                                    return {
+                                        success: 1,
+                                        file: {
+                                            url: result.url
+                                        }
+                                    };
+                                } else {
+                                    throw new Error('Upload failed');
+                                }
+                            } catch (error) {
+                                console.error('Image upload error:', error);
+                                return {
+                                    success: 0
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        onChange: debounce(async () => {
+            try {
+                const outputData = await editor.save();
+                document.getElementById('contentField').value = JSON.stringify(outputData);
+            } catch (error) {
+                console.error('Error saving editor content:', error);
+            }
+        }, 600)
+    });
+});
+</script>
+<script id="content-data" type="application/json">{{ content_json|safe }}</script>
 {% endblock %}
 
 

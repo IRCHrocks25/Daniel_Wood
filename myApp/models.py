@@ -138,8 +138,11 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     module = models.ForeignKey(Module, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200)
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=200)
     description = models.TextField(blank=True)
+    
+    # Rich Content (Editor.js blocks)
+    content = models.JSONField(default=dict, blank=True, help_text="Rich content blocks from Editor.js")
     
     # Video Information
     video_url = models.URLField(blank=True, help_text="Generic video URL")
@@ -209,6 +212,30 @@ class Lesson(models.Model):
         if isinstance(self.ai_coach_actions, list):
             return self.ai_coach_actions
         return []
+    
+    def get_google_drive_embed_url(self):
+        """Convert Google Drive sharing URL to embed/preview URL for iframe embedding"""
+        # First try to use the stored google_drive_id
+        if self.google_drive_id:
+            return f"https://drive.google.com/file/d/{self.google_drive_id}/preview"
+        
+        # If no ID stored, extract it from the URL (won't save, but will work for display)
+        if self.google_drive_url:
+            drive_match = re.search(r'/file/d/([a-zA-Z0-9_-]+)', self.google_drive_url)
+            if drive_match:
+                file_id = drive_match.group(1)
+                return f"https://drive.google.com/file/d/{file_id}/preview"
+        
+        return None
+    
+    def has_content(self):
+        """Check if lesson has rich content blocks"""
+        if not self.content:
+            return False
+        if isinstance(self.content, dict):
+            blocks = self.content.get('blocks', [])
+            return len(blocks) > 0
+        return False
     
     def save(self, *args, **kwargs):
         # Extract Vimeo ID from URL

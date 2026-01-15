@@ -3,146 +3,419 @@
 {% block title %}My Dashboard - Learning Platform{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-porcelain py-10">
+<div class="min-h-screen relative py-12">
     <div class="max-w-7xl mx-auto px-6">
-        <!-- Header -->
-        <div class="mb-10">
-            <h1 class="text-4xl font-semibold text-ink tracking-tight mb-2">My Dashboard</h1>
-            <p class="text-sm text-slate leading-6">Welcome back, {{ user.get_full_name|default:user.username }}!</p>
-        </div>
-        
-        <!-- Stats Cards -->
-        <div class="grid md:grid-cols-4 gap-6 mb-10">
-            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft hover:shadow-medium transition-shadow">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-14 h-14 bg-violet-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-book text-violet-600 text-xl"></i>
-                    </div>
-                </div>
-                <div class="text-3xl font-bold text-ink mb-1">{{ enrolled_courses }}</div>
-                <div class="text-sm font-medium text-slate">Enrolled Courses</div>
+
+        <!-- HERO HEADER -->
+        <div class="relative mb-20">
+            <!-- Subtle decorative background elements -->
+            <div class="absolute inset-0 overflow-hidden rounded-[32px] pointer-events-none">
+                <div class="absolute -top-20 -right-20 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-20 -left-20 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"></div>
             </div>
             
-            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft hover:shadow-medium transition-shadow">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-14 h-14 bg-emerald-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-check-circle text-emerald-600 text-xl"></i>
+            <div class="relative rounded-[32px] border border-slate-200/60 bg-gradient-to-br from-white via-white to-slate-50/50 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.04),0_20px_60px_rgba(0,0,0,0.06)] overflow-hidden">
+                <!-- Premium gradient accent line -->
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600"></div>
+                
+                <div class="p-12 md:p-16">
+                    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+                        <div class="space-y-4">
+                            <!-- Subtle badge -->
+                            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-xs font-semibold text-blue-700 tracking-wide">
+                                <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
+                                Dashboard
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <h1 class="text-5xl md:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1]">
+                                    Welcome back,
+                                    <span class="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                                        {{ user.get_full_name|default:user.username }}
+                                    </span>
+                                </h1>
+                                <p class="text-lg text-slate-500 max-w-2xl leading-relaxed font-light">
+                                    Track your progress, continue your journey, and unlock new opportunities.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="text-3xl font-bold text-ink mb-1">{{ completed_courses }}</div>
-                <div class="text-sm font-medium text-slate">Completed Courses</div>
-            </div>
-            
-            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft hover:shadow-medium transition-shadow">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-14 h-14 bg-cyan-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-play-circle text-cyan-600 text-xl"></i>
-                    </div>
-                </div>
-                <div class="text-3xl font-bold text-ink mb-1">{{ completed_lessons }}/{{ total_lessons }}</div>
-                <div class="text-sm font-medium text-slate">Lessons Completed</div>
-            </div>
-            
-            <div class="bg-ivory border border-glass/50 rounded-2xl p-6 shadow-soft hover:shadow-medium transition-shadow">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-trophy text-amber-600 text-xl"></i>
-                    </div>
-                </div>
-                <div class="text-3xl font-bold text-ink mb-1">{{ certifications }}</div>
-                <div class="text-sm font-medium text-slate">Certifications</div>
             </div>
         </div>
-        
-        <!-- Filters -->
-        <div class="bg-ivory border border-glass/50 rounded-2xl p-6 mb-10 shadow-soft">
-            <div class="flex flex-wrap gap-6 items-center justify-between">
-                <div class="flex items-center space-x-6">
+
+        <!-- STATS / WINS -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+            <!-- Active Courses -->
+            <div class="group relative rounded-2xl border border-slate-200/80 bg-white/90 backdrop-blur-sm shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_6px_rgba(0,0,0,0.06),0_12px_24px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                <!-- Subtle gradient overlay on hover -->
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-blue-500/0 group-hover:from-blue-500/5 group-hover:to-transparent transition-all duration-300"></div>
+                
+                <div class="relative p-6">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 shadow-lg shadow-blue-500/25 flex items-center justify-center">
+                            <i class="fas fa-book text-white text-lg"></i>
+                        </div>
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
+                                <i class="fas fa-arrow-right text-blue-600 text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <div class="text-4xl font-bold text-slate-900 tracking-tight">
+                            {{ enrolled_courses }}
+                        </div>
+                        <div class="text-sm font-medium text-slate-500">Active Courses</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed -->
+            <div class="group relative rounded-2xl border border-slate-200/80 bg-white/90 backdrop-blur-sm shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_6px_rgba(0,0,0,0.06),0_12px_24px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-emerald-500/0 group-hover:from-emerald-500/5 group-hover:to-transparent transition-all duration-300"></div>
+                
+                <div class="relative p-6">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/25 flex items-center justify-center">
+                            <i class="fas fa-check-circle text-white text-lg"></i>
+                        </div>
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
+                                <i class="fas fa-arrow-right text-emerald-600 text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <div class="text-4xl font-bold text-slate-900 tracking-tight">
+                            {{ completed_courses }}
+                        </div>
+                        <div class="text-sm font-medium text-slate-500">Completed</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lessons Finished -->
+            <div class="group relative rounded-2xl border border-slate-200/80 bg-white/90 backdrop-blur-sm shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_6px_rgba(0,0,0,0.06),0_12px_24px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/0 to-cyan-500/0 group-hover:from-cyan-500/5 group-hover:to-transparent transition-all duration-300"></div>
+                
+                <div class="relative p-6">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 shadow-lg shadow-cyan-500/25 flex items-center justify-center">
+                            <i class="fas fa-play-circle text-white text-lg"></i>
+                        </div>
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-8 h-8 rounded-lg bg-cyan-50 flex items-center justify-center">
+                                <i class="fas fa-arrow-right text-cyan-600 text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <div class="text-4xl font-bold text-slate-900 tracking-tight">
+                            {{ completed_lessons }}<span class="text-2xl text-slate-400 font-normal">/{{ total_lessons }}</span>
+                        </div>
+                        <div class="text-sm font-medium text-slate-500">Lessons Finished</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="group relative rounded-2xl border border-slate-200/80 bg-white/90 backdrop-blur-sm shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_6px_rgba(0,0,0,0.06),0_12px_24px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-amber-500/0 to-amber-500/0 group-hover:from-amber-500/5 group-hover:to-transparent transition-all duration-300"></div>
+                
+                <div class="relative p-6">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 shadow-lg shadow-amber-500/25 flex items-center justify-center">
+                            <i class="fas fa-trophy text-white text-lg"></i>
+                        </div>
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
+                                <i class="fas fa-arrow-right text-amber-600 text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <div class="text-4xl font-bold text-slate-900 tracking-tight">
+                            {{ certifications }}
+                        </div>
+                        <div class="text-sm font-medium text-slate-500">Certifications</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTROL BAR -->
+        <div class="rounded-[26px] border border-black/5 bg-white/75 backdrop-blur-xl shadow-[0_12px_40px_rgba(2,6,23,0.08)] p-5 mb-10">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <!-- Search -->
+                <div class="relative w-full lg:max-w-md">
+                    <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <input
+                        id="courseSearch"
+                        type="text"
+                        placeholder="Search courses..."
+                        class="w-full rounded-2xl border border-black/5 bg-white px-10 py-3 text-sm text-slate-800 shadow-sm outline-none ring-0
+                               focus:border-blue-200 focus:ring-4 focus:ring-blue-100"
+                    />
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
                     {% if user.is_authenticated %}
-                    <label class="flex items-center cursor-pointer group">
-                        <input type="checkbox" {% if filter_favorites %}checked{% endif %} 
+                    <label class="group inline-flex items-center gap-3 rounded-2xl border border-black/5 bg-white px-4 py-3 shadow-sm hover:shadow-md transition cursor-pointer">
+                        <input type="checkbox"
+                               {% if filter_favorites %}checked{% endif %}
                                onchange="window.location.href='?favorites=' + (this.checked ? 'true' : '')"
-                               class="w-4 h-4 text-violet-600 border-glass rounded focus:ring-2 focus:ring-violet-500 cursor-pointer">
-                        <span class="ml-2 text-sm font-medium text-ink group-hover:text-violet-600 transition-colors">
-                            <i class="fas fa-heart text-red-500 mr-1.5"></i>Favorites Only
+                               class="h-4 w-4 rounded border-black/10 text-rose-500 focus:ring-4 focus:ring-rose-100">
+                        <span class="text-sm font-semibold text-slate-800 group-hover:text-rose-600 transition">
+                            <i class="fas fa-heart mr-1"></i> Favorites
                         </span>
                     </label>
                     {% endif %}
-                </div>
-                <div class="flex items-center space-x-4">
-                    <select onchange="window.location.href='?sort=' + this.value" 
-                            class="px-4 py-2.5 border-2 border-glass rounded-xl text-sm font-medium text-ink bg-ivory focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition-all cursor-pointer">
-                        <option value="recent" {% if sort_by == 'recent' %}selected{% endif %}>Recent</option>
-                        <option value="progress" {% if sort_by == 'progress' %}selected{% endif %}>Progress</option>
-                        <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Name</option>
-                    </select>
+
+                    <div class="inline-flex items-center gap-2 rounded-2xl border border-black/5 bg-white px-4 py-3 shadow-sm">
+                        <span class="text-xs font-semibold text-slate-500">Sort</span>
+                        <select onchange="window.location.href='?sort=' + this.value" class="bg-transparent text-sm font-semibold text-slate-800 outline-none">
+                            <option value="recent" {% if sort_by == 'recent' %}selected{% endif %}>Recently Accessed</option>
+                            <option value="progress" {% if sort_by == 'progress' %}selected{% endif %}>Progress</option>
+                            <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Alphabetical</option>
+                        </select>
+                    </div>
                 </div>
             </div>
+
+            <!-- Results meta -->
+            <div class="mt-4 flex items-center justify-between text-xs text-slate-500">
+                <span id="resultsCount">Showing courses</span>
+                <button id="clearSearch" class="font-semibold hover:text-slate-900 transition hidden">Clear</button>
+            </div>
         </div>
-        
-        <!-- My Courses -->
-        <div class="mb-10">
-            <h2 class="text-xl font-semibold text-ink mb-6">My Courses</h2>
-            {% if my_courses %}
-            <div class="grid md:grid-cols-3 gap-6">
-                {% for course in my_courses %}
-                <div class="bg-ivory border border-glass/50 rounded-2xl overflow-hidden shadow-soft hover:shadow-elevated transition-all group">
-                    {% if course.thumbnail %}
-                    <img src="{{ course.thumbnail.url }}" alt="{{ course.name }}" class="w-full h-48 object-cover">
-                    {% else %}
-                    <div class="w-full h-48 bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
-                        <i class="fas fa-book text-6xl text-white/30"></i>
-                    </div>
-                    {% endif %}
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-3">
-                            <h3 class="text-xl font-semibold text-ink flex-1 leading-tight">{{ course.name }}</h3>
-                            <button onclick="toggleFavorite({{ course.id }})" 
-                                    class="ml-2 text-xl {% if course.id in favorited_ids %}text-red-500{% else %}text-glass hover:text-red-500{% endif %} transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 rounded-lg p-1">
-                                <i class="fas fa-heart"></i>
-                            </button>
+
+        <!-- CONTINUE LEARNING -->
+        {% if continue_learning %}
+        <section class="mb-14">
+            <div class="flex items-end justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-semibold text-slate-900 flex items-center gap-2">
+                        <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-sm">
+                            <i class="fas fa-play"></i>
+                        </span>
+                        Continue Learning
+                    </h2>
+                    <p class="mt-1 text-sm text-slate-600">Pick up exactly where you left off.</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6" data-course-grid>
+                {% for course in continue_learning %}
+                <article class="course-card group rounded-[28px] border border-black/5 bg-white/80 backdrop-blur shadow-[0_12px_40px_rgba(2,6,23,0.08)] overflow-hidden transition hover:-translate-y-1 hover:shadow-[0_18px_70px_rgba(2,6,23,0.12)]"
+                         data-title="{{ course.name|lower }}"
+                         data-progress="{{ course.user_progress_percent|default:0 }}"
+                         data-section="continue">
+                    <div class="relative">
+                        {% if course.thumbnail %}
+                        <img src="{{ course.thumbnail.url }}" class="h-52 w-full object-cover">
+                        {% else %}
+                        <div class="h-52 bg-[linear-gradient(135deg,rgba(37,99,235,1),rgba(6,182,212,1))] flex items-center justify-center">
+                            <i class="fas fa-book text-6xl text-white/30"></i>
                         </div>
-                        <p class="text-sm text-slate leading-6 mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:15 }}</p>
-                        
+                        {% endif %}
+                        <div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(2,6,23,0.62),transparent_60%)]"></div>
+                        <div class="absolute top-4 left-4">
+                            <span class="inline-flex items-center gap-2 rounded-full bg-white/15 backdrop-blur px-3 py-1 text-xs font-semibold text-white border border-white/20">
+                                <i class="fas fa-circle text-emerald-400 text-[10px]"></i> Active
+                            </span>
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <h3 class="text-white font-semibold text-lg leading-tight drop-shadow line-clamp-2">
+                                {{ course.name }}
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <p class="text-sm text-slate-600 leading-6 mb-4 line-clamp-2">
+                            {{ course.short_description|default:course.description|truncatewords:18 }}
+                        </p>
+
                         {% with progress=course.user_progress_percent|default:0 %}
-                        <div class="mb-4">
-                            <div class="flex justify-between text-xs font-semibold text-slate mb-2">
+                        <div class="mb-5">
+                            <div class="flex justify-between text-xs font-semibold text-slate-500 mb-2">
                                 <span>Progress</span>
-                                <span class="text-ink">{{ progress }}%</span>
+                                <span class="text-slate-900">{{ progress }}%</span>
                             </div>
-                            <div class="w-full bg-mist rounded-full h-2.5 overflow-hidden" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="Course progress: {{ progress }}%">
-                                <div class="bg-gradient-to-r from-violet-600 to-cyan-600 h-2.5 rounded-full transition-all duration-500" style="width: {% if progress > 100 %}100{% elif progress < 0 %}0{% else %}{{ progress|floatformat:0 }}{% endif %}%"></div>
+                            <div class="h-2.5 rounded-full bg-slate-100 overflow-hidden border border-black/5">
+                                <div class="h-2.5 rounded-full bg-[linear-gradient(90deg,rgba(37,99,235,1),rgba(6,182,212,1))]"
+                                     style="width: {{ progress|floatformat:0 }}%"></div>
                             </div>
                         </div>
                         {% endwith %}
-                        
-                        <div class="flex gap-2">
-                            <a href="{% url 'course_detail' course.slug %}" 
-                               class="flex-1 text-center px-4 py-2.5 {% if course.user_progress_percent > 0 %}bg-cyan-600 hover:bg-cyan-700{% else %}bg-violet-600 hover:bg-violet-700{% endif %} text-white rounded-xl font-semibold transition-all shadow-soft hover:shadow-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
-                                {% if course.user_progress_percent > 0 %}<i class="fas fa-play mr-1.5"></i>Continue{% else %}<i class="fas fa-arrow-right mr-1.5"></i>Start{% endif %}
+
+                        <a href="{% url 'course_detail' course.slug %}"
+                           class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white border border-slate-200 px-5 py-3 text-slate-900 text-sm font-semibold shadow-sm hover:bg-slate-50 hover:border-slate-300 transition">
+                            Continue
+                            <i class="fas fa-arrow-right text-slate-700"></i>
+                        </a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- MY COURSES -->
+        {% if my_courses %}
+        <section class="mb-14">
+            <div class="flex items-end justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-semibold text-slate-900 flex items-center gap-2">
+                        <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-cyan-600 text-white shadow-sm">
+                            <i class="fas fa-graduation-cap"></i>
+                        </span>
+                        My Courses
+                    </h2>
+                    <p class="mt-1 text-sm text-slate-600">All your enrolled courses.</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6" data-course-grid>
+                {% for course in my_courses %}
+                <article class="course-card group rounded-[28px] border border-black/5 bg-white/80 backdrop-blur shadow-[0_12px_40px_rgba(2,6,23,0.08)] overflow-hidden transition hover:-translate-y-1 hover:shadow-[0_18px_70px_rgba(2,6,23,0.12)]"
+                         data-title="{{ course.name|lower }}"
+                         data-progress="{{ course.user_progress_percent|default:0 }}"
+                         data-section="my">
+                    <div class="relative">
+                        {% if course.thumbnail %}
+                        <img src="{{ course.thumbnail.url }}" class="h-52 w-full object-cover">
+                        {% else %}
+                        <div class="h-52 bg-[linear-gradient(135deg,rgba(37,99,235,1),rgba(6,182,212,1))] flex items-center justify-center">
+                            <i class="fas fa-book text-6xl text-white/30"></i>
+                        </div>
+                        {% endif %}
+                        <div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(2,6,23,0.62),transparent_60%)]"></div>
+                        <div class="absolute top-4 left-4 right-4 flex items-start justify-between">
+                            <span class="inline-flex items-center gap-2 rounded-full bg-white/15 backdrop-blur px-3 py-1 text-xs font-semibold text-white border border-white/20">
+                                <i class="fas fa-{% if course.is_completed %}check-circle text-emerald-400{% else %}circle text-cyan-400{% endif %} text-[10px]"></i>
+                                {% if course.is_completed %}Completed{% else %}In Progress{% endif %}
+                            </span>
+                            <button onclick="toggleFavorite({{ course.id }})"
+                                    class="text-lg {% if course.is_favorited %}text-rose-400{% else %}text-white/60 hover:text-rose-400{% endif %} transition">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <h3 class="text-white font-semibold text-lg leading-tight drop-shadow line-clamp-2">
+                                {{ course.name }}
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <p class="text-sm text-slate-600 leading-6 mb-4 line-clamp-2">
+                            {{ course.short_description|default:course.description|truncatewords:18 }}
+                        </p>
+
+                        {% with progress=course.user_progress_percent|default:0 %}
+                        <div class="mb-5">
+                            <div class="flex justify-between text-xs font-semibold text-slate-500 mb-2">
+                                <span>Progress</span>
+                                <span class="text-slate-900">{{ progress }}%</span>
+                            </div>
+                            <div class="h-2.5 rounded-full bg-slate-100 overflow-hidden border border-black/5">
+                                <div class="h-2.5 rounded-full bg-[linear-gradient(90deg,rgba(37,99,235,1),rgba(6,182,212,1))]"
+                                     style="width: {{ progress|floatformat:0 }}%"></div>
+                            </div>
+                        </div>
+                        {% endwith %}
+
+                        <div class="flex gap-3">
+                            <a href="{% url 'course_detail' course.slug %}"
+                               class="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl {% if course.user_progress_percent > 0 %}bg-cyan-600 hover:bg-cyan-700{% else %}bg-blue-600 hover:bg-blue-700{% endif %} px-5 py-3 text-white text-sm font-semibold shadow-sm transition">
+                                {% if course.user_progress_percent > 0 %}Continue{% else %}Start{% endif %}
                             </a>
-                            <a href="{% url 'student_course_progress' course.slug %}" 
-                               class="px-4 py-2.5 bg-mist hover:bg-glass text-ink rounded-xl transition-all shadow-soft hover:shadow-medium text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-violet-500">
-                                <i class="fas fa-chart-line"></i>
+                            <a href="{% url 'student_course_progress' course.slug %}"
+                               class="px-5 py-3 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 shadow-sm transition">
+                                <i class="fas fa-chart-line text-slate-700"></i>
                             </a>
                         </div>
                     </div>
-                </div>
+                </article>
                 {% endfor %}
             </div>
-            {% else %}
-            <div class="bg-ivory border border-glass/50 rounded-2xl p-12 text-center shadow-soft">
-                <div class="inline-flex items-center justify-center w-20 h-20 bg-mist rounded-2xl mb-4">
-                    <i class="fas fa-book-open text-4xl text-slate"></i>
+        </section>
+        {% endif %}
+
+        <!-- AVAILABLE COURSES -->
+        {% if available_courses %}
+        <section class="mb-14">
+            <div class="flex items-end justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-semibold text-slate-900 flex items-center gap-2">
+                        <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-sm">
+                            <i class="fas fa-plus-circle"></i>
+                        </span>
+                        Available Courses
+                    </h2>
+                    <p class="mt-1 text-sm text-slate-600">Discover new courses to expand your skills.</p>
                 </div>
-                <p class="text-xl font-semibold text-ink mb-2">You haven't enrolled in any courses yet.</p>
-                <p class="text-sm text-slate mb-6">Browse our course catalog to get started.</p>
-                <a href="{% url 'courses' %}" class="inline-flex items-center px-6 py-3 bg-violet-600 text-white rounded-xl font-semibold hover:bg-violet-700 transition-all shadow-medium hover:shadow-elevated focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
-                    <i class="fas fa-search mr-2"></i>Browse Courses
-                </a>
             </div>
-            {% endif %}
+
+            <div class="grid md:grid-cols-3 gap-6" data-course-grid>
+                {% for course in available_courses %}
+                <article class="course-card group rounded-[28px] border border-black/5 bg-white/80 backdrop-blur shadow-[0_12px_40px_rgba(2,6,23,0.08)] overflow-hidden transition hover:-translate-y-1 hover:shadow-[0_18px_70px_rgba(2,6,23,0.12)]"
+                         data-title="{{ course.name|lower }}"
+                         data-progress="0"
+                         data-section="available">
+                    <div class="relative">
+                        {% if course.thumbnail %}
+                        <img src="{{ course.thumbnail.url }}" class="h-52 w-full object-cover">
+                        {% else %}
+                        <div class="h-52 bg-[linear-gradient(135deg,rgba(37,99,235,1),rgba(6,182,212,1))] flex items-center justify-center">
+                            <i class="fas fa-book text-6xl text-white/30"></i>
+                        </div>
+                        {% endif %}
+                        <div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(2,6,23,0.62),transparent_60%)]"></div>
+                        <div class="absolute top-4 left-4">
+                            <span class="inline-flex items-center gap-2 rounded-full bg-white/15 backdrop-blur px-3 py-1 text-xs font-semibold text-white border border-white/20">
+                                <i class="fas fa-circle text-blue-400 text-[10px]"></i> New
+                            </span>
+                        </div>
+                        <div class="absolute bottom-4 left-4 right-4">
+                            <h3 class="text-white font-semibold text-lg leading-tight drop-shadow line-clamp-2">
+                                {{ course.name }}
+                            </h3>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <p class="text-sm text-slate-600 leading-6 mb-5 line-clamp-2">
+                            {{ course.short_description|default:course.description|truncatewords:18 }}
+                        </p>
+
+                        <a href="{% url 'course_detail' course.slug %}"
+                           class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-white text-sm font-semibold shadow-sm hover:bg-blue-700 transition">
+                            Explore Course
+                            <i class="fas fa-arrow-right text-white/80"></i>
+                        </a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- EMPTY STATE -->
+        {% if not continue_learning and not my_courses and not available_courses %}
+        <div class="rounded-[28px] border border-black/5 bg-white/75 backdrop-blur-xl shadow-[0_12px_40px_rgba(2,6,23,0.08)] p-12 text-center">
+            <p class="text-xl font-semibold text-slate-900 mb-2">No courses found.</p>
+            <p class="text-sm text-slate-600 mb-6">Try adjusting your filters or search terms.</p>
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
@@ -153,18 +426,73 @@ async function toggleFavorite(courseId) {
     try {
         const response = await fetch(`/api/courses/${courseId}/favorite/`, {
             method: 'POST',
-            headers: {
-                'X-CSRFToken': getCsrfToken(),
-            },
+            headers: { 'X-CSRFToken': getCsrfToken() },
         });
         const data = await response.json();
-        if (data.success) {
-            location.reload();
-        }
-    } catch (error) {
-        console.error('Error toggling favorite:', error);
+        if (data.success) location.reload();
+    } catch (e) {
+        console.error(e);
     }
 }
+
+// Search functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('courseSearch');
+    const clearBtn = document.getElementById('clearSearch');
+    const courseCards = document.querySelectorAll('.course-card');
+    const resultsCount = document.getElementById('resultsCount');
+    
+    if (!searchInput) return;
+    
+    function filterCourses() {
+        const query = searchInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+        let sectionsShown = new Set();
+        
+        courseCards.forEach(card => {
+            const title = card.getAttribute('data-title') || '';
+            const matches = !query || title.includes(query);
+            
+            if (matches) {
+                card.style.display = '';
+                visibleCount++;
+                const section = card.closest('section');
+                if (section) sectionsShown.add(section);
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        // Hide sections with no visible cards
+        document.querySelectorAll('section').forEach(section => {
+            if (section.querySelector('[data-course-grid]')) {
+                const hasVisible = Array.from(section.querySelectorAll('.course-card')).some(card => card.style.display !== 'none');
+                section.style.display = hasVisible ? '' : 'none';
+            }
+        });
+        
+        // Update results count
+        if (resultsCount) {
+            resultsCount.textContent = visibleCount > 0 
+                ? `Showing ${visibleCount} course${visibleCount !== 1 ? 's' : ''}`
+                : 'No courses found';
+        }
+        
+        // Show/hide clear button
+        if (clearBtn) {
+            clearBtn.classList.toggle('hidden', !query);
+        }
+    }
+    
+    searchInput.addEventListener('input', filterCourses);
+    
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            filterCourses();
+            searchInput.focus();
+        });
+    }
+});
 </script>
 {% endblock %}
-
