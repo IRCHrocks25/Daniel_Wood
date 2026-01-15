@@ -275,8 +275,9 @@ def course_detail(request, course_slug):
     modules = Module.objects.filter(course=course).order_by('order')
     lessons = Lesson.objects.filter(course=course).order_by('order')
     
-    # Get user progress if authenticated
+    # Get user progress if authenticated and check lesson unlock status
     user_progress = {}
+    lessons_with_status = []
     course_progress = 0
     if request.user.is_authenticated:
         progress_records = UserProgress.objects.filter(user=request.user, lesson__course=course)
@@ -290,6 +291,43 @@ def course_detail(request, course_slug):
             completed=True
         ).count()
         course_progress = int((completed_lessons / total_lessons * 100)) if total_lessons > 0 else 0
+        
+        # Check unlock status for each lesson
+        lessons_list = list(lessons)
+        for i, lesson in enumerate(lessons_list):
+            is_unlocked = True
+            is_completed = False
+            progress_obj = None
+            
+            # Check if lesson has progress
+            if lesson.id in user_progress:
+                progress_obj = user_progress[lesson.id]
+                is_completed = progress_obj.completed
+            
+            # First lesson is always unlocked if user has access
+            if i > 0 and has_access:
+                # Check if previous lesson is completed
+                prev_lesson = lessons_list[i - 1]
+                if prev_lesson.id in user_progress:
+                    prev_progress = user_progress[prev_lesson.id]
+                    is_unlocked = prev_progress.completed
+                else:
+                    is_unlocked = False
+            
+            lessons_with_status.append({
+                'lesson': lesson,
+                'is_unlocked': is_unlocked,
+                'is_completed': is_completed,
+                'progress_obj': progress_obj,
+            })
+    else:
+        # For non-authenticated users, mark all as locked
+        for lesson in lessons:
+            lessons_with_status.append({
+                'lesson': lesson,
+                'is_unlocked': False,
+                'is_completed': False,
+            })
     
     # Check if favorited
     is_favorited = False
@@ -300,6 +338,7 @@ def course_detail(request, course_slug):
         'course': course,
         'modules': modules,
         'lessons': lessons,
+        'lessons_with_status': lessons_with_status if request.user.is_authenticated else [],
         'has_access': has_access,
         'access_reason': reason,
         'user_progress': user_progress,
