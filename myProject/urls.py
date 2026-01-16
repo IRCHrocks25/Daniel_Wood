@@ -76,6 +76,9 @@ urlpatterns = [
     path('api/courses/<int:course_id>/favorite/', api_views.toggle_favorite_course, name='toggle_favorite'),
     path('api/chat/', api_views.chatbot_public, name='chatbot_public'),
     path('api/chatbot/', api_views.chatbot_webhook, name='chatbot_webhook'),
+    
+    # Editor.js Image Upload
+    path('u/editor-image/', views.editor_image_upload, name='editor_image_upload'),
 ]
 
 # Serve media files in development

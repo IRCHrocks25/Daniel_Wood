@@ -28,6 +28,29 @@ CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[
     'https://danielwood-production.up.railway.app',
 ])
 
+# CSRF and Session Cookie Settings for Production
+# In production (HTTPS), cookies must be secure
+if not DEBUG:
+    CSRF_COOKIE_SECURE = True  # Only send CSRF cookie over HTTPS
+    SESSION_COOKIE_SECURE = True  # Only send session cookie over HTTPS
+    CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript to read CSRF token (needed for AJAX)
+    SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access to session cookie
+    SESSION_COOKIE_SAMESITE = 'Lax'  # CSRF protection while allowing normal navigation
+    CSRF_COOKIE_SAMESITE = 'Lax'
+else:
+    # Local development settings
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_HTTPONLY = False
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    CSRF_COOKIE_SAMESITE = 'Lax'
+
+# Session settings
+SESSION_COOKIE_AGE = 86400  # 24 hours
+SESSION_SAVE_EVERY_REQUEST = True  # Refresh session on each request
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Keep session after browser close
+
 
 # Application definition
 
@@ -75,13 +98,15 @@ WSGI_APPLICATION = 'myProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# Use DATABASE_URL if available, otherwise fallback to SQLite
+# Always use DATABASE_URL if available (both local and production)
+# This ensures local development uses the same database as production
 if env('DATABASE_URL', default=None):
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.parse(env('DATABASE_URL'))
     }
 else:
+    # Fallback to SQLite only if DATABASE_URL is not set
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

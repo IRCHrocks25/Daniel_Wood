@@ -533,12 +533,23 @@ def dashboard_add_lesson(request):
                     'modules_json': modules_json,
                 })
             
+            # Parse content blocks JSON from Editor.js
+            import json
+            content_data = {}
+            try:
+                content_json = request.POST.get('content', '{}')
+                if content_json:
+                    content_data = json.loads(content_json)
+            except (json.JSONDecodeError, TypeError):
+                pass  # Keep empty content if JSON is invalid
+            
             # Create lesson
             lesson = Lesson.objects.create(
                 course=course,
                 title=request.POST.get('title'),
                 slug=slug,
                 description=request.POST.get('description', ''),
+                content=content_data,
                 video_url=request.POST.get('video_url', ''),
                 video_duration=int(request.POST.get('video_duration', 0) or 0),
                 order=int(request.POST.get('order', 0) or 0),
@@ -572,9 +583,13 @@ def dashboard_add_lesson(request):
     import json
     modules_json = json.dumps([{'id': m.id, 'course_id': m.course.id, 'name': m.name} for m in modules])
     
+    # Empty content blocks for new lesson
+    content_json = "{}"
+    
     context = {
         'courses': courses,
         'modules_json': modules_json,
+        'content_json': content_json,
     }
     return render(request, 'dashboard/add_lesson.html', context)
 
@@ -600,6 +615,16 @@ def dashboard_edit_lesson(request, lesson_id):
             lesson.title = request.POST.get('title')
             lesson.slug = slug
             lesson.description = request.POST.get('description', '')
+            
+            # Parse content blocks JSON from Editor.js
+            import json
+            try:
+                content_json = request.POST.get('content', '{}')
+                if content_json:
+                    lesson.content = json.loads(content_json)
+            except (json.JSONDecodeError, TypeError):
+                pass  # Keep existing content if JSON is invalid
+            
             lesson.video_url = request.POST.get('video_url', '')
             lesson.video_duration = int(request.POST.get('video_duration', 0) or 0)
             lesson.order = int(request.POST.get('order', 0) or 0)
@@ -628,9 +653,15 @@ def dashboard_edit_lesson(request, lesson_id):
     
     # Get modules for the lesson's course
     modules = Module.objects.filter(course=lesson.course).order_by('order')
+    
+    # Prepare content blocks JSON for Editor.js
+    import json
+    content_json = json.dumps(lesson.content) if lesson.content else "{}"
+    
     context = {
         'lesson': lesson,
         'modules': modules,
+        'content_json': content_json,
     }
     return render(request, 'dashboard/edit_lesson.html', context)
 
