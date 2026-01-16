@@ -3,23 +3,23 @@
 {% block title %}My Certifications{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-porcelain py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen" style="background-color: #181d37;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <!-- Header -->
         <div class="mb-8">
-            <h1 class="text-4xl font-bold text-ink mb-2">My Certifications</h1>
-            <p class="text-lg text-slate">Your earned certifications and achievements</p>
+            <h1 class="text-4xl font-bold text-white mb-2">My Certifications</h1>
+            <p class="text-lg text-slate-300">Your earned certifications and achievements</p>
         </div>
 
         <!-- Stats Card -->
-        <div class="bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl p-8 mb-8 text-white">
+        <div class="border rounded-xl p-8 mb-8 backdrop-blur-sm" style="background-color: rgba(24, 29, 55, 0.5); border-color: rgba(99, 102, 241, 0.3);">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-purple-100 mb-2">Total Certifications</p>
-                    <p class="text-5xl font-bold">{{ cert_count }}</p>
+                    <p class="text-cyan-400 mb-2 text-sm font-semibold uppercase tracking-wide">Total Certifications</p>
+                    <p class="text-5xl font-bold text-white">{{ cert_count }}</p>
                 </div>
-                <div class="h-20 w-20 rounded-full bg-white/20 flex items-center justify-center">
-                    <i class="fas fa-trophy text-4xl"></i>
+                <div class="h-20 w-20 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center">
+                    <i class="fas fa-trophy text-4xl text-cyan-400"></i>
                 </div>
             </div>
         </div>
@@ -28,22 +28,22 @@
         {% if certifications %}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {% for cert in certifications %}
-            <div class="bg-ivory border border-glass rounded-xl p-6 hover:shadow-lg transition-shadow">
+            <div class="border rounded-xl p-6 transition-all backdrop-blur-sm" style="background-color: rgba(24, 29, 55, 0.5); border-color: rgba(99, 102, 241, 0.3);" onmouseover="this.style.borderColor='rgba(99, 102, 241, 0.6)'" onmouseout="this.style.borderColor='rgba(99, 102, 241, 0.3)'">
                 <div class="flex items-center justify-between mb-4">
-                    <div class="h-12 w-12 rounded-xl bg-yellow-100 flex items-center justify-center">
-                        <i class="fas fa-certificate text-yellow-600 text-xl"></i>
+                    <div class="h-12 w-12 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+                        <i class="fas fa-certificate text-amber-400 text-xl"></i>
                     </div>
                     {% if cert.accredible_certificate_url %}
                     <a href="{{ cert.accredible_certificate_url }}" target="_blank"
-                       class="px-3 py-1 bg-purple-100 text-purple-700 rounded-lg text-sm hover:bg-purple-200 transition">
+                       class="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/20 transition-all">
                         View
                     </a>
                     {% endif %}
                 </div>
-                <h3 class="text-xl font-bold text-ink mb-2">{{ cert.course.name }}</h3>
-                <p class="text-sm text-slate mb-4">Issued on {{ cert.issued_at|date:"M d, Y" }}</p>
+                <h3 class="text-xl font-bold text-white mb-2">{{ cert.course.name }}</h3>
+                <p class="text-sm text-slate-300 mb-4">Issued on {{ cert.issued_at|date:"M d, Y" }}</p>
                 {% if cert.accredible_certificate_id %}
-                <div class="text-xs text-muted">
+                <div class="text-xs text-slate-400">
                     Certificate ID: {{ cert.accredible_certificate_id|truncatechars:20 }}
                 </div>
                 {% endif %}
@@ -51,20 +51,27 @@
             {% endfor %}
         </div>
         {% else %}
-        <div class="bg-ivory border border-glass rounded-xl p-12 text-center mb-12">
-            <i class="fas fa-certificate text-6xl text-gray-300 mb-4"></i>
-            <p class="text-xl text-slate mb-2">No certifications yet</p>
-            <p class="text-slate mb-6">Complete courses and pass exams to earn certifications</p>
+        <div class="border rounded-xl p-12 text-center mb-12 backdrop-blur-sm" style="background-color: rgba(24, 29, 55, 0.5); border-color: rgba(99, 102, 241, 0.3);">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl mb-4" style="background-color: rgba(99, 102, 241, 0.2);">
+                <i class="fas fa-certificate text-2xl text-slate-400"></i>
+            </div>
+            <p class="text-xl text-slate-300 mb-2">No certifications yet</p>
+            <p class="text-slate-400 mb-6">Complete courses and pass exams to earn certifications</p>
             <a href="{% url 'courses' %}" 
-               class="inline-block px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition">
+               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/20 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#181d37] focus:ring-cyan-500">
                 <i class="fas fa-book mr-2"></i>Browse Courses
             </a>
         </div>
         {% endif %}
 
         <!-- Trophy Achievements -->
-        <div class="bg-ivory border border-glass rounded-xl p-8">
-            <h2 class="text-2xl font-bold text-ink mb-6">Trophy Achievements</h2>
+        <div class="border rounded-xl p-8 backdrop-blur-sm" style="background-color: rgba(24, 29, 55, 0.5); border-color: rgba(99, 102, 241, 0.3);">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+                    <i class="fas fa-trophy text-amber-400"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white">Trophy Achievements</h2>
+            </div>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 {% for tier_name, tier_info in trophy_tiers.items %}
                 <div class="text-center">
@@ -73,40 +80,40 @@
                         <div class="h-20 w-20 mx-auto bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center text-white text-2xl">
                             <i class="fas fa-trophy"></i>
                         </div>
-                        <p class="mt-2 font-semibold text-ink">Bronze</p>
+                        <p class="mt-2 font-semibold text-white">Bronze</p>
                         {% elif tier_name == 'silver' %}
                         <div class="h-20 w-20 mx-auto bg-gradient-to-br from-gray-300 to-gray-500 rounded-full flex items-center justify-center text-white text-2xl">
                             <i class="fas fa-trophy"></i>
                         </div>
-                        <p class="mt-2 font-semibold text-ink">Silver</p>
+                        <p class="mt-2 font-semibold text-white">Silver</p>
                         {% elif tier_name == 'gold' %}
                         <div class="h-20 w-20 mx-auto bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full flex items-center justify-center text-white text-2xl">
                             <i class="fas fa-trophy"></i>
                         </div>
-                        <p class="mt-2 font-semibold text-ink">Gold</p>
+                        <p class="mt-2 font-semibold text-white">Gold</p>
                         {% elif tier_name == 'platinum' %}
                         <div class="h-20 w-20 mx-auto bg-gradient-to-br from-blue-300 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl">
                             <i class="fas fa-trophy"></i>
                         </div>
-                        <p class="mt-2 font-semibold text-ink">Platinum</p>
+                        <p class="mt-2 font-semibold text-white">Platinum</p>
                         {% elif tier_name == 'diamond' %}
                         <div class="h-20 w-20 mx-auto bg-gradient-to-br from-cyan-300 to-cyan-500 rounded-full flex items-center justify-center text-white text-2xl">
                             <i class="fas fa-gem"></i>
                         </div>
-                        <p class="mt-2 font-semibold text-ink">Diamond</p>
+                        <p class="mt-2 font-semibold text-white">Diamond</p>
                         {% elif tier_name == 'ultimate' %}
                         <div class="h-20 w-20 mx-auto bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center text-white text-2xl">
                             <i class="fas fa-crown"></i>
                         </div>
-                        <p class="mt-2 font-semibold text-ink">Ultimate</p>
+                        <p class="mt-2 font-semibold text-white">Ultimate</p>
                         {% endif %}
                     </div>
                     {% if tier_info.unlocked %}
-                    <p class="text-sm text-green-600 font-medium">
+                    <p class="text-sm text-emerald-400 font-medium">
                         <i class="fas fa-check-circle mr-1"></i>Unlocked
                     </p>
                     {% else %}
-                    <p class="text-sm text-slate">
+                    <p class="text-sm text-slate-400">
                         {{ tier_info.min }}-{{ tier_info.max }} certs
                     </p>
                     {% endif %}
@@ -115,11 +122,11 @@
             </div>
 
             {% if next_tier %}
-            <div class="mt-8 p-6 bg-mist rounded-xl border border-glass">
-                <p class="text-ink font-semibold mb-2">
-                    <i class="fas fa-arrow-up text-purple-600 mr-2"></i>Next Tier: {{ next_tier|title }}
+            <div class="mt-8 p-6 rounded-xl border backdrop-blur-sm" style="background-color: rgba(24, 29, 55, 0.7); border-color: rgba(99, 102, 241, 0.4);">
+                <p class="text-white font-semibold mb-2">
+                    <i class="fas fa-arrow-up text-cyan-400 mr-2"></i>Next Tier: {{ next_tier|title }}
                 </p>
-                <p class="text-sm text-slate">
+                <p class="text-sm text-slate-300">
                     You have {{ cert_count }} certification{{ cert_count|pluralize }}. 
                     {% if certs_needed_for_next %}
                     Earn {{ certs_needed_for_next }} more to unlock the {{ next_tier|title }} trophy!

@@ -91,6 +91,11 @@ def dashboard_home(request):
     recent_activities.sort(key=lambda x: x['timestamp'], reverse=True)
     recent_activities = recent_activities[:20]
     
+    # Get courses for display - featured course (most recent active) and secondary courses
+    all_courses = Course.objects.filter(status='active').order_by('-created_at')
+    featured_course = all_courses.first() if all_courses.exists() else None
+    secondary_courses = all_courses[1:7] if all_courses.count() > 1 else []  # Up to 6 secondary courses
+    
     context = {
         'total_students': total_students,
         'active_students': active_students,
@@ -100,6 +105,8 @@ def dashboard_home(request):
         'total_progress': total_progress,
         'total_certifications': total_certifications,
         'recent_activities': recent_activities,
+        'featured_course': featured_course,
+        'secondary_courses': secondary_courses,
     }
     return render(request, 'dashboard/home.html', context)
 

@@ -3,54 +3,54 @@
 {% block title %}Privacy Policy - Swedish Wealth Institute{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-[#F7F7F5] dark:bg-[#0F172A] py-20">
+<div class="min-h-screen py-20" style="background-color: #181d37;">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12 section-content">
-            <h1 class="text-4xl sm:text-5xl font-semibold text-[#0B1220] dark:text-white tracking-tight mb-6">
+            <h1 class="text-4xl sm:text-5xl font-semibold text-white tracking-tight mb-6">
                 Privacy Policy
             </h1>
-            <p class="text-sm text-[#6B7280] dark:text-[#94A3B8]">Last updated: {% now "F j, Y" %}</p>
+            <p class="text-sm text-slate-400">Last updated: {% now "F j, Y" %}</p>
         </div>
         
-        <div class="bg-white dark:bg-[#1E293B] rounded-3xl border border-[#E6E8EC] dark:border-[#334155] shadow-soft p-8 sm:p-10 space-y-8 section-content">
+        <div class="rounded-3xl border backdrop-blur-sm shadow-soft p-8 sm:p-10 space-y-8 section-content" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.5);">
             <div>
-                <h2 class="text-2xl font-semibold text-[#0B1220] dark:text-white mb-4">1. Information We Collect</h2>
-                <p class="text-[#475569] dark:text-[#CBD5E1] leading-relaxed text-content">
+                <h2 class="text-2xl font-semibold text-white mb-4">1. Information We Collect</h2>
+                <p class="text-slate-300 leading-relaxed text-content">
                     We collect information that you provide directly to us, including account information, course progress, and communication preferences.
                 </p>
             </div>
             
             <div>
-                <h2 class="text-2xl font-semibold text-[#0B1220] dark:text-white mb-4">2. How We Use Your Information</h2>
-                <p class="text-[#475569] dark:text-[#CBD5E1] leading-relaxed text-content">
+                <h2 class="text-2xl font-semibold text-white mb-4">2. How We Use Your Information</h2>
+                <p class="text-slate-300 leading-relaxed text-content">
                     We use your information to provide, maintain, and improve our services, process transactions, and communicate with you about your account and our programs.
                 </p>
             </div>
             
             <div>
-                <h2 class="text-2xl font-semibold text-[#0B1220] dark:text-white mb-4">3. Data Security</h2>
-                <p class="text-[#475569] dark:text-[#CBD5E1] leading-relaxed text-content">
+                <h2 class="text-2xl font-semibold text-white mb-4">3. Data Security</h2>
+                <p class="text-slate-300 leading-relaxed text-content">
                     We implement appropriate security measures to protect your personal information. However, no method of transmission over the internet is 100% secure.
                 </p>
             </div>
             
             <div>
-                <h2 class="text-2xl font-semibold text-[#0B1220] dark:text-white mb-4">4. Your Rights</h2>
-                <p class="text-[#475569] dark:text-[#CBD5E1] leading-relaxed text-content">
+                <h2 class="text-2xl font-semibold text-white mb-4">4. Your Rights</h2>
+                <p class="text-slate-300 leading-relaxed text-content">
                     You have the right to access, update, or delete your personal information. Contact us to exercise these rights.
                 </p>
             </div>
             
             <div>
-                <h2 class="text-2xl font-semibold text-[#0B1220] dark:text-white mb-4">5. Contact Us</h2>
-                <p class="text-[#475569] dark:text-[#CBD5E1] leading-relaxed text-content">
-                    For privacy-related questions, please contact us at <a href="mailto:hello@swedishwealthinstitute.com" class="text-[#C9A227] hover:underline">hello@swedishwealthinstitute.com</a>.
+                <h2 class="text-2xl font-semibold text-white mb-4">5. Contact Us</h2>
+                <p class="text-slate-300 leading-relaxed text-content">
+                    For privacy-related questions, please contact us at <a href="mailto:hello@swedishwealthinstitute.com" class="text-cyan-400 hover:text-cyan-300 hover:underline transition">hello@swedishwealthinstitute.com</a>.
                 </p>
             </div>
         </div>
         
         <div class="mt-8 text-center">
-            <a href="{% url 'home' %}" class="inline-flex items-center gap-2 text-[#475569] hover:text-[#0B1220] transition">
+            <a href="{% url 'home' %}" class="inline-flex items-center gap-2 text-slate-300 hover:text-white transition">
                 <i class="fas fa-arrow-left"></i>
                 <span>Back to Home</span>
             </a>

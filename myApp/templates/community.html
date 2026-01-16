@@ -3,47 +3,47 @@
 {% block title %}Community - Swedish Wealth Institute{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-[#F7F7F5] dark:bg-[#0F172A] py-20">
+<div class="min-h-screen py-20" style="background-color: #181d37;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12 section-content">
-            <h1 class="text-4xl sm:text-5xl font-semibold text-[#0B1220] dark:text-white tracking-tight mb-6">
+            <h1 class="text-4xl sm:text-5xl font-semibold text-white tracking-tight mb-6">
                 Our Community
             </h1>
-            <p class="text-lg text-[#475569] dark:text-[#CBD5E1] max-w-2xl mx-auto text-content">
+            <p class="text-lg text-slate-300 max-w-2xl mx-auto text-content">
                 A high-trust environment built for bold action and real connection.
             </p>
         </div>
         
-        <div class="bg-white dark:bg-[#1E293B] rounded-3xl border border-[#E6E8EC] dark:border-[#334155] shadow-soft p-8 sm:p-10 section-content">
+        <div class="rounded-3xl border backdrop-blur-sm shadow-soft p-8 sm:p-10 section-content" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.5);">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <div class="luxury-card rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-[#F7F7F5] dark:bg-[#0F172A] p-6">
+                <div class="luxury-card rounded-2xl border p-6 backdrop-blur-sm" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.7);" onmouseover="this.style.borderColor='rgba(99, 102, 241, 0.6)'" onmouseout="this.style.borderColor='rgba(99, 102, 241, 0.3)'">
                     <div class="flex items-start gap-4">
-                        <span class="h-12 w-12 rounded-2xl bg-[#0B1220]/10 dark:bg-white/10 flex items-center justify-center shrink-0">
-                            <i class="fas fa-user-check text-[#0B1220] dark:text-white"></i>
+                        <span class="h-12 w-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center shrink-0">
+                            <i class="fas fa-user-check text-cyan-400"></i>
                         </span>
                         <div>
-                            <h3 class="font-semibold text-[#0B1220] dark:text-white mb-2">Vetted Experts Only</h3>
-                            <p class="text-sm text-[#6B7280] dark:text-[#94A3B8]">We showcase proof. No hype. No guessing. You meet mentors who are battle-tested.</p>
+                            <h3 class="font-semibold text-white mb-2">Vetted Experts Only</h3>
+                            <p class="text-sm text-slate-300">We showcase proof. No hype. No guessing. You meet mentors who are battle-tested.</p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="luxury-card rounded-2xl border border-[#E6E8EC] dark:border-[#334155] bg-[#F7F7F5] dark:bg-[#0F172A] p-6">
+                <div class="luxury-card rounded-2xl border p-6 backdrop-blur-sm" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.7);" onmouseover="this.style.borderColor='rgba(99, 102, 241, 0.6)'" onmouseout="this.style.borderColor='rgba(99, 102, 241, 0.3)'">
                     <div class="flex items-start gap-4">
-                        <span class="h-12 w-12 rounded-2xl bg-[#C9A227]/15 dark:bg-[#C9A227]/20 flex items-center justify-center shrink-0">
-                            <i class="fas fa-handshake text-[#C9A227]"></i>
+                        <span class="h-12 w-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center shrink-0">
+                            <i class="fas fa-handshake text-cyan-400"></i>
                         </span>
                         <div>
-                            <h3 class="font-semibold text-[#0B1220] dark:text-white mb-2">High-Trust Community</h3>
-                            <p class="text-sm text-[#6B7280] dark:text-[#94A3B8]">You're supported, challenged, and seen—by people who don't just talk about growth. They live it.</p>
+                            <h3 class="font-semibold text-white mb-2">High-Trust Community</h3>
+                            <p class="text-sm text-slate-300">You're supported, challenged, and seen—by people who don't just talk about growth. They live it.</p>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="border-t border-[#E6E8EC] pt-8 text-center">
-                <p class="text-[#475569] mb-6">Ready to join the movement?</p>
-                <a href="{% url 'courses' %}" class="inline-flex items-center gap-2 rounded-xl bg-[#0B1220] px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md transition">
+            <div class="border-t pt-8 text-center" style="border-color: rgba(99, 102, 241, 0.3);">
+                <p class="text-slate-300 mb-6">Ready to join the movement?</p>
+                <a href="{% url 'courses' %}" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 px-6 py-4 text-white font-semibold shadow-sm hover:shadow-md hover:shadow-cyan-500/20 transition focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-[#181d37]">
                     <i class="fas fa-door-open"></i>
                     <span>Explore Programs</span>
                 </a>
@@ -51,7 +51,7 @@
         </div>
         
         <div class="mt-8 text-center">
-            <a href="{% url 'home' %}" class="inline-flex items-center gap-2 text-[#475569] hover:text-[#0B1220] transition">
+            <a href="{% url 'home' %}" class="inline-flex items-center gap-2 text-slate-300 hover:text-white transition">
                 <i class="fas fa-arrow-left"></i>
                 <span>Back to Home</span>
             </a>

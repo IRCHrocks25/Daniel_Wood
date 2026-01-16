@@ -341,49 +341,66 @@
     
     {% block extra_head %}{% endblock %}
 </head>
-<body class="loading h-full bg-porcelain dark:bg-slate-900 antialiased font-sans">
+<body class="loading h-full antialiased font-sans" style="background-color: #181d37;">
     <!-- Universal Preloader -->
-    <div id="global-preloader" class="fixed inset-0 z-[9999] bg-charcoal/80 backdrop-blur-sm hidden items-center justify-center">
+    <div id="global-preloader" class="fixed inset-0 z-[9999] bg-slate-900/95 backdrop-blur-sm hidden items-center justify-center">
         <div class="text-center">
             <div class="inline-block relative w-16 h-16">
-                <div class="absolute inset-0 border-4 border-violet-200 rounded-full"></div>
-                <div class="absolute inset-0 border-4 border-violet-500 rounded-full border-t-transparent animate-spin"></div>
+                <div class="absolute inset-0 border-4 border-cyan-500/20 rounded-full"></div>
+                <div class="absolute inset-0 border-4 border-cyan-500 rounded-full border-t-transparent animate-spin"></div>
             </div>
-            <p class="mt-4 text-ivory font-medium" id="preloader-text">Loading...</p>
+            <p class="mt-4 text-white font-medium" id="preloader-text">Loading...</p>
         </div>
     </div>
 
     <!-- Navigation -->
     {% if user.is_authenticated %}
-    <nav class="bg-ivory border-b border-glass/50 sticky top-0 z-50 shadow-soft">
+    <nav class="backdrop-blur-sm border-b sticky top-0 z-50 shadow-sm" style="background-color: #181d37; border-color: rgba(99, 102, 241, 0.3);">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-8">
-                    <a href="{% url 'home' %}" class="text-ink font-semibold text-xl tracking-tight hover:text-violet-600 transition-colors">
-                        Learning Platform
+                <!-- Left: Logo + Subtitle -->
+                <div class="flex items-center">
+                    <a href="{% url 'home' %}" class="flex items-center space-x-3 group">
+                        <span class="text-white font-bold text-lg tracking-tight group-hover:text-slate-200 transition-colors">Daniel Wood</span>
+                        <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">Learning Hub</span>
                     </a>
-                    <div class="hidden md:flex space-x-1">
-                        <a href="{% url 'courses' %}" class="px-4 py-2 text-sm font-medium text-slate hover:text-ink hover:bg-mist rounded-lg transition-colors">
-                            <i class="fas fa-book mr-2 text-violet-500"></i>Courses
-                        </a>
-                        <a href="{% url 'student_dashboard' %}" class="px-4 py-2 text-sm font-medium text-slate hover:text-ink hover:bg-mist rounded-lg transition-colors">
-                            <i class="fas fa-tachometer-alt mr-2 text-violet-500"></i>Dashboard
-                        </a>
-                        <a href="{% url 'student_certifications' %}" class="px-4 py-2 text-sm font-medium text-slate hover:text-ink hover:bg-mist rounded-lg transition-colors">
-                            <i class="fas fa-trophy mr-2 text-violet-500"></i>Certifications
-                        </a>
-                        {% if user.is_staff %}
-                        <a href="{% url 'dashboard_home' %}" class="px-4 py-2 text-sm font-medium text-violet-600 bg-violet-50 rounded-lg hover:bg-violet-100 transition-colors">
-                            <i class="fas fa-cog mr-2"></i>Admin
-                        </a>
-                        {% endif %}
-                    </div>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <span class="text-sm font-medium text-ink">{{ user.get_full_name|default:user.username }}</span>
-                    <a href="{% url 'logout' %}" class="px-4 py-2 text-sm font-medium text-slate hover:text-ink hover:bg-mist rounded-lg transition-colors">
-                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                
+                <!-- Center: Primary Navigation -->
+                <div class="hidden md:flex items-center space-x-1 absolute left-1/2 transform -translate-x-1/2">
+                    <a href="{% url 'courses' %}" class="px-4 py-2 text-sm font-medium text-white hover:text-cyan-400 hover:bg-slate-800 rounded-lg transition-all duration-200">
+                        Courses
                     </a>
+                    {% if user.is_staff %}
+                    <a href="{% url 'dashboard_home' %}" class="px-4 py-2 text-sm font-medium text-white hover:text-cyan-400 hover:bg-slate-800 rounded-lg transition-all duration-200">
+                        Dashboard
+                    </a>
+                    {% else %}
+                    <a href="{% url 'student_dashboard' %}" class="px-4 py-2 text-sm font-medium text-white hover:text-cyan-400 hover:bg-slate-800 rounded-lg transition-all duration-200">
+                        Dashboard
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'student_certifications' %}" class="px-4 py-2 text-sm font-medium text-white hover:text-cyan-400 hover:bg-slate-800 rounded-lg transition-all duration-200">
+                        Certifications
+                    </a>
+                    <a href="{% url 'courses' %}" class="px-4 py-2 text-sm font-medium text-white hover:text-cyan-400 hover:bg-slate-800 rounded-lg transition-all duration-200">
+                        Resources
+                    </a>
+                </div>
+                
+                <!-- Right: User Profile Dropdown -->
+                <div class="flex items-center space-x-3">
+                    <div class="relative group">
+                        <button class="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800 rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-500/50">
+                            <span>{{ user.get_full_name|default:user.username }}</span>
+                            <i class="fas fa-chevron-down text-xs text-slate-400 group-hover:text-slate-300 transition-transform duration-200 group-hover:rotate-180"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 backdrop-blur-sm" style="background-color: rgba(255, 255, 255, 0.95); border: 1px solid rgba(99, 102, 241, 0.2);">
+                            <a href="{% url 'logout' %}" class="block px-4 py-2.5 text-sm font-medium transition-colors rounded-lg flex items-center" style="color: #181d37;" onmouseover="this.style.backgroundColor='rgba(99, 102, 241, 0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+                                <i class="fas fa-arrow-left mr-2"></i>Logout
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -394,13 +411,13 @@
     {% if messages %}
     <div class="max-w-7xl mx-auto px-6 pt-6">
         {% for message in messages %}
-        <div class="mb-4 p-4 rounded-xl border-2 shadow-soft {% if message.tags == 'error' %}bg-red-50/80 border-red-300 text-red-900{% elif message.tags == 'success' %}bg-emerald-50/80 border-emerald-300 text-emerald-900{% elif message.tags == 'warning' %}bg-amber-50/80 border-amber-300 text-amber-900{% else %}bg-cyan-50/80 border-cyan-300 text-cyan-900{% endif %}">
+        <div class="mb-4 p-4 rounded-xl border-2 shadow-lg {% if message.tags == 'error' %}bg-red-900/30 border-red-700 text-red-200{% elif message.tags == 'success' %}bg-emerald-900/30 border-emerald-700 text-emerald-200{% elif message.tags == 'warning' %}bg-amber-900/30 border-amber-700 text-amber-200{% else %}bg-cyan-900/30 border-cyan-700 text-cyan-200{% endif %}">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% elif message.tags == 'success' %}fa-check-circle{% elif message.tags == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %} mr-3 text-lg"></i>
                     <span class="font-medium">{{ message }}</span>
                 </div>
-                <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-slate-600 hover:text-ink transition-colors focus:outline-none focus:ring-2 focus:ring-violet-500 rounded-lg p-1">
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-slate-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded-lg p-1">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -417,7 +434,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-charcoal text-ivory/80 mt-16 py-10 border-t border-charcoal/20">
+    <footer class="text-slate-400 mt-16 py-10 border-t" style="background-color: #181d37; border-color: rgba(99, 102, 241, 0.3);">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center text-sm">
                 <p>&copy; 2025 Learning Platform. All rights reserved.</p>

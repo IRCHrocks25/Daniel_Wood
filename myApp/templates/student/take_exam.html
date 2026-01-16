@@ -3,48 +3,48 @@
 {% block title %}{{ exam.title }} - {{ course.name }}{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-porcelain py-10">
+<div class="min-h-screen py-10" style="background-color: #181d37;">
     <div class="max-w-4xl mx-auto px-6">
         <!-- Header -->
         <nav class="mb-6 text-sm font-medium">
-            <a href="{% url 'student_dashboard' %}" class="text-slate hover:text-ink transition-colors">Dashboard</a>
-            <i class="fas fa-chevron-right mx-2 text-muted"></i>
-            <a href="{% url 'student_course_progress' course.slug %}" class="text-slate hover:text-ink transition-colors">{{ course.name }}</a>
-            <i class="fas fa-chevron-right mx-2 text-muted"></i>
-            <span class="text-ink font-semibold">{{ exam.title }}</span>
+            <a href="{% url 'student_dashboard' %}" class="text-slate-300 hover:text-white transition-colors">Dashboard</a>
+            <i class="fas fa-chevron-right mx-2 text-slate-500"></i>
+            <a href="{% url 'student_course_progress' course.slug %}" class="text-slate-300 hover:text-white transition-colors">{{ course.name }}</a>
+            <i class="fas fa-chevron-right mx-2 text-slate-500"></i>
+            <span class="text-white font-semibold">{{ exam.title }}</span>
         </nav>
         
-        <div class="bg-ivory border border-glass/50 rounded-2xl p-10 mb-6 shadow-soft">
-            <h1 class="text-4xl font-semibold text-ink tracking-tight mb-4">{{ exam.title }}</h1>
+        <div class="rounded-2xl border backdrop-blur-sm p-10 mb-6 shadow-soft" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.5);">
+            <h1 class="text-4xl font-semibold text-white tracking-tight mb-4">{{ exam.title }}</h1>
             {% if exam.description %}
-            <p class="text-sm text-slate leading-6 mb-6">{{ exam.description }}</p>
+            <p class="text-sm text-slate-300 leading-6 mb-6">{{ exam.description }}</p>
             {% endif %}
             
-            <div class="grid md:grid-cols-3 gap-4 mb-6 p-6 bg-porcelain border border-glass/50 rounded-xl">
+            <div class="grid md:grid-cols-3 gap-4 mb-6 p-6 border rounded-xl" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.7);">
                 <div>
-                    <div class="text-xs font-semibold text-slate mb-1">Questions</div>
-                    <div class="text-2xl font-bold text-ink">{{ questions.count }}</div>
+                    <div class="text-xs font-semibold text-slate-400 mb-1">Questions</div>
+                    <div class="text-2xl font-bold text-white">{{ questions.count }}</div>
                 </div>
                 <div>
-                    <div class="text-xs font-semibold text-slate mb-1">Passing Score</div>
-                    <div class="text-2xl font-bold text-ink">{{ exam.passing_score }}%</div>
+                    <div class="text-xs font-semibold text-slate-400 mb-1">Passing Score</div>
+                    <div class="text-2xl font-bold text-white">{{ exam.passing_score }}%</div>
                 </div>
                 {% if exam.time_limit_minutes %}
                 <div>
-                    <div class="text-xs font-semibold text-slate mb-1">Time Limit</div>
-                    <div class="text-2xl font-bold text-ink">{{ exam.time_limit_minutes }} min</div>
+                    <div class="text-xs font-semibold text-slate-400 mb-1">Time Limit</div>
+                    <div class="text-2xl font-bold text-white">{{ exam.time_limit_minutes }} min</div>
                 </div>
                 {% endif %}
             </div>
             
             {% if previous_attempts %}
-            <div class="mb-6 p-4 bg-amber-50/80 border-2 border-amber-300 rounded-xl shadow-soft">
-                <h3 class="font-semibold text-amber-900 mb-3 text-sm">Previous Attempts</h3>
+            <div class="mb-6 p-4 border-2 rounded-xl shadow-soft" style="border-color: rgba(245, 158, 11, 0.4); background-color: rgba(245, 158, 11, 0.1);">
+                <h3 class="font-semibold text-amber-300 mb-3 text-sm">Previous Attempts</h3>
                 <div class="space-y-2">
                     {% for attempt in previous_attempts %}
-                    <div class="text-sm font-medium text-amber-900">
+                    <div class="text-sm font-medium text-amber-200">
                         <span>{{ attempt.completed_at|date:"M d, Y H:i" }}</span> - 
-                        <span class="font-semibold {% if attempt.passed %}text-emerald-700{% else %}text-red-700{% endif %}">
+                        <span class="font-semibold {% if attempt.passed %}text-emerald-400{% else %}text-red-400{% endif %}">
                             {{ attempt.score|floatformat:1 }}% {% if attempt.passed %}(Passed){% else %}(Failed){% endif %}
                         </span>
                     </div>
@@ -60,57 +60,57 @@
             <input type="hidden" name="time_taken_seconds" id="time-taken" value="0">
             
             {% if exam.time_limit_minutes %}
-            <div class="mb-6 p-6 bg-cyan-50/80 border-2 border-cyan-300 rounded-xl shadow-soft">
+            <div class="mb-6 p-6 border-2 rounded-xl shadow-soft" style="border-color: rgba(6, 182, 212, 0.4); background-color: rgba(6, 182, 212, 0.1);">
                 <div class="flex items-center justify-between">
-                    <span class="font-semibold text-cyan-900 text-sm">Time Remaining:</span>
-                    <span class="text-3xl font-bold text-cyan-700" id="timer">{{ exam.time_limit_minutes }}:00</span>
+                    <span class="font-semibold text-cyan-300 text-sm">Time Remaining:</span>
+                    <span class="text-3xl font-bold text-cyan-400" id="timer">{{ exam.time_limit_minutes }}:00</span>
                 </div>
             </div>
             {% endif %}
             
             <div class="space-y-6">
                 {% for question in questions %}
-                <div class="bg-ivory border-2 border-glass/50 rounded-2xl p-6 shadow-soft">
+                <div class="border-2 rounded-2xl p-6 shadow-soft backdrop-blur-sm" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.5);">
                     <div class="flex items-start gap-3 mb-4">
-                        <span class="px-3 py-1.5 bg-violet-100 text-violet-700 rounded-full text-xs font-bold">
+                        <span class="px-3 py-1.5 rounded-full text-xs font-bold" style="background-color: rgba(6, 182, 212, 0.2); color: #06b6d4;">
                             Question {{ forloop.counter }}
                         </span>
                     </div>
-                    <h3 class="text-xl font-semibold text-ink mb-6 leading-relaxed">{{ question.text }}</h3>
+                    <h3 class="text-xl font-semibold text-white mb-6 leading-relaxed">{{ question.text }}</h3>
                     <div class="space-y-3">
-                        <label class="flex items-start p-4 bg-ivory border-2 border-glass rounded-xl cursor-pointer hover:bg-violet-50 hover:border-violet-400 transition-all has-[:checked]:bg-violet-100 has-[:checked]:border-violet-600 shadow-soft hover:shadow-medium">
+                        <label class="flex items-start p-4 border rounded-xl cursor-pointer transition-all shadow-soft hover:shadow-medium" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.7);" onmouseover="this.style.borderColor='rgba(99, 102, 241, 0.5)'" onmouseout="this.style.borderColor='rgba(99, 102, 241, 0.3)'">
                             <input type="radio" name="question_{{ question.id }}" value="A" required
-                                   class="mt-1 mr-4 w-5 h-5 text-violet-600 border-glass focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 cursor-pointer">
+                                   class="mt-1 mr-4 w-5 h-5 text-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-[#181d37] cursor-pointer" style="accent-color: #06b6d4;">
                             <div class="flex-1">
-                                <span class="font-bold text-violet-700 mr-2 text-sm">A.</span>
-                                <span class="text-ink font-semibold text-sm leading-6">{{ question.option_a }}</span>
+                                <span class="font-bold text-cyan-400 mr-2 text-sm">A.</span>
+                                <span class="text-white font-semibold text-sm leading-6">{{ question.option_a }}</span>
                             </div>
                         </label>
-                        <label class="flex items-start p-4 bg-ivory border-2 border-glass rounded-xl cursor-pointer hover:bg-violet-50 hover:border-violet-400 transition-all has-[:checked]:bg-violet-100 has-[:checked]:border-violet-600 shadow-soft hover:shadow-medium">
+                        <label class="flex items-start p-4 border rounded-xl cursor-pointer transition-all shadow-soft hover:shadow-medium" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.7);" onmouseover="this.style.borderColor='rgba(99, 102, 241, 0.5)'" onmouseout="this.style.borderColor='rgba(99, 102, 241, 0.3)'">
                             <input type="radio" name="question_{{ question.id }}" value="B" required
-                                   class="mt-1 mr-4 w-5 h-5 text-violet-600 border-glass focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 cursor-pointer">
+                                   class="mt-1 mr-4 w-5 h-5 text-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-[#181d37] cursor-pointer" style="accent-color: #06b6d4;">
                             <div class="flex-1">
-                                <span class="font-bold text-violet-700 mr-2 text-sm">B.</span>
-                                <span class="text-ink font-semibold text-sm leading-6">{{ question.option_b }}</span>
+                                <span class="font-bold text-cyan-400 mr-2 text-sm">B.</span>
+                                <span class="text-white font-semibold text-sm leading-6">{{ question.option_b }}</span>
                             </div>
                         </label>
                         {% if question.option_c %}
-                        <label class="flex items-start p-4 bg-ivory border-2 border-glass rounded-xl cursor-pointer hover:bg-violet-50 hover:border-violet-400 transition-all has-[:checked]:bg-violet-100 has-[:checked]:border-violet-600 shadow-soft hover:shadow-medium">
+                        <label class="flex items-start p-4 border rounded-xl cursor-pointer transition-all shadow-soft hover:shadow-medium" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.7);" onmouseover="this.style.borderColor='rgba(99, 102, 241, 0.5)'" onmouseout="this.style.borderColor='rgba(99, 102, 241, 0.3)'">
                             <input type="radio" name="question_{{ question.id }}" value="C" required
-                                   class="mt-1 mr-4 w-5 h-5 text-violet-600 border-glass focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 cursor-pointer">
+                                   class="mt-1 mr-4 w-5 h-5 text-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-[#181d37] cursor-pointer" style="accent-color: #06b6d4;">
                             <div class="flex-1">
-                                <span class="font-bold text-violet-700 mr-2 text-sm">C.</span>
-                                <span class="text-ink font-semibold text-sm leading-6">{{ question.option_c }}</span>
+                                <span class="font-bold text-cyan-400 mr-2 text-sm">C.</span>
+                                <span class="text-white font-semibold text-sm leading-6">{{ question.option_c }}</span>
                             </div>
                         </label>
                         {% endif %}
                         {% if question.option_d %}
-                        <label class="flex items-start p-4 bg-ivory border-2 border-glass rounded-xl cursor-pointer hover:bg-violet-50 hover:border-violet-400 transition-all has-[:checked]:bg-violet-100 has-[:checked]:border-violet-600 shadow-soft hover:shadow-medium">
+                        <label class="flex items-start p-4 border rounded-xl cursor-pointer transition-all shadow-soft hover:shadow-medium" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.7);" onmouseover="this.style.borderColor='rgba(99, 102, 241, 0.5)'" onmouseout="this.style.borderColor='rgba(99, 102, 241, 0.3)'">
                             <input type="radio" name="question_{{ question.id }}" value="D" required
-                                   class="mt-1 mr-4 w-5 h-5 text-violet-600 border-glass focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 cursor-pointer">
+                                   class="mt-1 mr-4 w-5 h-5 text-cyan-500 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-[#181d37] cursor-pointer" style="accent-color: #06b6d4;">
                             <div class="flex-1">
-                                <span class="font-bold text-violet-700 mr-2 text-sm">D.</span>
-                                <span class="text-ink font-semibold text-sm leading-6">{{ question.option_d }}</span>
+                                <span class="font-bold text-cyan-400 mr-2 text-sm">D.</span>
+                                <span class="text-white font-semibold text-sm leading-6">{{ question.option_d }}</span>
                             </div>
                         </label>
                         {% endif %}
@@ -121,11 +121,11 @@
             
             <div class="mt-8 flex items-center justify-between">
                 <a href="{% url 'student_course_progress' course.slug %}"
-                   class="px-6 py-3.5 bg-mist text-ink rounded-xl font-semibold hover:bg-glass transition-all shadow-soft hover:shadow-medium focus:outline-none focus:ring-2 focus:ring-violet-500">
+                   class="px-6 py-3.5 rounded-xl font-semibold transition-all shadow-soft hover:shadow-medium focus:outline-none focus:ring-2 focus:ring-cyan-500 text-slate-300 hover:text-white border" style="border-color: rgba(99, 102, 241, 0.3); background-color: rgba(24, 29, 55, 0.7);" onmouseover="this.style.borderColor='rgba(99, 102, 241, 0.5)'" onmouseout="this.style.borderColor='rgba(99, 102, 241, 0.3)'">
                     Cancel
                 </a>
                 <button type="submit" id="submit-exam-btn"
-                        class="px-8 py-4 bg-violet-600 text-white rounded-xl font-semibold hover:bg-violet-700 transition-all shadow-medium hover:shadow-elevated disabled:opacity-75 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
+                        class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-cyan-500/20 transition-all shadow-medium disabled:opacity-75 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 focus:ring-offset-[#181d37]">
                     <i class="fas fa-paper-plane mr-2"></i>Submit Exam
                 </button>
             </div>

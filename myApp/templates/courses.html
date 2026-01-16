@@ -3,23 +3,24 @@
 {% block title %}Courses - Learning Platform{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-porcelain py-10">
-    <div class="max-w-7xl mx-auto px-6">
+<div class="min-h-screen" style="background-color: #181d37;">
+    <div class="max-w-7xl mx-auto px-6 py-10">
         <!-- Header -->
         <div class="mb-10">
-            <h1 class="text-4xl font-semibold text-ink tracking-tight mb-2">Course Catalog</h1>
-            <p class="text-sm text-slate leading-6">Discover courses designed to accelerate your career</p>
+            <h1 class="text-4xl font-semibold text-white tracking-tight mb-2">Course Catalog</h1>
+            <p class="text-sm text-slate-300 leading-6">Discover courses designed to accelerate your career</p>
         </div>
         
         <!-- Filters -->
-        <div class="bg-ivory border border-glass/50 rounded-2xl p-6 mb-10 shadow-soft">
+        <div class="border rounded-2xl p-6 mb-10 backdrop-blur-sm" style="background-color: rgba(24, 29, 55, 0.5); border-color: rgba(99, 102, 241, 0.3);">
             <div class="flex flex-wrap gap-6 items-center justify-between">
                 {% if user.is_authenticated %}
                 <label class="flex items-center cursor-pointer group">
-                    <input type="checkbox" id="filter-favorites" class="w-4 h-4 text-violet-600 border-glass rounded focus:ring-2 focus:ring-violet-500 cursor-pointer" 
+                    <input type="checkbox" id="filter-favorites" class="w-4 h-4 text-cyan-500 rounded focus:ring-2 focus:ring-cyan-500 cursor-pointer" 
+                           style="background-color: rgba(24, 29, 55, 0.6); border-color: rgba(99, 102, 241, 0.4);"
                            {% if filter_favorites %}checked{% endif %}
                            onchange="window.location.href='?favorites=' + (this.checked ? 'true' : '')">
-                    <span class="ml-2 text-sm font-medium text-ink group-hover:text-violet-600 transition-colors">
+                    <span class="ml-2 text-sm font-medium text-white group-hover:text-cyan-400 transition-colors">
                         <i class="fas fa-heart text-red-500 mr-1.5"></i>My Favorites
                     </span>
                 </label>
@@ -46,37 +47,41 @@
         <!-- Continue Learning Section -->
         {% if continue_learning %}
         <div class="mb-12">
-            <h2 class="text-xl font-semibold text-ink mb-6">
-                <i class="fas fa-play-circle mr-2 text-violet-600"></i>Continue Learning
-            </h2>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center">
+                    <i class="fas fa-play-circle text-cyan-400"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white">Continue Learning</h2>
+            </div>
             <div class="grid md:grid-cols-3 gap-6">
                 {% for course in continue_learning %}
-                <div class="bg-ivory border border-glass/50 rounded-2xl overflow-hidden shadow-soft hover:shadow-elevated transition-all group">
+                <div class="border rounded-2xl overflow-hidden transition-all backdrop-blur-sm" style="background-color: rgba(24, 29, 55, 0.5); border-color: rgba(99, 102, 241, 0.3);" onmouseover="this.style.borderColor='rgba(99, 102, 241, 0.6)'" onmouseout="this.style.borderColor='rgba(99, 102, 241, 0.3)'">
                     {% if course.thumbnail %}
                     <img src="{{ course.thumbnail.url }}" alt="{{ course.name }}" class="w-full h-48 object-cover">
                     {% else %}
-                    <div class="w-full h-48 bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center">
-                        <i class="fas fa-book text-6xl text-white/30"></i>
+                    <div class="w-full h-48 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center relative">
+                        <span class="absolute top-2 left-2 px-2 py-1 text-cyan-400 text-xs font-semibold rounded" style="background-color: rgba(24, 29, 55, 0.7);">VIDEO PROGRAM</span>
+                        <i class="fas fa-book text-6xl text-cyan-400/60"></i>
                     </div>
                     {% endif %}
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-ink mb-2 leading-tight">{{ course.name }}</h3>
-                        <p class="text-sm text-slate leading-6 mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
+                        <h3 class="text-xl font-semibold text-white mb-2 leading-tight">{{ course.name }}</h3>
+                        <p class="text-sm text-slate-300 leading-6 mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
                         {% if user.is_authenticated %}
                         {% with progress=course.user_progress_percent|default:0 %}
                         <div class="mb-4">
-                            <div class="flex justify-between text-xs text-slate mb-1">
+                            <div class="flex justify-between text-xs text-slate-400 mb-1">
                                 <span>Progress</span>
                                 <span>{{ progress }}%</span>
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="Course progress: {{ progress }}%">
-                                <div class="bg-violet-600 h-2 rounded-full transition-all duration-500" style="width: {% if progress > 100 %}100{% elif progress < 0 %}0{% else %}{{ progress|floatformat:0 }}{% endif %}%"></div>
+                            <div class="w-full rounded-full h-2" style="background-color: rgba(24, 29, 55, 0.7);" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="Course progress: {{ progress }}%">
+                                <div class="bg-gradient-to-r from-cyan-500 to-purple-600 h-2 rounded-full transition-all duration-500" style="width: {% if progress > 100 %}100{% elif progress < 0 %}0{% else %}{{ progress|floatformat:0 }}{% endif %}%"></div>
                             </div>
                         </div>
                         {% endwith %}
                         {% endif %}
                         <a href="{% url 'course_detail' course.slug %}" 
-                           class="inline-flex items-center justify-center w-full px-4 py-2.5 bg-violet-600 text-white rounded-xl hover:bg-violet-700 transition-all shadow-soft hover:shadow-medium text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500">
+                           class="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-xl font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/20 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#181d37] focus:ring-cyan-500">
                             Continue Learning
                         </a>
                     </div>
@@ -89,52 +94,56 @@
         <!-- My Courses Section -->
         {% if my_courses %}
         <div class="mb-12">
-            <h2 class="text-2xl font-bold text-ink mb-6">
-                <i class="fas fa-graduation-cap mr-2 text-purple-600"></i>My Courses
-            </h2>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
+                    <i class="fas fa-graduation-cap text-purple-400"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white">My Courses</h2>
+            </div>
             <div class="grid md:grid-cols-3 gap-6">
                 {% for course in my_courses %}
-                <div class="bg-ivory border border-glass rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="border rounded-xl overflow-hidden transition-all backdrop-blur-sm" style="background-color: rgba(24, 29, 55, 0.5); border-color: rgba(99, 102, 241, 0.3);" onmouseover="this.style.borderColor='rgba(99, 102, 241, 0.6)'" onmouseout="this.style.borderColor='rgba(99, 102, 241, 0.3)'">
                     {% if course.thumbnail %}
                     <img src="{{ course.thumbnail.url }}" alt="{{ course.name }}" class="w-full h-48 object-cover">
                     {% else %}
-                    <div class="w-full h-48 bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
-                        <i class="fas fa-book text-6xl text-white opacity-50"></i>
+                    <div class="w-full h-48 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center relative">
+                        <span class="absolute top-2 left-2 px-2 py-1 text-cyan-400 text-xs font-semibold rounded" style="background-color: rgba(24, 29, 55, 0.7);">VIDEO PROGRAM</span>
+                        <i class="fas fa-book text-6xl text-cyan-400/60"></i>
                     </div>
                     {% endif %}
                     <div class="p-6">
                         <div class="flex items-start justify-between mb-2">
-                            <h3 class="text-xl font-bold text-ink">{{ course.name }}</h3>
+                            <h3 class="text-xl font-bold text-white">{{ course.name }}</h3>
                             {% if user.is_authenticated %}
                             <button onclick="toggleFavorite({{ course.id }})" 
-                                    class="text-2xl {% if course.is_favorited or course.id in favorited_ids %}text-red-500{% else %}text-gray-300 hover:text-red-500{% endif %} transition-colors">
+                                    class="text-2xl {% if course.is_favorited or course.id in favorited_ids %}text-red-500{% else %}text-slate-400 hover:text-red-500{% endif %} transition-colors">
                                 <i class="fas fa-heart"></i>
                             </button>
                             {% endif %}
                         </div>
-                        <p class="text-sm text-slate mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
+                        <p class="text-sm text-slate-300 mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
                         
                         {% if user.is_authenticated %}
                         {% with progress=course.user_progress_percent|default:0 %}
                         <div class="mb-4">
-                            <div class="flex justify-between text-sm text-slate mb-1">
+                            <div class="flex justify-between text-sm text-slate-400 mb-1">
                                 <span>Progress</span>
                                 <span>{{ progress }}%</span>
                                 {% if course.is_completed %}
-                                <span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">
+                                <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-bold border border-emerald-500/30">
                                     <i class="fas fa-check-circle mr-1"></i>Completed
                                 </span>
                                 {% endif %}
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="Course progress: {{ progress }}%">
-                                <div class="bg-purple-600 h-2 rounded-full transition-all duration-500" style="width: {% if progress > 100 %}100{% elif progress < 0 %}0{% else %}{{ progress|floatformat:0 }}{% endif %}%"></div>
+                            <div class="w-full rounded-full h-2" style="background-color: rgba(24, 29, 55, 0.7);" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="Course progress: {{ progress }}%">
+                                <div class="bg-gradient-to-r from-cyan-500 to-purple-600 h-2 rounded-full transition-all duration-500" style="width: {% if progress > 100 %}100{% elif progress < 0 %}0{% else %}{{ progress|floatformat:0 }}{% endif %}%"></div>
                             </div>
                         </div>
                         {% endwith %}
                         {% endif %}
                         
                         <a href="{% url 'course_detail' course.slug %}" 
-                           class="inline-block w-full text-center px-4 py-2 {% if course.is_completed %}bg-emerald-600 hover:bg-emerald-700{% elif course.user_progress_percent > 0 %}bg-blue-600 hover:bg-blue-700{% else %}bg-purple-600 hover:bg-purple-700{% endif %} text-white rounded-lg transition-colors">
+                           class="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/20 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#181d37] focus:ring-cyan-500">
                             {% if course.is_completed %}<i class="fas fa-check-circle mr-2"></i>View Course{% elif course.user_progress_percent > 0 %}<i class="fas fa-play mr-2"></i>Continue Learning{% else %}<i class="fas fa-arrow-right mr-2"></i>Start Course{% endif %}
                         </a>
                     </div>
@@ -147,24 +156,28 @@
         <!-- Available Courses -->
         {% if available_courses %}
         <div>
-            <h2 class="text-2xl font-bold text-ink mb-6">
-                <i class="fas fa-search mr-2 text-purple-600"></i>Available Courses
-            </h2>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-lg bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
+                    <i class="fas fa-search text-purple-400"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-white">Available Courses</h2>
+            </div>
             <div class="grid md:grid-cols-3 gap-6">
                 {% for course in available_courses %}
-                <div class="bg-ivory border border-glass rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="border rounded-xl overflow-hidden transition-all backdrop-blur-sm" style="background-color: rgba(24, 29, 55, 0.5); border-color: rgba(99, 102, 241, 0.3);" onmouseover="this.style.borderColor='rgba(99, 102, 241, 0.6)'" onmouseout="this.style.borderColor='rgba(99, 102, 241, 0.3)'">
                     {% if course.thumbnail %}
                     <img src="{{ course.thumbnail.url }}" alt="{{ course.name }}" class="w-full h-48 object-cover">
                     {% else %}
-                    <div class="w-full h-48 bg-gradient-to-br from-purple-400 to-blue-400 flex items-center justify-center">
-                        <i class="fas fa-book text-6xl text-white opacity-50"></i>
+                    <div class="w-full h-48 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center relative">
+                        <span class="absolute top-2 left-2 px-2 py-1 text-cyan-400 text-xs font-semibold rounded" style="background-color: rgba(24, 29, 55, 0.7);">VIDEO PROGRAM</span>
+                        <i class="fas fa-book text-6xl text-cyan-400/60"></i>
                     </div>
                     {% endif %}
                     <div class="p-6">
-                        <h3 class="text-xl font-bold text-ink mb-2">{{ course.name }}</h3>
-                        <p class="text-sm text-slate mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
+                        <h3 class="text-xl font-bold text-white mb-2">{{ course.name }}</h3>
+                        <p class="text-sm text-slate-300 mb-4 line-clamp-2">{{ course.short_description|default:course.description|truncatewords:20 }}</p>
                         <a href="{% url 'course_detail' course.slug %}" 
-                           class="inline-block w-full text-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                           class="inline-flex items-center justify-center w-full px-4 py-2.5 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/20 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#181d37] focus:ring-cyan-500">
                             <i class="fas fa-info-circle mr-2"></i>Learn More
                         </a>
                     </div>
@@ -176,8 +189,10 @@
         
         {% if not my_courses and not available_courses and not continue_learning %}
         <div class="text-center py-12">
-            <i class="fas fa-book-open text-6xl text-gray-300 mb-4"></i>
-            <p class="text-xl text-slate">No courses available at this time.</p>
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-xl mb-4" style="background-color: rgba(99, 102, 241, 0.2);">
+                <i class="fas fa-book-open text-2xl text-slate-400"></i>
+            </div>
+            <p class="text-xl text-slate-300">No courses available at this time.</p>
         </div>
         {% endif %}
     </div>
